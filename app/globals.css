@@ -1,26 +1,57 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  color-scheme: dark;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --bg: #000000;
+  --surface: #0c0d12;
+  --surface-2: #11131b;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --fg: #f2f4ff;
+  --muted: rgba(242, 244, 255, 0.72);
+
+  --border: rgba(255, 255, 255, 0.10);
+  --ring: rgba(197, 255, 211, 0.55);
+
+  --accent: #ffb347; /* deep amber */
+  --accent-2: #c5ffd3; /* mint */
+
+  --shadow-glow: 0 0 0 1px rgba(255, 255, 255, 0.06),
+    0 8px 30px rgba(0, 0, 0, 0.55),
+    0 0 70px rgba(255, 179, 71, 0.12);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  text-rendering: geometricPrecision;
+}
+
+::selection {
+  background: rgba(255, 179, 71, 0.22);
+}
+
+*:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+a {
+  color: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
