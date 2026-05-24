@@ -29,15 +29,16 @@ export function MenuClient() {
 
   return (
     <div>
-      <div className="flex flex-wrap gap-2">
+      <Reveal preset="fadeUp" className="flex flex-wrap gap-2">
         {categories.map((c) => {
           const isActive = c === active;
           return (
             <button
               key={c}
+              type="button"
               onClick={() => setActive(c)}
               className={[
-                "rounded-full px-4 py-2 text-sm transition focus-visible:outline-offset-4",
+                "cursor-pointer rounded-full px-4 py-2 text-sm transition focus-visible:outline-offset-4",
                 isActive
                   ? "bg-white text-black"
                   : "border border-white/12 bg-white/5 text-white/80 hover:bg-white/10",
@@ -47,7 +48,7 @@ export function MenuClient() {
             </button>
           );
         })}
-      </div>
+      </Reveal>
 
       <div className="mt-8 grid gap-4 md:grid-cols-2">
         {filtered.map((item, idx) => (

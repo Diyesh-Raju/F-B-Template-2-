@@ -1,20 +1,39 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Lato, Cormorant_Garamond, Anton } from "next/font/google";
 import "./globals.css";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { PageTransition } from "@/components/motion/PageTransition";
+import { ScrollToTopOnRoute } from "@/components/ScrollToTopOnRoute";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
+import { ThemeManager } from "@/components/providers/ThemeManager";
 
-const fontSans = Inter({
+// Body / all non-heading text — Lato. 400 for normal copy, 700 for bold.
+const fontSans = Lato({
   variable: "--font-sans",
   subsets: ["latin"],
+  weight: ["400", "700"],
   display: "swap",
 });
 
-const fontSerif = Playfair_Display({
+// All headings — Cormorant Garamond Bold. Exposed as both --font-serif (the
+// historical heading-font slot used by existing components) and --font-display
+// (added later when previewing the font in a few sections). Both names point
+// to the same font face so existing className references keep working.
+const fontHeading = Cormorant_Garamond({
   variable: "--font-serif",
   subsets: ["latin"],
+  weight: ["700"],
+  display: "swap",
+});
+
+// Display-only condensed face used by the FMCG product carousel's giant
+// ghost text and "DISCOVER IT" link. Single weight — Anton ships with 400
+// and is designed to read as a heavy display face at that weight.
+const fontDisplayBold = Anton({
+  variable: "--font-anton",
+  subsets: ["latin"],
+  weight: ["400"],
   display: "swap",
 });
 
@@ -35,10 +54,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fontSans.variable} ${fontSerif.variable} h-full antialiased`}
+      suppressHydrationWarning
+      className={`${fontSans.variable} ${fontHeading.variable} ${fontDisplayBold.variable} dark h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[var(--bg)] text-[var(--fg)]">
         <SmoothScrollProvider>
+          <ThemeManager />
+          <ScrollToTopOnRoute />
           <SiteHeader />
           <main className="flex-1">
             <PageTransition>{children}</PageTransition>

@@ -11,7 +11,7 @@ export default function MenuPage() {
   return (
     <div>
       <div className="mx-auto w-full max-w-6xl px-4 pt-14 sm:px-6 sm:pt-20">
-        <Reveal preset="fadeUp">
+        <Reveal preset="fadeUpLg">
           <h1 className="font-[var(--font-serif)] text-4xl tracking-tight text-white sm:text-5xl">
             Menu
           </h1>

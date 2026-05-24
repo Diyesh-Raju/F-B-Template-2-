@@ -1,56 +1,124 @@
-import { ButtonLink } from "@/components/Button";
 import { Card } from "@/components/Card";
 import { Section } from "@/components/Section";
 import { Reveal } from "@/components/motion/Reveal";
+import { Component as ClipMenuShowcase } from "@/components/hero/ClipMenuShowcase";
+import { ChefPerspectiveBook } from "@/components/hero/ChefPerspectiveBook";
+import {
+  CircularGallery,
+  type GalleryItem,
+} from "@/components/hero/CircularGallery";
+import { FloatingFoodHero } from "@/components/hero/FloatingFoodHero";
+import { ScrollScrubVideoHero } from "@/components/hero/ScrollScrubVideoHero";
+
+const floatingFoodImages = [
+  {
+    src: "https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=600&q=80",
+    alt: "Dessert plate",
+    className:
+      "top-[8%] left-[6%] w-28 h-28 sm:w-40 sm:h-40 rounded-full ring-1 ring-white/10 shadow-[0_18px_60px_rgba(0,0,0,0.55)] animate-float",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80",
+    alt: "Layered cocktail",
+    className:
+      "top-[14%] right-[8%] w-24 h-24 sm:w-32 sm:h-32 rounded-full ring-1 ring-white/10 shadow-[0_18px_60px_rgba(0,0,0,0.55)] animate-float",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80",
+    alt: "Charred plate",
+    className:
+      "bottom-[12%] left-[12%] w-32 h-32 sm:w-44 sm:h-44 rounded-full ring-1 ring-white/10 shadow-[0_18px_60px_rgba(0,0,0,0.55)] animate-float",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1562376552-0d160a2f238d?auto=format&fit=crop&w=600&q=80",
+    alt: "Late night sweet",
+    className:
+      "bottom-[16%] right-[14%] w-28 h-28 sm:w-36 sm:h-36 rounded-full ring-1 ring-white/10 shadow-[0_18px_60px_rgba(0,0,0,0.55)] animate-float",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=600&q=80",
+    alt: "Pour close up",
+    className:
+      "top-[42%] right-[3%] w-20 h-20 sm:w-24 sm:h-24 rounded-full ring-1 ring-white/10 shadow-[0_12px_40px_rgba(0,0,0,0.55)] animate-float",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=600&q=80",
+    alt: "Plated bite",
+    className:
+      "top-[48%] left-[3%] w-20 h-20 sm:w-24 sm:h-24 rounded-full ring-1 ring-white/10 shadow-[0_12px_40px_rgba(0,0,0,0.55)] animate-float",
+  },
+];
+
+const occasionGallery: GalleryItem[] = [
+  {
+    title: "Friend's Nightout",
+    subtitle: "Round one is on the bar",
+    image:
+      "https://images.unsplash.com/photo-1543007630-9710e4a00a20?auto=format&fit=crop&w=1100&q=80",
+  },
+  {
+    title: "Family Dinner",
+    subtitle: "Long table, slow plates",
+    image:
+      "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1100&q=80",
+  },
+  {
+    title: "Birthday Party",
+    subtitle: "Candles and a deep red",
+    image:
+      "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=1100&q=80",
+  },
+  {
+    title: "Couple's Date",
+    subtitle: "A booth tucked in the back",
+    image:
+      "https://images.unsplash.com/photo-1529417305485-480f579e7578?auto=format&fit=crop&w=1100&q=80",
+  },
+  {
+    title: "Brunch Plans",
+    subtitle: "Eggs, citrus, and a pour",
+    image:
+      "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?auto=format&fit=crop&w=1100&q=80",
+  },
+  {
+    title: "Team Bonding",
+    subtitle: "Off-site, late shift, loud",
+    image:
+      "https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=1100&q=80",
+  },
+];
 
 export default function Home() {
   return (
     <div>
-      <section className="relative bg-[color:var(--bg)]">
-        <div className="relative h-[92svh] w-full overflow-hidden">
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 bg-[color:var(--bg)]"
-            style={{
-              backgroundImage:
-                "radial-gradient(circle at 25% 20%, rgba(255,179,71,0.22), transparent 55%), radial-gradient(circle at 70% 30%, rgba(197,255,211,0.14), transparent 60%), radial-gradient(circle at 50% 85%, rgba(255,255,255,0.06), transparent 55%)",
-            }}
-          />
-          <div className="pointer-events-none absolute inset-0 bg-[color:var(--bg)]/55" />
-          <div className="mx-auto flex h-full w-full max-w-6xl flex-col justify-end px-4 pb-16 pt-28 sm:px-6 sm:pb-20">
-            <Reveal preset="fadeUp">
-              <div className="inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70 backdrop-blur">
-                <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
-                New seasonal tasting menu
-              </div>
-            </Reveal>
+      <ScrollScrubVideoHero
+        src="/hero/home-scroll-hero.mp4"
+        scrollDistanceVh={300}
+        overlayClassName="bg-[color:var(--bg)] opacity-0"
+      />
 
-            <Reveal preset="fadeUp" transition={{ delay: 0.06, duration: 0.7 }}>
-              <h1 className="mt-6 max-w-3xl font-[var(--font-serif)] text-5xl leading-[1.02] tracking-tight text-white sm:text-6xl">
-                A dark, modern bar &amp; kitchen—crafted for late hours.
-              </h1>
-            </Reveal>
+      {/* Sticky sections must not live under transformed parents (breaks position: sticky). */}
+      <Reveal preset="fadeIn">
+        <ClipMenuShowcase className="bg-[color:var(--bg)]" />
+      </Reveal>
 
-            <Reveal preset="fadeUp" transition={{ delay: 0.12, duration: 0.7 }}>
-              <p className="mt-6 max-w-2xl text-base leading-7 text-white/70 sm:text-lg">
-                Signature pours, small plates, and a menu built for curiosity.
-                Late-night comfort, dialed in.
-              </p>
-            </Reveal>
+      <Section
+        eyebrow="Kitchen"
+        title="Meet the line—two pages, two chefs"
+        description="Hover the cover to open a real spread: the left page is our executive chef; the right page is pastry—each with portrait, name, and story. Reduced motion shows the same content in a static two-column card."
+      >
+        <Reveal preset="fadeUp">
+          <ChefPerspectiveBook className="py-4" />
+        </Reveal>
+      </Section>
 
-            <Reveal preset="fadeUp" transition={{ delay: 0.18, duration: 0.7 }}>
-              <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-                <ButtonLink href="/menu" variant="primary">
-                  View menu
-                </ButtonLink>
-                <ButtonLink href="/contact" variant="secondary">
-                  Book a table
-                </ButtonLink>
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
+      <CircularGallery items={occasionGallery} scrollDistanceVh={280} />
+
+      <FloatingFoodHero
+        title="Plated for late hours."
+        description="Smoke, citrus, and cold cream—small plates and slow desserts engineered for low light and long conversations."
+        images={floatingFoodImages}
+      />
 
       <Section
         eyebrow="Signature"

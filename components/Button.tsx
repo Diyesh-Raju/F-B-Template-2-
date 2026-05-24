@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import type { ComponentPropsWithoutRef } from "react";
+import { ScrollLink } from "@/components/ScrollLink";
 
 type Variant = "primary" | "secondary" | "ghost";
 
@@ -9,7 +9,7 @@ type ButtonProps = ComponentPropsWithoutRef<"button"> & {
   variant?: Variant;
 };
 
-type ButtonLinkProps = ComponentPropsWithoutRef<typeof Link> & {
+type ButtonLinkProps = ComponentPropsWithoutRef<typeof ScrollLink> & {
   variant?: Variant;
 };
 
@@ -50,6 +50,8 @@ export function ButtonLink({
   className = "",
   ...props
 }: ButtonLinkProps) {
-  return <Link className={`${styles(variant)} ${className}`} {...props} />;
+  return (
+    <ScrollLink className={`${styles(variant)} cursor-pointer ${className}`} {...props} />
+  );
 }
 
