@@ -7,45 +7,46 @@ import { useEffect, useRef, useState } from "react";
  * 21st.dev ContainerScroll template, adapted for this site:
  *  - Card box is sized to the menu image's natural aspect (736×1041, ~5:7
  *    portrait), so the entire image fits inside without any cropping.
- *  - Outer container height adjusts to give the user enough scroll room for
- *    the rotateX / scale parallax to play through.
+ *  - The heading sits in normal document flow ABOVE the scroll-locked
+ *    container, so it always appears below the previous section without
+ *    overlapping into it — and the rotateX / scale parallax on the card
+ *    is untouched.
  */
 export function MenuShowcase() {
   return (
-    <ContainerScroll
-      titleComponent={
-        <>
-          <p className="text-xs font-medium tracking-[0.22em] text-[var(--accent)]">
-            CAFE MENU
-          </p>
-          <h2 className="mt-4 font-[var(--font-serif)] text-3xl leading-tight tracking-tight text-white sm:text-4xl md:text-5xl">
-            Today&apos;s pour list. <br />
-            <span className="italic text-white/70">Espresso to nightcap.</span>
-          </h2>
-          <p className="mx-auto mt-5 max-w-xl text-sm leading-6 text-white/60 sm:text-base">
-            A short, deliberate list — pulled, steamed, and poured to order.
-            Prices and seasonal pours rotate weekly.
-          </p>
-        </>
-      }
-    >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/cafe/menu-board-wide.png"
-        alt="Cafe menu board with espresso, cappuccino, latte and other coffee drinks"
-        className="block h-full w-full object-contain"
-      />
-    </ContainerScroll>
+    <section className="pt-16 sm:pt-20 md:pt-24">
+      <div className="mx-auto max-w-3xl px-4 text-center">
+        <p className="text-xs font-medium tracking-[0.22em] text-[var(--accent)]">
+          OUR MENU
+        </p>
+        <h2 className="mt-4 font-[var(--font-serif)] text-3xl font-bold leading-tight tracking-tight text-[var(--fg)] sm:text-4xl md:text-5xl">
+          Seasonally Inspired
+        </h2>
+        <p className="mx-auto mt-5 max-w-xl text-sm leading-6 text-white/60 sm:text-base">
+          A short, deliberate list — pulled, steamed, and poured to order.
+          Prices and seasonal pours rotate weekly.
+        </p>
+      </div>
+
+      <ContainerScroll>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/cafe/menu-board-wide.png"
+          alt="Cafe menu board with espresso, cappuccino, latte and other coffee drinks"
+          className="block h-full w-full object-contain"
+        />
+      </ContainerScroll>
+
+      <div className="mx-auto max-w-6xl px-4 pb-20 pt-4 text-center sm:pb-28 md:pb-32">
+        <h3 className="font-[var(--font-bogue)] text-4xl font-bold leading-[1.05] tracking-tight text-[var(--fg)] sm:text-6xl md:text-7xl lg:text-8xl">
+          From Our Kitchen to Your Table
+        </h3>
+      </div>
+    </section>
   );
 }
 
-function ContainerScroll({
-  titleComponent,
-  children,
-}: {
-  titleComponent: React.ReactNode;
-  children: React.ReactNode;
-}) {
+function ContainerScroll({ children }: { children: React.ReactNode }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: containerRef });
 
@@ -61,39 +62,20 @@ function ContainerScroll({
 
   const rotate = useTransform(scrollYProgress, [0, 1], [20, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], scaleDimensions());
-  const translate = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
   return (
     // Tall container so the user has room to scroll the rotate/scale parallax
     // through. Bumped up to accommodate the portrait card.
     <div
       ref={containerRef}
-      className="relative flex h-[44rem] items-center justify-center p-2 md:h-[60rem] md:p-10"
+      className="relative flex h-[40rem] items-center justify-center p-2 md:h-[64rem] md:p-10"
     >
-      <div className="relative w-full py-6 md:py-12" style={{ perspective: "1000px" }}>
-        <Header translate={translate}>{titleComponent}</Header>
+      <div className="relative w-full" style={{ perspective: "1000px" }}>
         <CardFrame rotate={rotate} scale={scale}>
           {children}
         </CardFrame>
       </div>
     </div>
-  );
-}
-
-function Header({
-  translate,
-  children,
-}: {
-  translate: MotionValue<number>;
-  children: React.ReactNode;
-}) {
-  return (
-    <motion.div
-      style={{ translateY: translate }}
-      className="mx-auto max-w-3xl px-4 text-center"
-    >
-      {children}
-    </motion.div>
   );
 }
 
@@ -117,7 +99,7 @@ function CardFrame({
         // fits inside without cropping, regardless of viewport width.
         aspectRatio: "1408 / 704",
       }}
-      className="-mt-8 mx-auto w-[min(80rem,96vw)] rounded-[30px] border-4 border-[#6C6C6C] bg-[#222222] p-2 shadow-2xl md:-mt-12 md:p-6"
+      className="mx-auto w-[min(100rem,98vw)] rounded-[30px] border-4 border-[#6C6C6C] bg-[#222222] p-2 shadow-2xl md:p-6"
     >
       <div className="h-full w-full overflow-hidden rounded-2xl bg-zinc-900 md:rounded-2xl md:p-2">
         {children}

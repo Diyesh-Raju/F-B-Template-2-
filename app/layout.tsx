@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Lato, Cormorant_Garamond, Anton } from "next/font/google";
+import { Lato, Cormorant_Garamond, Anton, Bodoni_Moda } from "next/font/google";
 import "./globals.css";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -37,6 +37,16 @@ const fontDisplayBold = Anton({
   display: "swap",
 });
 
+// Stand-in for the licensed "Bogue" face used by the FMCG hero overlay.
+// Bodoni Moda is the closest Google-Fonts equivalent — high-contrast Didone
+// serif. Swap the import for next/font/local once the real Bogue files land.
+const fontBogue = Bodoni_Moda({
+  variable: "--font-bogue",
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: {
     default: "Nocturne — Food & Beverage",
@@ -55,7 +65,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${fontSans.variable} ${fontHeading.variable} ${fontDisplayBold.variable} dark h-full antialiased`}
+      className={`${fontSans.variable} ${fontHeading.variable} ${fontDisplayBold.variable} ${fontBogue.variable} dark h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[var(--bg)] text-[var(--fg)]">
         <SmoothScrollProvider>

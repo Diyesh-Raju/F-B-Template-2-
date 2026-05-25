@@ -3,7 +3,7 @@
 import { Reveal } from "@/components/motion/Reveal";
 
 const PANEL =
-  "relative overflow-hidden rounded-3xl border border-white/10 bg-[#024E36] shadow-[0_18px_50px_rgba(0,0,0,0.45)]";
+  "relative overflow-hidden rounded-3xl border border-black/10 bg-white text-black shadow-[0_18px_50px_rgba(0,0,0,0.45)]";
 
 export function Distribution() {
   return (
@@ -14,14 +14,14 @@ export function Distribution() {
           <div className={`${PANEL} min-h-[280px] p-8 sm:min-h-[340px] sm:p-12`}>
             <PersonHalo className="absolute -right-12 top-1/2 h-[140%] w-[55%] -translate-y-1/2 opacity-55" />
             <div className="relative max-w-[60%]">
-              <h2 className="font-[var(--font-serif)] text-3xl font-bold leading-[1.1] text-white sm:text-4xl md:text-5xl">
+              <h2 className="font-[var(--font-serif)] text-3xl font-bold leading-[1.1] text-black sm:text-4xl md:text-5xl">
                 Direct Distribution to over{" "}
-                <span className="text-[var(--accent)]">1,45,000+</span> Retail
+                <span className="text-black">1,45,000+</span> Retail
                 Stores in India
               </h2>
-              <p className="mt-5 font-[var(--font-sans)] text-base leading-7 text-white/80 sm:text-lg">
+              <p className="mt-5 font-[var(--font-sans)] text-base leading-7 text-black/80 sm:text-lg">
                 we operate as a{" "}
-                <span className="underline decoration-[var(--accent)]/60 underline-offset-4">
+                <span className="underline decoration-black/60 underline-offset-4">
                   large scale distributor in India
                 </span>
                 , delivering FMCG products efficiently across regions.
@@ -36,13 +36,13 @@ export function Distribution() {
             <div
               className={`${PANEL} flex h-full min-h-[280px] flex-col justify-center p-8 sm:p-10`}
             >
-              <div className="font-[var(--font-serif)] text-4xl font-bold leading-[1.05] text-[var(--accent)] sm:text-5xl">
+              <div className="font-[var(--font-serif)] text-4xl font-bold leading-[1.05] text-black sm:text-5xl">
                 Organization of
               </div>
-              <div className="mt-1 font-[var(--font-serif)] text-4xl font-bold leading-[1.05] text-[var(--accent)] sm:text-5xl">
+              <div className="mt-1 font-[var(--font-serif)] text-4xl font-bold leading-[1.05] text-black sm:text-5xl">
                 1,800+ People
               </div>
-              <p className="mt-5 max-w-sm font-[var(--font-sans)] text-base leading-7 text-white/75 sm:text-lg">
+              <p className="mt-5 max-w-sm font-[var(--font-sans)] text-base leading-7 text-black/75 sm:text-lg">
                 comprised of dedicated resale and backroom teams.
               </p>
             </div>
@@ -51,10 +51,10 @@ export function Distribution() {
           <Reveal preset="fadeUp" transition={{ delay: 0.06 }}>
             <div className={`${PANEL} h-full min-h-[280px] p-8 sm:p-10`}>
               <div className="relative z-10">
-                <div className="font-[var(--font-serif)] text-5xl font-bold leading-none text-[var(--accent)] sm:text-6xl">
+                <div className="font-[var(--font-serif)] text-5xl font-bold leading-none text-black sm:text-6xl">
                   900+
                 </div>
-                <div className="mt-3 font-[var(--font-sans)] text-base leading-snug text-white/85 sm:text-lg">
+                <div className="mt-3 font-[var(--font-sans)] text-base leading-snug text-black/85 sm:text-lg">
                   Backroom
                   <br />
                   Executives
@@ -76,12 +76,12 @@ export function Distribution() {
           <Reveal preset="fadeUp">
             <div className={`${PANEL} h-full min-h-[280px] p-8 sm:p-10`}>
               <div className="relative z-10 max-w-[58%]">
-                <h3 className="font-[var(--font-serif)] text-3xl font-bold leading-tight text-[var(--accent)] sm:text-4xl">
+                <h3 className="font-[var(--font-serif)] text-3xl font-bold leading-tight text-black sm:text-4xl">
                   PAN INDIA Distribution
                 </h3>
-                <p className="mt-4 font-[var(--font-sans)] text-base leading-7 text-white/75">
+                <p className="mt-4 font-[var(--font-sans)] text-base leading-7 text-black/75">
                   Our status as{" "}
-                  <span className="underline decoration-[var(--accent)]/60 underline-offset-4">
+                  <span className="underline decoration-black/60 underline-offset-4">
                     PAN India FMCG distributors
                   </span>{" "}
                   ensures your products are available in every state.
@@ -97,20 +97,20 @@ export function Distribution() {
             >
               <div className="grid grid-cols-2 gap-8">
                 <div>
-                  <div className="font-[var(--font-serif)] text-5xl font-bold leading-none text-[var(--accent)] sm:text-6xl">
+                  <div className="font-[var(--font-serif)] text-5xl font-bold leading-none text-black sm:text-6xl">
                     40
                   </div>
-                  <div className="mt-3 font-[var(--font-sans)] text-sm leading-snug text-white/75 sm:text-base">
+                  <div className="mt-3 font-[var(--font-sans)] text-sm leading-snug text-black/75 sm:text-base">
                     Physical
                     <br />
                     Branches
                   </div>
                 </div>
                 <div>
-                  <div className="font-[var(--font-serif)] text-5xl font-bold leading-none text-[var(--accent)] sm:text-6xl">
+                  <div className="font-[var(--font-serif)] text-5xl font-bold leading-none text-black sm:text-6xl">
                     4
                   </div>
-                  <div className="mt-3 font-[var(--font-sans)] text-sm leading-snug text-white/75 sm:text-base">
+                  <div className="mt-3 font-[var(--font-sans)] text-sm leading-snug text-black/75 sm:text-base">
                     Mother
                     <br />
                     Warehouses
@@ -127,10 +127,10 @@ export function Distribution() {
           <Reveal preset="fadeUp">
             <div className={`${PANEL} h-full min-h-[280px] p-8 sm:p-10`}>
               <div className="relative z-10">
-                <div className="font-[var(--font-serif)] text-5xl font-bold leading-none text-[var(--accent)] sm:text-6xl">
+                <div className="font-[var(--font-serif)] text-5xl font-bold leading-none text-black sm:text-6xl">
                   900+
                 </div>
-                <div className="mt-3 font-[var(--font-sans)] text-base leading-snug text-white/85 sm:text-lg">
+                <div className="mt-3 font-[var(--font-sans)] text-base leading-snug text-black/85 sm:text-lg">
                   Crore FY 24-25
                 </div>
               </div>
@@ -141,10 +141,10 @@ export function Distribution() {
           <Reveal preset="fadeUp" transition={{ delay: 0.06 }}>
             <div className={`${PANEL} h-full min-h-[280px] p-8 sm:p-10`}>
               <div className="relative z-10">
-                <div className="font-[var(--font-serif)] text-5xl font-bold leading-none text-[var(--accent)] sm:text-6xl">
+                <div className="font-[var(--font-serif)] text-5xl font-bold leading-none text-black sm:text-6xl">
                   17
                 </div>
-                <div className="mt-3 font-[var(--font-sans)] text-base leading-snug text-white/85 sm:text-lg">
+                <div className="mt-3 font-[var(--font-sans)] text-base leading-snug text-black/85 sm:text-lg">
                   International Brands
                 </div>
               </div>
@@ -165,7 +165,7 @@ function Dot({ active }: { active?: boolean }) {
   return (
     <span
       className={`block h-1.5 w-1.5 rounded-full ${
-        active ? "bg-white" : "bg-white/40"
+        active ? "bg-black" : "bg-black/40"
       }`}
     />
   );

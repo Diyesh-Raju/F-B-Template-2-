@@ -59,7 +59,7 @@ export function FmcgHeroOverlay({ progress }: Props) {
         style={{ opacity: introOpacity, y: introY, scale: introScale }}
         className="absolute inset-0 flex items-center justify-center px-6 text-center"
       >
-        <h1 className="max-w-5xl font-[var(--font-serif)] text-4xl font-bold leading-[1.08] tracking-tight text-white [text-shadow:0_6px_30px_rgba(0,0,0,0.85)] sm:text-5xl md:text-6xl lg:text-7xl">
+        <h1 className="max-w-5xl font-[var(--font-bogue)] text-4xl font-bold leading-[1.08] tracking-tight text-white [text-shadow:0_6px_30px_rgba(0,0,0,0.85)] sm:text-5xl md:text-6xl lg:text-7xl">
           Seamless delivery,
           <br />
           from source to store.
@@ -79,7 +79,7 @@ export function FmcgHeroOverlay({ progress }: Props) {
             rotateX: outroRotateX,
             transformOrigin: "50% 100%",
           }}
-          className="font-[var(--font-anton)] text-6xl uppercase tracking-tight text-white [text-shadow:0_10px_50px_rgba(0,0,0,0.9)] sm:text-7xl md:text-8xl lg:text-9xl"
+          className="font-[var(--font-bogue)] text-6xl font-bold uppercase tracking-tight text-white [text-shadow:0_10px_50px_rgba(0,0,0,0.9)] sm:text-7xl md:text-8xl lg:text-9xl"
         >
           Nocturne Logistics
         </motion.h2>
