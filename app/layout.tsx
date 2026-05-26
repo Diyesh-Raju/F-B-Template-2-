@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Lato, Cormorant_Garamond, Anton, Bodoni_Moda, Archivo_Black, Caveat, Pacifico, Rye, Alex_Brush } from "next/font/google";
+import { Lato, Cormorant_Garamond, Anton, Bodoni_Moda, Archivo_Black, Caveat, Pacifico, Rye, Alex_Brush, Neonderthaw, Fascinate } from "next/font/google";
 import "./globals.css";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -97,6 +97,24 @@ const fontAlexBrush = Alex_Brush({
   display: "swap",
 });
 
+// Neonderthaw — a casual handwritten script on Google Fonts used for the
+// "Perfect for Every Occasion" brewery heading.
+const fontNeonderthaw = Neonderthaw({
+  variable: "--font-neonderthaw",
+  subsets: ["latin"],
+  weight: ["400"],
+  display: "swap",
+});
+
+// Fascinate — a decorative display face on Google Fonts used for the cafe
+// "From Our Kitchen to Your Table" line.
+const fontFascinate = Fascinate({
+  variable: "--font-fascinate",
+  subsets: ["latin"],
+  weight: ["400"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: {
     default: "Nocturne — Food & Beverage",
@@ -115,7 +133,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${fontSans.variable} ${fontHeading.variable} ${fontDisplayBold.variable} ${fontBogue.variable} ${fontChunky.variable} ${fontGohan.variable} ${fontLovelyCoffee.variable} ${fontTikiTide.variable} ${fontAlexBrush.variable} dark h-full antialiased`}
+      className={`${fontSans.variable} ${fontHeading.variable} ${fontDisplayBold.variable} ${fontBogue.variable} ${fontChunky.variable} ${fontGohan.variable} ${fontLovelyCoffee.variable} ${fontTikiTide.variable} ${fontAlexBrush.variable} ${fontNeonderthaw.variable} ${fontFascinate.variable} dark h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[var(--bg)] text-[var(--fg)]">
         <SmoothScrollProvider>

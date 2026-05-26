@@ -44,7 +44,7 @@ export function MenuShowcase() {
       </ContainerScroll>
 
       <div className="mx-auto max-w-6xl px-4 pb-20 pt-4 text-center sm:pb-28 md:pb-32">
-        <h3 className="font-[var(--font-gohan)] text-3xl font-bold leading-[1.15] tracking-tight text-[var(--fg)] sm:text-4xl md:text-5xl">
+        <h3 className="font-[var(--font-fascinate)] text-3xl font-normal leading-[1.15] tracking-tight text-[var(--fg)] sm:text-4xl md:text-5xl">
           From Our Kitchen to Your Table
         </h3>
       </div>
