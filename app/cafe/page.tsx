@@ -81,7 +81,11 @@ export default function CafePage() {
 
       <Section
         eyebrow="Work mode"
-        title="Your Perfect Work Environment"
+        title={
+          <span className="font-[var(--font-cherry-bomb)] font-normal">
+            Your Perfect Work Environment
+          </span>
+        }
       >
         <div className="grid gap-4 lg:grid-cols-12">
           <Reveal preset="scaleIn" className="lg:col-span-4">
@@ -94,26 +98,26 @@ export default function CafePage() {
               />
             </div>
           </Reveal>
-          <div className="grid gap-2 lg:col-span-8 lg:pt-16">
+          <div className="grid gap-2 lg:col-span-6 lg:pt-16">
             <Reveal preset="fadeUp">
               <Card
                 title="Wi‑Fi"
                 description="Fast and stable (placeholder)."
-                meta={<span className="text-2xl">🛜</span>}
+                meta={<span className="text-4xl leading-none">🛜</span>}
               />
             </Reveal>
             <Reveal preset="fadeUp" transition={{ delay: 0.06 }}>
               <Card
                 title="Power"
                 description="Plenty of outlets (placeholder)."
-                meta={<span className="text-2xl">🔌</span>}
+                meta={<span className="text-4xl leading-none">🔌</span>}
               />
             </Reveal>
             <Reveal preset="fadeUp" transition={{ delay: 0.12 }}>
               <Card
                 title="Sound"
                 description="Low, clean, non-distracting."
-                meta={<span className="text-2xl">☕📖</span>}
+                meta={<span className="text-4xl leading-none">☕📖</span>}
               />
             </Reveal>
           </div>

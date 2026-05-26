@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Lato, Cormorant_Garamond, Anton, Bodoni_Moda, Archivo_Black, Caveat, Pacifico, Rye, Alex_Brush, Neonderthaw, Fascinate } from "next/font/google";
+import { Lato, Cormorant_Garamond, Anton, Bodoni_Moda, Archivo_Black, Caveat, Pacifico, Rye, Alex_Brush, Neonderthaw, Fascinate, Cherry_Bomb_One, Rampart_One, Passions_Conflict, Fleur_De_Leah, Syncopate } from "next/font/google";
 import "./globals.css";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -115,6 +115,51 @@ const fontFascinate = Fascinate({
   display: "swap",
 });
 
+// Cherry Bomb One — a chunky bubble-style display face on Google Fonts used
+// for the cafe coffee banner "Fuel your day, / Nourish your Soul" headline.
+const fontCherryBomb = Cherry_Bomb_One({
+  variable: "--font-cherry-bomb",
+  subsets: ["latin"],
+  weight: ["400"],
+  display: "swap",
+});
+
+// Rampart One — a 3D outlined / inline display face on Google Fonts used for
+// the brewery hero outro "Good friends, / Good beer, / Great times!" line.
+const fontRampartOne = Rampart_One({
+  variable: "--font-rampart-one",
+  subsets: ["latin"],
+  weight: ["400"],
+  display: "swap",
+});
+
+// Passions Conflict — a flowing calligraphic script on Google Fonts used for
+// the "Signature" word in the brewery "Signature Creations" heading.
+const fontPassionsConflict = Passions_Conflict({
+  variable: "--font-passions-conflict",
+  subsets: ["latin"],
+  weight: ["400"],
+  display: "swap",
+});
+
+// Fleur De Leah — an ornamental script on Google Fonts used for the brewery
+// "Perspective" heading above the oval day-night gallery.
+const fontFleurDeLeah = Fleur_De_Leah({
+  variable: "--font-fleur-de-leah",
+  subsets: ["latin"],
+  weight: ["400"],
+  display: "swap",
+});
+
+// Syncopate — a wide, geometric sans-serif on Google Fonts used for the FMCG
+// boat-banner tagline "The Art of Logistics — Delivered with Precision".
+const fontSyncopate = Syncopate({
+  variable: "--font-syncopate",
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: {
     default: "Nocturne — Food & Beverage",
@@ -133,7 +178,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${fontSans.variable} ${fontHeading.variable} ${fontDisplayBold.variable} ${fontBogue.variable} ${fontChunky.variable} ${fontGohan.variable} ${fontLovelyCoffee.variable} ${fontTikiTide.variable} ${fontAlexBrush.variable} ${fontNeonderthaw.variable} ${fontFascinate.variable} dark h-full antialiased`}
+      className={`${fontSans.variable} ${fontHeading.variable} ${fontDisplayBold.variable} ${fontBogue.variable} ${fontChunky.variable} ${fontGohan.variable} ${fontLovelyCoffee.variable} ${fontTikiTide.variable} ${fontAlexBrush.variable} ${fontNeonderthaw.variable} ${fontFascinate.variable} ${fontCherryBomb.variable} ${fontRampartOne.variable} ${fontPassionsConflict.variable} ${fontFleurDeLeah.variable} ${fontSyncopate.variable} dark h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[var(--bg)] text-[var(--fg)]">
         <SmoothScrollProvider>

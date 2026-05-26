@@ -68,7 +68,7 @@ export function SignatureCreations() {
             </div>
             <h2 className="mt-4 text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl md:text-5xl">
               <span
-                className="font-[var(--font-alex-brush)] text-5xl font-normal sm:text-6xl md:text-7xl"
+                className="font-[var(--font-passions-conflict)] text-6xl font-normal sm:text-7xl md:text-8xl"
               >
                 Signature
               </span>{" "}

@@ -62,7 +62,7 @@ export function CafeHeroOverlay({ progress }: Props) {
         className="absolute inset-0 flex items-center justify-center px-6 text-center"
       >
         <h1
-          className="max-w-5xl font-[var(--font-bogue)] text-4xl font-bold leading-[1.08] tracking-tight text-[#ffffff] [text-shadow:0_6px_30px_rgba(0,0,0,0.85)] sm:text-5xl md:text-6xl lg:text-7xl"
+          className="max-w-5xl font-[var(--font-fleur-de-leah)] text-5xl font-normal leading-[1.1] tracking-tight text-[#ffffff] [text-shadow:0_6px_30px_rgba(0,0,0,0.85)] sm:text-6xl md:text-7xl lg:text-8xl"
         >
           Your Daily Escape Starts Here
         </h1>
