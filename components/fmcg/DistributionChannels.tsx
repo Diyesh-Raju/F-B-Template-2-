@@ -88,7 +88,7 @@ export function DistributionChannels() {
         </h2>
       </Reveal>
 
-      <div className="mt-12 grid gap-8 sm:mt-16 sm:gap-10 md:grid-cols-2 md:gap-12">
+      <div className="mx-auto mt-12 grid max-w-3xl gap-6 sm:mt-16 sm:gap-8 md:grid-cols-2">
         {CHANNELS.map((channel, i) => (
           <Reveal
             key={channel.number}
@@ -105,7 +105,7 @@ export function DistributionChannels() {
 
 function ChannelCard({ channel }: { channel: Channel }) {
   return (
-    <article className="flex flex-col gap-5">
+    <article className="flex flex-col gap-4">
       <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-white/10 shadow-[0_18px_40px_rgba(0,0,0,0.45)]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -116,10 +116,10 @@ function ChannelCard({ channel }: { channel: Channel }) {
       </div>
 
       <div>
-        <h3 className="font-[var(--font-serif)] text-2xl font-bold leading-tight text-white sm:text-3xl">
+        <h3 className="font-[var(--font-serif)] text-xl font-bold leading-tight text-white sm:text-2xl">
           {channel.number} {channel.title}
         </h3>
-        <p className="mt-3 font-[var(--font-sans)] text-base leading-7 text-white/75 sm:text-lg">
+        <p className="mt-2 font-[var(--font-sans)] text-sm leading-6 text-white/75 sm:text-base">
           {channel.description}
         </p>
       </div>

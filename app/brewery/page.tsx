@@ -1,5 +1,6 @@
 import { Reveal } from "@/components/motion/Reveal";
 import { ButtonLink } from "@/components/Button";
+import { ScrollLink } from "@/components/ScrollLink";
 import { BreweryHeroScrub } from "@/components/brewery/BreweryHeroScrub";
 import { FeatureStrip } from "@/components/brewery/FeatureStrip";
 import { SignatureCreations } from "@/components/brewery/SignatureCreations";
@@ -37,10 +38,17 @@ export default function BreweryPage() {
         </Reveal>
         <Reveal preset="fadeUp" transition={{ delay: 0.14 }}>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <ButtonLink href="/contact" variant="primary">
-              Book a tour
-            </ButtonLink>
-            <ButtonLink href="/menu" variant="secondary">
+            <ScrollLink
+              href="/contact"
+              className="inline-flex items-center justify-center rounded-full px-7 py-3 text-sm font-semibold text-[#ffffff] shadow-[0_10px_30px_rgba(183,110,121,0.35)] transition hover:brightness-110 focus-visible:outline-offset-4"
+              style={{
+                background:
+                  "linear-gradient(135deg, #C9889A 0%, #B76E79 50%, #9E5B68 100%)",
+              }}
+            >
+              Book Your Scene!
+            </ScrollLink>
+            <ButtonLink href="/contact" variant="secondary">
               Food pairings
             </ButtonLink>
           </div>

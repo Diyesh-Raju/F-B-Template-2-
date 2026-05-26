@@ -13,7 +13,6 @@ const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 const nav = [
-  { href: "/menu", label: "Menu" },
   { href: "/fmcg", label: "FMCG" },
   { href: "/brewery", label: "Brewery" },
   { href: "/cafe", label: "Cafe" },

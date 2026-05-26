@@ -21,6 +21,14 @@ const THEME_BG: Record<NonNullable<FeatureRow["theme"]>, string> = {
   brown: "#6F4E37",
 };
 
+// Per-theme heading font. Green (matcha) uses the Gohan stand-in (Caveat);
+// brown (coffee) uses the Lovely Coffee stand-in (Pacifico). Default rows
+// fall back to the site serif.
+const THEME_HEADING_FONT: Record<NonNullable<FeatureRow["theme"]>, string> = {
+  green: "var(--font-gohan)",
+  brown: "var(--font-lovely-coffee)",
+};
+
 const ROWS: FeatureRow[] = [
   {
     eyebrow: "Seasonal",
@@ -45,8 +53,11 @@ const ROWS: FeatureRow[] = [
 ];
 
 export function CafeFeatureRows() {
+  // gap-0 so the green and brown full-bleed bands touch with no seam between
+  // them; keep the top padding so the matcha section still has breathing room
+  // below the Work mode section above.
   return (
-    <div className="flex flex-col gap-24 pt-28 sm:gap-32 sm:pt-40">
+    <div className="flex flex-col gap-0 pt-28 sm:pt-40">
       {ROWS.map((row) => (
         <RowSection key={row.title} row={row} />
       ))}
@@ -59,10 +70,14 @@ function RowSection({ row }: { row: FeatureRow }) {
   const isThemed = row.theme !== undefined;
 
   // Themed rows get larger headings and hard-coded white via arbitrary-value
-  // class so the cream-theme .text-white remap doesn't override it.
+  // class so the cream-theme .text-white remap doesn't override it. Each
+  // themed row also picks its own heading font from the THEME_HEADING_FONT map.
+  const headingFontVar = isThemed
+    ? THEME_HEADING_FONT[row.theme!]
+    : "var(--font-serif)";
   const headingClass = isThemed
-    ? "mt-4 font-[var(--font-serif)] text-4xl leading-tight tracking-tight text-[#ffffff] sm:text-5xl md:text-6xl"
-    : "mt-4 font-[var(--font-serif)] text-3xl leading-tight tracking-tight text-white sm:text-4xl";
+    ? "mt-4 text-5xl leading-[1.1] tracking-tight text-[#ffffff] sm:text-6xl md:text-7xl"
+    : "mt-4 text-3xl leading-tight tracking-tight text-white sm:text-4xl";
   const eyebrowClass = isThemed
     ? "text-xs font-medium tracking-[0.22em] text-[#ffffff]/70"
     : "text-xs font-medium tracking-[0.22em] text-[var(--accent)]";
@@ -97,7 +112,12 @@ function RowSection({ row }: { row: FeatureRow }) {
       >
         <div className="max-w-xl">
           <div className={eyebrowClass}>{row.eyebrow.toUpperCase()}</div>
-          <h2 className={headingClass}>{row.title}</h2>
+          <h2
+            className={headingClass}
+            style={{ fontFamily: headingFontVar }}
+          >
+            {row.title}
+          </h2>
           <p className={bodyClass}>{row.body}</p>
         </div>
       </Reveal>

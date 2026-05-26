@@ -7,74 +7,56 @@ const PANEL =
 
 export function Distribution() {
   return (
-    <section className="mx-auto w-full max-w-[1500px] px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+    <section className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
       <div className="space-y-5">
-        {/* Hero panel — full width */}
+        {/* Hero stats — "Nocturne at a glance" row of four highlights */}
         <Reveal preset="fadeUp">
-          <div className={`${PANEL} min-h-[280px] p-8 sm:min-h-[340px] sm:p-12`}>
-            <PersonHalo className="absolute -right-12 top-1/2 h-[140%] w-[55%] -translate-y-1/2 opacity-55" />
-            <div className="relative max-w-[60%]">
-              <h2 className="font-[var(--font-serif)] text-3xl font-bold leading-[1.1] text-black sm:text-4xl md:text-5xl">
-                Direct Distribution to over{" "}
-                <span className="text-black">1,45,000+</span> Retail
-                Stores in India
-              </h2>
-              <p className="mt-5 font-[var(--font-sans)] text-base leading-7 text-black/80 sm:text-lg">
-                we operate as a{" "}
-                <span className="underline decoration-black/60 underline-offset-4">
-                  large scale distributor in India
-                </span>
-                , delivering FMCG products efficiently across regions.
-              </p>
+          <h2 className="font-[var(--font-serif)] text-3xl font-bold leading-[1.1] text-white sm:text-4xl md:text-5xl">
+            Nocturne at a glance
+          </h2>
+        </Reveal>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            { stat: "20+ years", sub: "of presence in India" },
+            { stat: "50+", sub: "FMCG brands in India" },
+            { stat: "90,000+", sub: "Direct Distribution to Retail Stores in India" },
+            { stat: "₹12,000 Cr", sub: "Crore turnover in FY 2025-2026" },
+          ].map((item, i) => (
+            <Reveal key={item.stat} preset="fadeUp" transition={{ delay: i * 0.06 }}>
+              <div className={`${PANEL} flex h-full min-h-[180px] flex-col justify-center p-6 sm:p-7`}>
+                <div className="font-[var(--font-serif)] text-3xl font-bold leading-[1.05] text-black sm:text-4xl">
+                  {item.stat}
+                </div>
+                <p className="mt-2 font-[var(--font-sans)] text-sm leading-6 text-black/75 sm:text-base">
+                  {item.sub}
+                </p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+
+        {/* Row — Organization (full width since the Backroom Executives box
+            beside it was removed) */}
+        <Reveal preset="fadeUp">
+          <div
+            className={`${PANEL} flex min-h-[220px] flex-col justify-center p-6 sm:min-h-[240px] sm:p-8`}
+          >
+            <div className="font-[var(--font-serif)] text-3xl font-bold leading-[1.05] text-black sm:text-4xl">
+              Organization of
             </div>
+            <div className="mt-1 font-[var(--font-serif)] text-3xl font-bold leading-[1.05] text-black sm:text-4xl">
+              1,800+ People
+            </div>
+            <p className="mt-4 max-w-sm font-[var(--font-sans)] text-sm leading-6 text-black/75 sm:text-base">
+              comprised of dedicated resale and backroom teams.
+            </p>
           </div>
         </Reveal>
-
-        {/* Row — Organization + Backroom executives */}
-        <div className="grid gap-5 md:grid-cols-2">
-          <Reveal preset="fadeUp">
-            <div
-              className={`${PANEL} flex h-full min-h-[280px] flex-col justify-center p-8 sm:p-10`}
-            >
-              <div className="font-[var(--font-serif)] text-4xl font-bold leading-[1.05] text-black sm:text-5xl">
-                Organization of
-              </div>
-              <div className="mt-1 font-[var(--font-serif)] text-4xl font-bold leading-[1.05] text-black sm:text-5xl">
-                1,800+ People
-              </div>
-              <p className="mt-5 max-w-sm font-[var(--font-sans)] text-base leading-7 text-black/75 sm:text-lg">
-                comprised of dedicated resale and backroom teams.
-              </p>
-            </div>
-          </Reveal>
-
-          <Reveal preset="fadeUp" transition={{ delay: 0.06 }}>
-            <div className={`${PANEL} h-full min-h-[280px] p-8 sm:p-10`}>
-              <div className="relative z-10">
-                <div className="font-[var(--font-serif)] text-5xl font-bold leading-none text-black sm:text-6xl">
-                  900+
-                </div>
-                <div className="mt-3 font-[var(--font-sans)] text-base leading-snug text-black/85 sm:text-lg">
-                  Backroom
-                  <br />
-                  Executives
-                </div>
-
-                <div className="mt-8 flex items-center gap-1.5">
-                  <Dot active />
-                  <Dot />
-                  <Dot />
-                </div>
-              </div>
-              <PortraitDisk className="absolute -right-6 top-1/2 h-[110%] w-[55%] -translate-y-1/2" />
-            </div>
-          </Reveal>
-        </div>
 
         {/* Row — Pan India + branches/warehouses */}
         <div className="grid gap-5 md:grid-cols-2">
           <Reveal preset="fadeUp">
-            <div className={`${PANEL} h-full min-h-[280px] p-8 sm:p-10`}>
+            <div className={`${PANEL} h-full min-h-[220px] p-6 sm:min-h-[240px] sm:p-8`}>
               <div className="relative z-10 max-w-[58%]">
                 <h3 className="font-[var(--font-serif)] text-3xl font-bold leading-tight text-black sm:text-4xl">
                   PAN INDIA Distribution
@@ -93,7 +75,7 @@ export function Distribution() {
 
           <Reveal preset="fadeUp" transition={{ delay: 0.06 }}>
             <div
-              className={`${PANEL} flex h-full min-h-[280px] flex-col justify-between p-8 sm:p-10`}
+              className={`${PANEL} flex h-full min-h-[220px] flex-col justify-between p-6 sm:min-h-[240px] sm:p-8`}
             >
               <div className="grid grid-cols-2 gap-8">
                 <div>
@@ -117,7 +99,12 @@ export function Distribution() {
                   </div>
                 </div>
               </div>
-              <WarehouseTile className="mt-6 h-28 w-full sm:h-32" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/fmcg/warehouse-real.png"
+                alt="Modern logistics warehouse exterior at dusk"
+                className="mt-6 h-28 w-full rounded-2xl object-cover ring-1 ring-black/10 sm:h-32"
+              />
             </div>
           </Reveal>
         </div>
@@ -125,7 +112,7 @@ export function Distribution() {
         {/* Row — Revenue + international brands */}
         <div className="grid gap-5 md:grid-cols-2">
           <Reveal preset="fadeUp">
-            <div className={`${PANEL} h-full min-h-[280px] p-8 sm:p-10`}>
+            <div className={`${PANEL} h-full min-h-[220px] p-6 sm:min-h-[240px] sm:p-8`}>
               <div className="relative z-10">
                 <div className="font-[var(--font-serif)] text-5xl font-bold leading-none text-black sm:text-6xl">
                   900+
@@ -139,7 +126,7 @@ export function Distribution() {
           </Reveal>
 
           <Reveal preset="fadeUp" transition={{ delay: 0.06 }}>
-            <div className={`${PANEL} h-full min-h-[280px] p-8 sm:p-10`}>
+            <div className={`${PANEL} h-full min-h-[220px] p-6 sm:min-h-[240px] sm:p-8`}>
               <div className="relative z-10">
                 <div className="font-[var(--font-serif)] text-5xl font-bold leading-none text-black sm:text-6xl">
                   17
@@ -161,46 +148,6 @@ export function Distribution() {
  *   reads at the right density without needing real photography. Swap any
  *   of these out for an <img> when the real assets land.                */
 
-function Dot({ active }: { active?: boolean }) {
-  return (
-    <span
-      className={`block h-1.5 w-1.5 rounded-full ${
-        active ? "bg-black" : "bg-black/40"
-      }`}
-    />
-  );
-}
-
-function PersonHalo({ className }: { className?: string }) {
-  return (
-    <div
-      aria-hidden="true"
-      className={className}
-      style={{
-        background:
-          "radial-gradient(60% 70% at 50% 45%, rgba(58,128,98,0.55), rgba(2,78,54,0) 70%)",
-      }}
-    />
-  );
-}
-
-function PortraitDisk({ className }: { className?: string }) {
-  return (
-    <div
-      aria-hidden="true"
-      className={`${className} pointer-events-none`}
-    >
-      <div
-        className="absolute right-6 top-1/2 aspect-square h-[80%] -translate-y-1/2 overflow-hidden rounded-full ring-1 ring-white/15"
-        style={{
-          background:
-            "radial-gradient(60% 55% at 38% 35%, #f4d2a9 0%, #c89c70 22%, #5a3d28 50%, #1c2a22 80%)",
-        }}
-      />
-    </div>
-  );
-}
-
 function IndiaShape({ className }: { className?: string }) {
   // Real cartographic India map. PNG has a transparent backdrop (the navy
   // surround was alpha-cut so only the map silhouette + state outlines
@@ -217,35 +164,6 @@ function IndiaShape({ className }: { className?: string }) {
   );
 }
 
-function WarehouseTile({ className }: { className?: string }) {
-  return (
-    <div
-      aria-hidden="true"
-      className={`${className} relative overflow-hidden rounded-2xl ring-1 ring-white/10`}
-      style={{
-        background:
-          "linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.4)), linear-gradient(135deg, #1c4c39, #013220 60%, #00251a)",
-      }}
-    >
-      <svg
-        viewBox="0 0 240 80"
-        preserveAspectRatio="xMidYMid slice"
-        className="absolute inset-0 h-full w-full opacity-60"
-      >
-        {/* Roofline */}
-        <path
-          d="M 0 30 L 60 12 L 120 30 L 180 12 L 240 30 L 240 80 L 0 80 Z"
-          fill="rgba(0,0,0,0.35)"
-        />
-        {/* Doors */}
-        <rect x="20" y="44" width="34" height="32" fill="rgba(0,0,0,0.45)" />
-        <rect x="80" y="44" width="34" height="32" fill="rgba(0,0,0,0.45)" />
-        <rect x="140" y="44" width="34" height="32" fill="rgba(0,0,0,0.45)" />
-        <rect x="200" y="44" width="30" height="32" fill="rgba(0,0,0,0.45)" />
-      </svg>
-    </div>
-  );
-}
 
 function BarChart({ className }: { className?: string }) {
   // Rising bars with a subtle line over the top.

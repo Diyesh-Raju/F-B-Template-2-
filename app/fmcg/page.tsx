@@ -32,24 +32,60 @@ export default function FmcgPage() {
               <Card
                 title="Sauces & condiments"
                 description="Slow-cooked bases, ghee roasts, and finishing oils."
+                meta={
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img
+                    src="/fmcg/shelf-sauces.png"
+                    alt=""
+                    aria-hidden="true"
+                    className="h-16 w-16 shrink-0 object-contain"
+                  />
+                }
               />
             </Reveal>
             <Reveal preset="fadeUp" transition={{ delay: 0.06 }}>
               <Card
                 title="Snacks"
                 description="Roasted, baked, and small-batch fried, never fried twice."
+                meta={
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img
+                    src="/fmcg/shelf-snacks.png"
+                    alt=""
+                    aria-hidden="true"
+                    className="h-16 w-16 shrink-0 object-contain"
+                  />
+                }
               />
             </Reveal>
             <Reveal preset="fadeUp" transition={{ delay: 0.12 }}>
               <Card
                 title="Bottled brews"
                 description="Tap-fresh pours and zero-proof sodas, sealed cold."
+                meta={
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img
+                    src="/fmcg/shelf-bottled-brews.png"
+                    alt=""
+                    aria-hidden="true"
+                    className="h-16 w-16 shrink-0 object-contain"
+                  />
+                }
               />
             </Reveal>
             <Reveal preset="fadeUp" transition={{ delay: 0.18 }}>
               <Card
                 title="Ready meals"
                 description="Chef-portioned mains, blast-chilled within the hour."
+                meta={
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img
+                    src="/fmcg/shelf-ready-meals.png"
+                    alt=""
+                    aria-hidden="true"
+                    className="h-16 w-16 shrink-0 object-contain"
+                  />
+                }
               />
             </Reveal>
           </div>
@@ -72,12 +108,30 @@ export default function FmcgPage() {
             <Card
               title="FSSAI compliant"
               description="Every SKU manufactured under audited HACCP conditions."
+              meta={
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img
+                  src="/fmcg/standard-fssai.png"
+                  alt=""
+                  aria-hidden="true"
+                  className="h-16 w-16 shrink-0 object-contain"
+                />
+              }
             />
           </Reveal>
           <Reveal preset="fadeUp" transition={{ delay: 0.06 }}>
             <Card
               title="Clean labels"
               description="No artificial colours, no added preservatives, no shortcuts."
+              meta={
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img
+                  src="/fmcg/standard-clean-label.png"
+                  alt=""
+                  aria-hidden="true"
+                  className="h-16 w-16 shrink-0 object-contain"
+                />
+              }
             />
           </Reveal>
         </div>

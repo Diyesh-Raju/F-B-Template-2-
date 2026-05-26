@@ -17,10 +17,6 @@ export function SiteFooter() {
 
           <Reveal preset="fadeUp" transition={{ delay: 0.1 }}>
             <div className="flex flex-wrap items-center gap-3 text-sm text-white/70">
-              <ScrollLink className="cursor-pointer hover:text-white" href="/menu">
-                Menu
-              </ScrollLink>
-              <span className="text-white/25">·</span>
               <ScrollLink className="cursor-pointer hover:text-white" href="/fmcg">
                 FMCG
               </ScrollLink>

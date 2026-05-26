@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { Lato, Cormorant_Garamond, Anton, Bodoni_Moda } from "next/font/google";
+import { Lato, Cormorant_Garamond, Anton, Bodoni_Moda, Archivo_Black, Caveat, Pacifico, Rye, Alex_Brush } from "next/font/google";
 import "./globals.css";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { ContactCTA } from "@/components/ContactCTA";
 import { PageTransition } from "@/components/motion/PageTransition";
 import { ScrollToTopOnRoute } from "@/components/ScrollToTopOnRoute";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
@@ -47,6 +48,55 @@ const fontBogue = Bodoni_Moda({
   display: "swap",
 });
 
+// Substitute for "Chunky Bolde" requested for the cafe scrolling captions —
+// Archivo Black is a chunky bold sans-serif on Google Fonts that reads well
+// over busy backgrounds.
+const fontChunky = Archivo_Black({
+  variable: "--font-chunky",
+  subsets: ["latin"],
+  weight: ["400"],
+  display: "swap",
+});
+
+// Substitute for the "Gohan" font requested for cafe accent lines — Caveat is
+// a casual handwritten script on Google Fonts that gives the friendly,
+// menu-card feel without needing a licensed file.
+const fontGohan = Caveat({
+  variable: "--font-gohan",
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  display: "swap",
+});
+
+// Substitute for the "Lovely Coffee" font requested for the coffee section
+// heading — Pacifico is a casual flowing script on Google Fonts with the
+// coffee-shop sign vibe.
+const fontLovelyCoffee = Pacifico({
+  variable: "--font-lovely-coffee",
+  subsets: ["latin"],
+  weight: ["400"],
+  display: "swap",
+});
+
+// Substitute for the "Tiki-Tide" font requested for the brewery hero outro —
+// Rye is a vintage western/wood-block display face on Google Fonts that
+// reads like a saloon / brewery signage.
+const fontTikiTide = Rye({
+  variable: "--font-tiki-tide",
+  subsets: ["latin"],
+  weight: ["400"],
+  display: "swap",
+});
+
+// Alex Brush — a flowing calligraphic script used for the "Signature" word in
+// the brewery "Signature Creations" heading.
+const fontAlexBrush = Alex_Brush({
+  variable: "--font-alex-brush",
+  subsets: ["latin"],
+  weight: ["400"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: {
     default: "Nocturne — Food & Beverage",
@@ -65,7 +115,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${fontSans.variable} ${fontHeading.variable} ${fontDisplayBold.variable} ${fontBogue.variable} dark h-full antialiased`}
+      className={`${fontSans.variable} ${fontHeading.variable} ${fontDisplayBold.variable} ${fontBogue.variable} ${fontChunky.variable} ${fontGohan.variable} ${fontLovelyCoffee.variable} ${fontTikiTide.variable} ${fontAlexBrush.variable} dark h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[var(--bg)] text-[var(--fg)]">
         <SmoothScrollProvider>
@@ -75,6 +125,7 @@ export default function RootLayout({
           <main className="flex-1">
             <PageTransition>{children}</PageTransition>
           </main>
+          <ContactCTA />
           <SiteFooter />
         </SmoothScrollProvider>
       </body>

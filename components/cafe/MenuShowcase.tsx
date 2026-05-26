@@ -28,6 +28,12 @@ export function MenuShowcase() {
         </p>
       </div>
 
+      <div className="mx-auto mt-10 max-w-3xl px-4 text-center sm:mt-14">
+        <h3 className="font-[var(--font-serif)] text-3xl font-bold leading-tight tracking-tight text-[var(--fg)] sm:text-4xl md:text-5xl">
+          Our menu
+        </h3>
+      </div>
+
       <ContainerScroll>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -38,7 +44,7 @@ export function MenuShowcase() {
       </ContainerScroll>
 
       <div className="mx-auto max-w-6xl px-4 pb-20 pt-4 text-center sm:pb-28 md:pb-32">
-        <h3 className="font-[var(--font-bogue)] text-4xl font-bold leading-[1.05] tracking-tight text-[var(--fg)] sm:text-6xl md:text-7xl lg:text-8xl">
+        <h3 className="font-[var(--font-gohan)] text-3xl font-bold leading-[1.15] tracking-tight text-[var(--fg)] sm:text-4xl md:text-5xl">
           From Our Kitchen to Your Table
         </h3>
       </div>
@@ -68,7 +74,7 @@ function ContainerScroll({ children }: { children: React.ReactNode }) {
     // through. Bumped up to accommodate the portrait card.
     <div
       ref={containerRef}
-      className="relative flex h-[40rem] items-center justify-center p-2 md:h-[64rem] md:p-10"
+      className="relative flex h-[36rem] items-center justify-center p-2 md:h-[52rem] md:p-10"
     >
       <div className="relative w-full" style={{ perspective: "1000px" }}>
         <CardFrame rotate={rotate} scale={scale}>
@@ -99,7 +105,7 @@ function CardFrame({
         // fits inside without cropping, regardless of viewport width.
         aspectRatio: "1408 / 704",
       }}
-      className="mx-auto w-[min(100rem,98vw)] rounded-[30px] border-4 border-[#6C6C6C] bg-[#222222] p-2 shadow-2xl md:p-6"
+      className="mx-auto w-[min(80rem,96vw)] rounded-[30px] border-4 border-[#6C6C6C] bg-[#222222] p-2 shadow-2xl md:p-6"
     >
       <div className="h-full w-full overflow-hidden rounded-2xl bg-zinc-900 md:rounded-2xl md:p-2">
         {children}

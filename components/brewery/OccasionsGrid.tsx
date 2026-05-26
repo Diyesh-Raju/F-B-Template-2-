@@ -61,7 +61,7 @@ export function OccasionsGrid() {
         </div>
 
         <Reveal preset="fadeUp" transition={{ delay: 0.1 }}>
-          <h2 className="my-14 text-center font-[var(--font-display)] text-4xl font-black leading-tight tracking-tight text-white sm:my-20 sm:text-5xl md:text-6xl">
+          <h2 className="my-14 text-center font-[var(--font-gohan)] text-5xl font-bold leading-tight tracking-tight text-white sm:my-20 sm:text-6xl md:text-7xl">
             Perfect for Every Occasion
           </h2>
         </Reveal>

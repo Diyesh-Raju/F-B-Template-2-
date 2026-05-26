@@ -84,17 +84,12 @@ export function CoffeeBanner() {
       {/* Foreground content — three columns on desktop, stacked on small screens. */}
       <div className="relative mx-auto flex h-full max-w-6xl items-center px-4 sm:px-6">
         <div className="grid w-full items-center gap-6 sm:gap-8 md:grid-cols-[auto_1fr_auto] md:gap-12">
-          {/* Left: icon + stat */}
-          <div className="flex items-center gap-4">
-            <CupIcon className="h-14 w-14 text-[var(--accent)]" />
-            <div className="leading-tight">
-              <div className="font-[var(--font-serif)] text-5xl tracking-tight text-white">
-                Daily
-              </div>
-              <div className="text-base font-medium tracking-wide text-[var(--accent)]">
-                Roast
-              </div>
-            </div>
+          {/* Left: chunky stacked headline */}
+          <div className="font-[var(--font-chunky)] text-4xl uppercase leading-[1.05] tracking-tight text-[#ffffff] [text-shadow:0_4px_20px_rgba(0,0,0,0.55)] sm:text-5xl md:text-6xl">
+            Fuel Your <br />
+            Day, <br />
+            Nourish Your <br />
+            Soul
           </div>
 
           {/* Center: italic tagline stack */}
@@ -113,7 +108,7 @@ export function CoffeeBanner() {
           {/* Right: CTA */}
           <div className="flex justify-center md:justify-end">
             <Link
-              href="/menu"
+              href="/contact"
               className="inline-flex items-center justify-center rounded-full bg-[var(--accent)] px-7 py-4 text-sm font-semibold text-black shadow-[0_10px_30px_rgba(255,179,71,0.35)] transition hover:brightness-110 focus-visible:outline-offset-4"
             >
               Explore the Cafe
@@ -125,22 +120,3 @@ export function CoffeeBanner() {
   );
 }
 
-function CupIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 64 64"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.4"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      className={className}
-    >
-      <path d="M22 8c0 4 4 4 4 8M32 8c0 4 4 4 4 8M42 8c0 4 4 4 4 8" />
-      <path d="M14 22h36v14a14 14 0 0 1-14 14H28a14 14 0 0 1-14-14V22z" />
-      <path d="M50 26h4a6 6 0 0 1 0 12h-4" />
-      <path d="M10 56h44" />
-    </svg>
-  );
-}

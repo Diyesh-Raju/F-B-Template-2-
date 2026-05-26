@@ -55,10 +55,14 @@ export function BreweryHeroOverlay({ progress }: Props) {
 
       <motion.div
         style={{ opacity: outroOpacity, y: outroY }}
-        className="absolute inset-0 flex items-end justify-center px-6 pb-[14vh] text-center sm:pb-[18vh]"
+        className="absolute inset-0 flex items-center justify-end px-6 text-right sm:px-12 md:px-16 lg:px-24"
       >
-        <p className="max-w-5xl font-[var(--font-display)] text-3xl font-black leading-[1.05] tracking-tight text-white [text-shadow:0_6px_30px_rgba(0,0,0,0.85)] sm:text-4xl md:text-5xl lg:text-6xl">
-          Good friends, good beer, good times!
+        <p className="max-w-md font-[var(--font-tiki-tide)] text-3xl leading-[1.15] tracking-tight text-white [text-shadow:0_6px_30px_rgba(0,0,0,0.85)] sm:text-4xl md:text-5xl lg:text-6xl">
+          Good friends,
+          <br />
+          Good beer,
+          <br />
+          Great times!
         </p>
       </motion.div>
     </>

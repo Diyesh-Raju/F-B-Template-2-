@@ -36,6 +36,10 @@ export function DayNightShowcase() {
   return (
     <section className="w-full py-14 sm:py-20">
       <div className="mx-auto w-full max-w-[1500px] px-4 sm:px-6 lg:px-8">
+        <h2 className="mb-10 font-[var(--font-tiki-tide)] text-5xl leading-tight tracking-tight text-white sm:mb-14 sm:text-6xl md:text-7xl">
+          Perspective
+        </h2>
+
         <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 md:gap-10">
           {PAIRS.map((pair) => (
             <Oval key={pair.alt} pair={pair} night={night} />
@@ -46,6 +50,9 @@ export function DayNightShowcase() {
           <DayNightToggle night={night} onChange={setNight} />
           <p className="font-[var(--font-serif)] text-sm tracking-[0.18em] text-white/70">
             {night ? "NIGHTTIME" : "DAYTIME"}
+          </p>
+          <p className="mt-2 text-xs uppercase tracking-[0.22em] text-white/55">
+            Click to discover
           </p>
         </div>
       </div>

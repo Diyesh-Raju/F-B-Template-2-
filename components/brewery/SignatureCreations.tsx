@@ -66,8 +66,13 @@ export function SignatureCreations() {
             <div className="font-[var(--font-serif)] text-xs font-medium tracking-[0.22em] text-[var(--accent)]">
               CULINARY EXCELLENCE
             </div>
-            <h2 className="mt-4 font-[var(--font-display)] text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl md:text-5xl">
-              Signature Creations
+            <h2 className="mt-4 text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl md:text-5xl">
+              <span
+                className="font-[var(--font-alex-brush)] text-5xl font-normal sm:text-6xl md:text-7xl"
+              >
+                Signature
+              </span>{" "}
+              <span className="font-sans">Creations</span>
             </h2>
             <p className="mt-4 font-[var(--font-serif)] text-base leading-7 text-white/75 sm:text-lg">
               Our most loved dishes, crafted with passion and the finest
