@@ -24,7 +24,10 @@ export function BoatScrollBanner({ children }: { children: ReactNode }) {
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('/fmcg/boat-wake.png')" }}
         />
-        <p className="absolute left-6 top-1/2 max-w-xl -translate-y-1/2 font-[var(--font-syncopate)] text-3xl font-bold leading-[1.1] tracking-tight text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.7)] sm:left-12 sm:max-w-2xl sm:text-5xl md:text-6xl lg:text-7xl">
+        <p
+          className="absolute left-6 top-1/2 max-w-xl -translate-y-1/2 text-3xl font-bold leading-[1.1] tracking-tight text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.7)] sm:left-12 sm:max-w-2xl sm:text-5xl md:text-6xl lg:text-7xl"
+          style={{ fontFamily: "var(--font-syncopate)" }}
+        >
           The Art of Logistics—Delivered with Precision
         </p>
       </div>

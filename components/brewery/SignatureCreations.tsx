@@ -68,7 +68,8 @@ export function SignatureCreations() {
             </div>
             <h2 className="mt-4 text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl md:text-5xl">
               <span
-                className="font-[var(--font-passions-conflict)] text-6xl font-normal sm:text-7xl md:text-8xl"
+                className="text-6xl font-normal sm:text-7xl md:text-8xl"
+                style={{ fontFamily: "var(--font-passions-conflict)" }}
               >
                 Signature
               </span>{" "}

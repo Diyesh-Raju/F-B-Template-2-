@@ -62,7 +62,8 @@ export function CafeHeroOverlay({ progress }: Props) {
         className="absolute inset-0 flex items-center justify-center px-6 text-center"
       >
         <h1
-          className="max-w-5xl font-[var(--font-fleur-de-leah)] text-5xl font-normal leading-[1.1] tracking-tight text-[#ffffff] [text-shadow:0_6px_30px_rgba(0,0,0,0.85)] sm:text-6xl md:text-7xl lg:text-8xl"
+          className="max-w-5xl text-5xl font-normal leading-[1.1] tracking-tight text-[#ffffff] [text-shadow:0_6px_30px_rgba(0,0,0,0.85)] sm:text-6xl md:text-7xl lg:text-8xl"
+          style={{ fontFamily: "var(--font-fleur-de-leah)" }}
         >
           Your Daily Escape Starts Here
         </h1>
@@ -82,10 +83,16 @@ export function CafeHeroOverlay({ progress }: Props) {
             transformOrigin: "50% 100%",
           }}
         >
-          <h2 className="font-[var(--font-bogue)] text-5xl font-bold leading-[1.05] tracking-tight text-[#ffffff] [text-shadow:0_10px_50px_rgba(0,0,0,0.9)] sm:text-6xl md:text-7xl lg:text-8xl">
+          <h2
+            className="text-5xl font-bold leading-[1.05] tracking-tight text-[#ffffff] [text-shadow:0_10px_50px_rgba(0,0,0,0.9)] sm:text-6xl md:text-7xl lg:text-8xl"
+            style={{ fontFamily: "var(--font-bogue)" }}
+          >
             Nocturne Cafe
           </h2>
-          <p className="mt-4 font-[var(--font-bogue)] text-2xl italic leading-snug tracking-tight text-[#ffffff]/90 [text-shadow:0_6px_30px_rgba(0,0,0,0.85)] sm:text-3xl md:text-4xl lg:text-5xl">
+          <p
+            className="mt-4 text-2xl italic leading-snug tracking-tight text-[#ffffff]/90 [text-shadow:0_6px_30px_rgba(0,0,0,0.85)] sm:text-3xl md:text-4xl lg:text-5xl"
+            style={{ fontFamily: "var(--font-bogue)" }}
+          >
             Where Every Cup Tells a Story
           </p>
         </motion.div>

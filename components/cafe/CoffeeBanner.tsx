@@ -85,7 +85,10 @@ export function CoffeeBanner() {
       <div className="relative mx-auto flex h-full max-w-6xl items-center px-4 sm:px-6">
         <div className="grid w-full items-center gap-6 sm:gap-8 md:grid-cols-[auto_1fr_auto] md:gap-12">
           {/* Left: chunky stacked headline */}
-          <div className="font-[var(--font-cherry-bomb)] text-4xl leading-[1.15] tracking-tight text-[#ffffff] [text-shadow:0_4px_20px_rgba(0,0,0,0.55)] sm:text-5xl md:text-6xl">
+          <div
+            className="text-4xl leading-[1.15] tracking-tight text-[#ffffff] [text-shadow:0_4px_20px_rgba(0,0,0,0.55)] sm:text-5xl md:text-6xl"
+            style={{ fontFamily: "var(--font-cherry-bomb)" }}
+          >
             Fuel your day,
             <br />
             Nourish your Soul

@@ -75,8 +75,12 @@ const ScrollCaption = ({
 
   return (
     <motion.p
-      style={{ opacity, gridArea: "1 / 1" }}
-      className="font-[var(--font-chunky)] text-4xl leading-tight tracking-tight text-[#ffffff] [text-shadow:0_2px_18px_rgba(0,0,0,0.85)] md:text-5xl lg:text-6xl"
+      style={{
+        opacity,
+        gridArea: "1 / 1",
+        fontFamily: "var(--font-chunky)",
+      }}
+      className="text-4xl leading-tight tracking-tight text-[#ffffff] [text-shadow:0_2px_18px_rgba(0,0,0,0.85)] md:text-5xl lg:text-6xl"
     >
       {text}
     </motion.p>

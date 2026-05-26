@@ -36,7 +36,10 @@ export function DayNightShowcase() {
   return (
     <section className="w-full py-14 sm:py-20">
       <div className="mx-auto w-full max-w-[1500px] px-4 sm:px-6 lg:px-8">
-        <h2 className="mb-10 font-[var(--font-fleur-de-leah)] text-6xl font-normal leading-[1.1] tracking-tight text-white sm:mb-14 sm:text-7xl md:text-8xl">
+        <h2
+          className="mb-10 text-6xl font-normal leading-[1.1] tracking-tight text-white sm:mb-14 sm:text-7xl md:text-8xl"
+          style={{ fontFamily: "var(--font-fleur-de-leah)" }}
+        >
           Perspective
         </h2>
 

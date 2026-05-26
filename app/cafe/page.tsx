@@ -82,7 +82,10 @@ export default function CafePage() {
       <Section
         eyebrow="Work mode"
         title={
-          <span className="font-[var(--font-cherry-bomb)] font-normal">
+          <span
+            className="font-normal"
+            style={{ fontFamily: "var(--font-cherry-bomb)" }}
+          >
             Your Perfect Work Environment
           </span>
         }
