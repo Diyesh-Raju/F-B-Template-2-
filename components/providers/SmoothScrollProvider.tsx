@@ -55,6 +55,7 @@ export function SmoothScrollProvider({
 
     let rafId = 0;
     let running = false;
+    let cleanupFonts: () => void = () => {};
 
     const startLoop = () => {
       if (running) return;
@@ -81,14 +82,21 @@ export function SmoothScrollProvider({
       }
     };
 
-    const wake = () => {
-      // Re-measure scroll limits — fullscreen toggles, devtools open/close,
-      // and BFCache restore can all leave Lenis with a stale clientHeight.
+    // Resize lenis without restarting the rAF loop. Cheap to call frequently —
+    // safe to fire from a ResizeObserver, a setTimeout, or any layout-changing
+    // event. The lockup symptom ("can scroll up but not down") happens when
+    // the document grows AFTER Lenis cached its limit; calling resize() picks
+    // up the new max scroll height.
+    const safeResize = () => {
       try {
         lenis.resize();
       } catch {
         /* lenis throws if destroyed mid-flight, harmless */
       }
+    };
+
+    const wake = () => {
+      safeResize();
       startLoop();
     };
 
@@ -105,6 +113,34 @@ export function SmoothScrollProvider({
     window.addEventListener("focus", wake);
     window.addEventListener("resize", wake, { passive: true });
 
+    // ResizeObserver on the documentElement catches every layout shift that
+    // changes the page's total scrollable height — image loads, font swaps,
+    // reveal animations expanding rows, mobile address bar showing/hiding,
+    // React state mutations that add content below the fold. Without this,
+    // Lenis's cached limit goes stale and the user can scroll up but not
+    // down until they refresh. This is the single most important reliability
+    // fix for smooth-scroll setups.
+    const ro = new ResizeObserver(() => safeResize());
+    ro.observe(document.documentElement);
+    if (document.body) ro.observe(document.body);
+
+    // Catch images / late assets that finish loading after first paint.
+    const onLoad = () => safeResize();
+    window.addEventListener("load", onLoad);
+
+    // Font swap is one of the most common late layout shifts on this site
+    // (we load ~20 display fonts). Resize once each batch finishes.
+    if ("fonts" in document) {
+      // The promise resolves once after EACH batch of fonts settles. Re-arm
+      // by also listening to the `loadingdone` event from FontFaceSet.
+      document.fonts.ready.then(safeResize).catch(() => {});
+      const onFontsDone = () => safeResize();
+      document.fonts.addEventListener?.("loadingdone", onFontsDone);
+      // Cleanup handled in the main return — store a removal closure.
+      cleanupFonts = () =>
+        document.fonts.removeEventListener?.("loadingdone", onFontsDone);
+    }
+
     startLoop();
 
     return () => {
@@ -114,6 +150,9 @@ export function SmoothScrollProvider({
       window.removeEventListener("pageshow", wake);
       window.removeEventListener("focus", wake);
       window.removeEventListener("resize", wake);
+      window.removeEventListener("load", onLoad);
+      ro.disconnect();
+      cleanupFonts();
       lenis.off("scroll", notifyScroll);
       lenis.destroy();
     };

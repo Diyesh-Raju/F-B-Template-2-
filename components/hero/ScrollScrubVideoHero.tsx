@@ -309,6 +309,17 @@ export function ScrollScrubVideoHero({
           playsInline
           preload="auto"
           disablePictureInPicture
+          // GPU layer hint on the video element itself (NOT the sticky
+          // container — applying transform to the sticky element can confuse
+          // some browsers' sticky resolution). Promotes the video to its own
+          // compositor layer so each scroll-driven `currentTime` write only
+          // re-rasterizes the video plane, not the whole sticky area. Big win
+          // on non-Mac laptops where full-screen video paint dominates.
+          style={{
+            willChange: "transform",
+            transform: "translateZ(0)",
+            backfaceVisibility: "hidden",
+          }}
         />
 
         {/* Readability overlay + subtle film grain vibe */}

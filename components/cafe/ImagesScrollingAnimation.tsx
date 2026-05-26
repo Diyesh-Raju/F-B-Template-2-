@@ -143,7 +143,11 @@ const ImagesScrollingAnimation = () => {
   });
 
   return (
-    <main
+    // `<section>` not `<main>` — the global layout already wraps everything
+    // in a `<main>`, and nesting a second `<main>` is invalid HTML, confuses
+    // landmark-based screen readers, and on some browsers breaks focus
+    // restoration.
+    <section
       ref={container}
       className="relative isolate flex w-full flex-col items-center justify-center
                  pb-[50vh] pt-[5vh]
@@ -184,7 +188,7 @@ const ImagesScrollingAnimation = () => {
           />
         );
       })}
-    </main>
+    </section>
   );
 };
 

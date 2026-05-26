@@ -88,12 +88,25 @@ export function SiteHeader() {
 
   useEffect(() => {
     if (!open) return;
-    const prevOverflow = document.body.style.overflow;
+    // Always restore to empty string (the inline-style "unset" state) on
+    // cleanup. We intentionally don't snapshot a "previous value" here — if
+    // something else set body.style.overflow we'd risk fighting them, but on
+    // this site no other component touches it, and the defensive reset
+    // guarantees the page is never left in a scroll-locked state if the
+    // cleanup runs in an unexpected order (BFCache restore, fast-refresh
+    // hot reload, navigation while the menu is open).
     document.body.style.overflow = "hidden";
     return () => {
-      document.body.style.overflow = prevOverflow;
+      document.body.style.overflow = "";
     };
   }, [open]);
+
+  // Hard guarantee: when the route changes, the menu must close. Otherwise a
+  // user who taps a nav link, then taps back-button before the panel finishes
+  // closing, can leave `open === true` and the body permanently scroll-locked.
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
     if (!open) return;
