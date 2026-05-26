@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Lato, Cormorant_Garamond, Anton, Bodoni_Moda, Archivo_Black, Caveat, Pacifico, Rye, Alex_Brush, Neonderthaw, Fascinate, Cherry_Bomb_One, Rampart_One, Passions_Conflict, Fleur_De_Leah, Syncopate } from "next/font/google";
+import { Lato, Cormorant_Garamond, Anton, Bodoni_Moda, Archivo_Black, Caveat, Pacifico, Rye, Alex_Brush, Neonderthaw, Fascinate, Cherry_Bomb_One, Rampart_One, Passions_Conflict, Fleur_De_Leah, Syncopate, Italianno } from "next/font/google";
 import "./globals.css";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -160,6 +160,15 @@ const fontSyncopate = Syncopate({
   display: "swap",
 });
 
+// Italianno — an elegant cursive script on Google Fonts used for the cafe
+// hero intro line "Your Daily Escape Starts Here".
+const fontItalianno = Italianno({
+  variable: "--font-italianno",
+  subsets: ["latin"],
+  weight: ["400"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: {
     default: "Nocturne — Food & Beverage",
@@ -178,7 +187,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${fontSans.variable} ${fontHeading.variable} ${fontDisplayBold.variable} ${fontBogue.variable} ${fontChunky.variable} ${fontGohan.variable} ${fontLovelyCoffee.variable} ${fontTikiTide.variable} ${fontAlexBrush.variable} ${fontNeonderthaw.variable} ${fontFascinate.variable} ${fontCherryBomb.variable} ${fontRampartOne.variable} ${fontPassionsConflict.variable} ${fontFleurDeLeah.variable} ${fontSyncopate.variable} dark h-full antialiased`}
+      className={`${fontSans.variable} ${fontHeading.variable} ${fontDisplayBold.variable} ${fontBogue.variable} ${fontChunky.variable} ${fontGohan.variable} ${fontLovelyCoffee.variable} ${fontTikiTide.variable} ${fontAlexBrush.variable} ${fontNeonderthaw.variable} ${fontFascinate.variable} ${fontCherryBomb.variable} ${fontRampartOne.variable} ${fontPassionsConflict.variable} ${fontFleurDeLeah.variable} ${fontSyncopate.variable} ${fontItalianno.variable} dark h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[var(--bg)] text-[var(--fg)]">
         <SmoothScrollProvider>
