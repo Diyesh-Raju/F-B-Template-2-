@@ -62,8 +62,8 @@ export function CafeHeroOverlay({ progress }: Props) {
         className="absolute inset-0 flex items-center justify-center px-6 text-center"
       >
         <h1
-          className="max-w-5xl text-6xl font-normal leading-[1.1] tracking-tight text-[#ffffff] [text-shadow:0_6px_30px_rgba(0,0,0,0.85)] sm:text-7xl md:text-8xl lg:text-9xl"
-          style={{ fontFamily: "var(--font-italianno)" }}
+          className="max-w-5xl text-4xl font-bold leading-[1.08] tracking-tight text-[#ffffff] [text-shadow:0_6px_30px_rgba(0,0,0,0.85)] sm:text-5xl md:text-6xl lg:text-7xl"
+          style={{ fontFamily: "var(--font-cause)" }}
         >
           Your Daily Escape Starts Here
         </h1>

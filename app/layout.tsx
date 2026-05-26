@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Lato, Cormorant_Garamond, Anton, Bodoni_Moda, Archivo_Black, Caveat, Pacifico, Rye, Alex_Brush, Neonderthaw, Fascinate, Cherry_Bomb_One, Rampart_One, Passions_Conflict, Fleur_De_Leah, Syncopate, Italianno } from "next/font/google";
+import { Lato, Cormorant_Garamond, Anton, Bodoni_Moda, Archivo_Black, Caveat, Pacifico, Rye, Alex_Brush, Neonderthaw, Fascinate, Cherry_Bomb_One, Rampart_One, Passions_Conflict, Fleur_De_Leah, Syncopate, Italianno, Cause } from "next/font/google";
 import "./globals.css";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -169,6 +169,15 @@ const fontItalianno = Italianno({
   display: "swap",
 });
 
+// Cause — a wedge-serif display face on Google Fonts. Used for the cafe
+// hero intro line as a more architectural replacement for Italianno.
+const fontCause = Cause({
+  variable: "--font-cause",
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: {
     default: "Nocturne — Food & Beverage",
@@ -187,7 +196,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${fontSans.variable} ${fontHeading.variable} ${fontDisplayBold.variable} ${fontBogue.variable} ${fontChunky.variable} ${fontGohan.variable} ${fontLovelyCoffee.variable} ${fontTikiTide.variable} ${fontAlexBrush.variable} ${fontNeonderthaw.variable} ${fontFascinate.variable} ${fontCherryBomb.variable} ${fontRampartOne.variable} ${fontPassionsConflict.variable} ${fontFleurDeLeah.variable} ${fontSyncopate.variable} ${fontItalianno.variable} dark h-full antialiased`}
+      className={`${fontSans.variable} ${fontHeading.variable} ${fontDisplayBold.variable} ${fontBogue.variable} ${fontChunky.variable} ${fontGohan.variable} ${fontLovelyCoffee.variable} ${fontTikiTide.variable} ${fontAlexBrush.variable} ${fontNeonderthaw.variable} ${fontFascinate.variable} ${fontCherryBomb.variable} ${fontRampartOne.variable} ${fontPassionsConflict.variable} ${fontFleurDeLeah.variable} ${fontSyncopate.variable} ${fontItalianno.variable} ${fontCause.variable} dark h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[var(--bg)] text-[var(--fg)]">
         <SmoothScrollProvider>

@@ -58,7 +58,7 @@ export function BreweryHeroOverlay({ progress }: Props) {
         className="absolute inset-0 flex items-center justify-start px-6 text-left sm:px-12 md:px-16 lg:px-24"
       >
         <p
-          className="max-w-md text-3xl leading-[1.15] tracking-tight text-white [text-shadow:0_6px_30px_rgba(0,0,0,0.85)] sm:text-4xl md:text-5xl lg:text-6xl"
+          className="max-w-lg text-4xl leading-[1.15] tracking-tight text-white [text-shadow:0_6px_30px_rgba(0,0,0,0.85)] sm:text-5xl md:text-6xl lg:text-7xl"
           style={{ fontFamily: "var(--font-rampart-one)" }}
         >
           Good friends,
