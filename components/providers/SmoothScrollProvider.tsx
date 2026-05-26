@@ -56,18 +56,28 @@ export function SmoothScrollProvider({
     let rafId = 0;
     let running = false;
     let cleanupFonts: () => void = () => {};
+    // True for one frame after a wake. The first rAF callback uses this to
+    // reset Lenis's internal `time` field so the deltaTime on the resumed
+    // frame is 0 instead of "however many seconds the tab was inactive".
+    // Without this, Lenis ingests a multi-second dt on the resume frame and
+    // the lerp jumps past the target — the symptom users see is scroll being
+    // "stuck" / "frozen" until they wheel enough to overcome the bad state.
+    let primeNextRaf = true;
+    // Internal Lenis field we have to reach into. Lenis 1.3.x stores its
+    // last raf timestamp as `time`; clearing it makes the next raf compute
+    // dt = 0 (see raf() in lenis.mjs: `deltaTime = time - (this.time || time)`).
+    // Documented private field — version-pinned via package.json.
+    type LenisInternal = Lenis & { time?: number };
 
     const startLoop = () => {
       if (running) return;
       running = true;
-      // Prime the lerp with a fresh "now" so the first dt is ~0 instead of
-      // whatever stale value the browser hands us after a throttled-rAF gap
-      // (tab hidden, fullscreen toggle, BFCache restore). Without this the
-      // first frame after wake can ingest a multi-second dt and visibly
-      // freeze the scroll until the user wheels enough to overcome it, or
-      // worse, leaves Lenis stuck only able to scroll one direction.
       const raf = (time: number) => {
         if (!running) return;
+        if (primeNextRaf) {
+          (lenis as LenisInternal).time = time;
+          primeNextRaf = false;
+        }
         lenis.raf(time);
         rafId = window.requestAnimationFrame(raf);
       };
@@ -96,6 +106,11 @@ export function SmoothScrollProvider({
     };
 
     const wake = () => {
+      // Arm the prime-on-next-raf flag so the first resumed frame starts
+      // with dt=0, regardless of whether the loop happened to keep ticking
+      // at 1Hz while hidden (browsers throttle differently — some keep one
+      // tick per second, some pause entirely).
+      primeNextRaf = true;
       safeResize();
       startLoop();
     };

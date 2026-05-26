@@ -55,7 +55,26 @@ export function ScrollScrubVideoHero({
     // Treat the next scroll after such a gap as a full wake() instead of
     // a plain seek so the play()→pause() round-trip refreshes the pipeline.
     const IDLE_WAKE_MS = 4000;
+    // After this much idle the play→pause wake is no longer reliable — the
+    // decoder may have dropped its buffer entirely. Do a full video.load()
+    // instead, which fully re-initializes the decoder, then re-seek once
+    // loadeddata fires.
+    const HARD_RESET_IDLE_MS = 15_000;
     let lastScrollTs = performance.now();
+    let lastWakeTs = performance.now();
+    // Set while a play()→pause() round-trip is in flight. flush() refuses to
+    // seek during this window — if it didn't, our own subsequent seek would
+    // cancel the in-flight play() with an AbortError, leaving the decoder
+    // un-woken on its stale frame. This is the precise mechanism that produces
+    // the "frozen on end frame, scrolling does nothing" symptom after long
+    // idles: wake fires, wake schedules, the scheduled flush seeks before
+    // play resolves, the play promise rejects, the frame never repaints.
+    let wakingPlayback = false;
+    // Pending seek that should run once the loadeddata event fires after a
+    // hardReset(). The user may have scrolled during the reload, so we
+    // recompute the target at the moment of seeking rather than at the moment
+    // of triggering load().
+    let pendingHardResetSeek = false;
 
     // Layout cache — re-measured only on resize / IO transitions.
     let sectionTop = 0;
@@ -114,6 +133,14 @@ export function ScrollScrubVideoHero({
     const flush = () => {
       rafId = 0;
       if (!mounted || !isVisible) return;
+      // Don't fight an in-flight wake-playback. If we seek now, the pending
+      // play() promise rejects with AbortError and the decoder never wakes.
+      // Re-arm a rAF so we pick up the latest scroll position once the wake
+      // settles (wakingPlayback clears in resolveWakingPlayback() below).
+      if (wakingPlayback) {
+        rafId = window.requestAnimationFrame(flush);
+        return;
+      }
       const target = computeTarget();
       if (target < 0) return;
       if (Math.abs(target - lastTarget) < SEEK_EPSILON) return;
@@ -216,6 +243,115 @@ export function ScrollScrubVideoHero({
     window.addEventListener("resize", onResize, { passive: true });
     unsubs.push(() => window.removeEventListener("resize", onResize));
 
+    // Plays the video for one micro-tick then pauses it. Forces the browser
+    // to actually decode + paint a frame at the current `currentTime`. Without
+    // this, after a parked-decoder wake the renderer stays on its stale frame
+    // even though seeking has happened. We hold the wakingPlayback flag for
+    // the entire play→pause round-trip so flush() doesn't issue a competing
+    // seek that would reject the play promise.
+    const wakePlayback = () => {
+      wakingPlayback = true;
+      const resolveWake = () => {
+        wakingPlayback = false;
+        // The user may have scrolled during the wake — re-flush so they see
+        // the frame for their CURRENT position, not the one we wake-seeked to.
+        schedule();
+      };
+      let pPromise: Promise<void> | undefined;
+      try {
+        pPromise = video.play() as Promise<void> | undefined;
+      } catch {
+        resolveWake();
+        return;
+      }
+      if (pPromise && typeof pPromise.then === "function") {
+        pPromise
+          .then(() => {
+            try {
+              video.pause();
+            } catch {
+              /* ignore */
+            }
+            resolveWake();
+          })
+          .catch(() => {
+            // Autoplay blocked, AbortError from a later seek, etc. — make sure
+            // we still release the gate so flush() can resume.
+            try {
+              video.pause();
+            } catch {
+              /* ignore */
+            }
+            resolveWake();
+          });
+      } else {
+        try {
+          video.pause();
+        } catch {
+          /* ignore */
+        }
+        resolveWake();
+      }
+    };
+
+    // Safety timer: if loadeddata doesn't fire within this window after a
+    // hardReset(), assume the reload failed and release the gate so the user
+    // isn't permanently locked out of scrolling the hero.
+    const HARD_RESET_TIMEOUT_MS = 4000;
+    let hardResetTimer: number | null = null;
+
+    // Hard reset for severely parked decoders. After ~15s+ idle the decoder
+    // may have dropped its buffer entirely; a play→pause wake at that point
+    // sometimes just plays a single frame of the wrong content. video.load()
+    // fully re-initializes the element — we then seek to the right position
+    // once loadeddata fires (handled via pendingHardResetSeek + onMeta path).
+    const hardReset = () => {
+      pendingHardResetSeek = true;
+      wakingPlayback = true; // gate flushes until reload settles
+      try {
+        video.load();
+      } catch {
+        // load() is documented to never throw, but be defensive against
+        // browsers that disagree.
+        wakingPlayback = false;
+        pendingHardResetSeek = false;
+        return;
+      }
+      if (hardResetTimer) window.clearTimeout(hardResetTimer);
+      hardResetTimer = window.setTimeout(() => {
+        // loadeddata never fired — release the gate, surface the current scroll
+        // position to the renderer however we can.
+        hardResetTimer = null;
+        if (!pendingHardResetSeek) return;
+        pendingHardResetSeek = false;
+        wakingPlayback = false;
+        lastTarget = -1;
+        schedule();
+      }, HARD_RESET_TIMEOUT_MS);
+    };
+
+    const onLoadedAfterReset = () => {
+      if (!pendingHardResetSeek) return;
+      pendingHardResetSeek = false;
+      if (hardResetTimer) {
+        window.clearTimeout(hardResetTimer);
+        hardResetTimer = null;
+      }
+      const target = computeTarget();
+      if (target >= 0) {
+        seek(target);
+        lastTarget = target;
+        wakePlayback(); // also releases the gate via resolveWake
+      } else {
+        wakingPlayback = false;
+        schedule();
+      }
+    };
+    video.addEventListener("loadeddata", onLoadedAfterReset);
+    unsubs.push(() =>
+      video.removeEventListener("loadeddata", onLoadedAfterReset)
+    );
+
     // Wake handling: when the tab/window regains focus, BFCache restores
     // the page, or the section re-enters the viewport after a long idle,
     // browsers may have stranded a queued rAF, paused the media pipeline,
@@ -223,11 +359,24 @@ export function ScrollScrubVideoHero({
     // scroll never sees a stale frame.
     wake = () => {
       if (!mounted) return;
+      // Reentrancy guard: visibilitychange + pageshow + focus + IO can all
+      // fire within the same tick when returning from a background tab. Let
+      // the first wake finish before starting another one. The first wake's
+      // resolveWake() → schedule() will pick up whatever scroll position the
+      // user is at by then, so dropping these later events loses nothing.
+      if (wakingPlayback || pendingHardResetSeek) {
+        // Still refresh layout in case the viewport changed during the gap.
+        measure();
+        return;
+      }
+      const now = performance.now();
+      const idleSinceLastWake = now - lastWakeTs;
+      lastWakeTs = now;
       // Reset the idle clock at the *start* of wake so the trailing
       // schedule() call below doesn't see a stale gap and re-trigger another
       // wake — which would otherwise infinite-loop on the first wake fired
       // by visibilitychange/pageshow/focus after a long parked tab.
-      lastScrollTs = performance.now();
+      lastScrollTs = now;
       if (rafId) {
         window.cancelAnimationFrame(rafId);
         rafId = 0;
@@ -241,37 +390,26 @@ export function ScrollScrubVideoHero({
 
       measure();
       lastTarget = -1;
-      // Synchronous best-effort seek so the right frame is ready before the
-      // next paint, instead of waiting an extra rAF.
+
+      // Long idle → fully reload the video element. play→pause alone won't
+      // recover a decoder whose buffer was reaped by the OS.
+      if (idleSinceLastWake > HARD_RESET_IDLE_MS) {
+        hardReset();
+        return;
+      }
+
+      // Short idle → seek + play→pause is enough.
       const target = computeTarget();
       if (target >= 0) {
         seek(target);
         lastTarget = target;
-        // Force the media pipeline to actually paint a fresh frame. When the
-        // tab was hidden / minimized / behind fullscreen, the browser parks
-        // the video decoder; the next currentTime= write fires a "seeking"
-        // event but the renderer can stay on a stale frame until the page
-        // gets a paint trigger. A muted play()→pause() round-trip wakes the
-        // decoder and guarantees the seeked frame reaches the canvas.
-        const wakePlayback = () => {
-          const p = video.play();
-          if (p && typeof p.then === "function") {
-            p.then(() => video.pause()).catch(() => {
-              /* autoplay blocked or interrupted by another seek — fine */
-            });
-          } else {
-            try {
-              video.pause();
-            } catch {
-              /* ignore */
-            }
-          }
-        };
+        // wakePlayback() schedules its own follow-up flush via resolveWake,
+        // so we do NOT call schedule() here — that earlier schedule() was
+        // what cancelled the play promise mid-flight on slow machines.
         wakePlayback();
+      } else {
+        schedule();
       }
-      // Schedule one more rAF so any scroll movement between the wake and
-      // the next user input doesn't leave us on a slightly-stale frame.
-      schedule();
     };
 
     const onVisibility = () => {
@@ -289,6 +427,7 @@ export function ScrollScrubVideoHero({
     return () => {
       mounted = false;
       if (rafId) window.cancelAnimationFrame(rafId);
+      if (hardResetTimer) window.clearTimeout(hardResetTimer);
       io.disconnect();
       for (const u of unsubs) u();
     };
