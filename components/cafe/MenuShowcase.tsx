@@ -20,7 +20,7 @@ export function MenuShowcase() {
           OUR MENU
         </p>
         <h2 className="mt-4 font-[var(--font-serif)] text-3xl font-bold leading-tight tracking-tight text-[var(--fg)] sm:text-4xl md:text-5xl">
-          Seasonally Inspired
+          Seasonally Inspired 🍁
         </h2>
         <p className="mx-auto mt-5 max-w-xl text-sm leading-6 text-white/60 sm:text-base">
           A short, deliberate list — pulled, steamed, and poured to order.
@@ -28,8 +28,11 @@ export function MenuShowcase() {
         </p>
       </div>
 
-      <div className="mx-auto mt-10 max-w-3xl px-4 text-center sm:mt-14">
-        <h3 className="font-[var(--font-serif)] text-3xl font-bold leading-tight tracking-tight text-[var(--fg)] sm:text-4xl md:text-5xl">
+      <div className="mx-auto mt-10 mb-16 max-w-3xl px-4 text-center sm:mt-14 sm:mb-24 md:mb-32">
+        <h3
+          className="text-5xl font-normal leading-[1.05] tracking-tight text-[var(--fg)] sm:text-6xl md:text-7xl lg:text-8xl"
+          style={{ fontFamily: "var(--font-modak)" }}
+        >
           Our menu
         </h3>
       </div>
@@ -45,8 +48,16 @@ export function MenuShowcase() {
 
       <div className="mx-auto max-w-6xl px-4 pb-20 pt-4 text-center sm:pb-28 md:pb-32">
         <h3
-          className="text-3xl font-normal leading-[1.15] tracking-tight text-[var(--fg)] sm:text-4xl md:text-5xl"
-          style={{ fontFamily: "var(--font-fascinate)" }}
+          className="inline-block px-10 py-4 text-4xl font-normal leading-[1.05] tracking-tight text-[#ffffff] shadow-[0_10px_30px_rgba(183,110,121,0.35)] sm:px-14 sm:py-5 sm:text-5xl md:text-6xl"
+          style={{
+            fontFamily: "var(--font-fascinate)",
+            background:
+              "linear-gradient(135deg, #C9889A 0%, #B76E79 50%, #9E5B68 100%)",
+            // Thin pointed-lens shape — x-radius 50%, y-radius 100% pulls
+            // the ends to sharp points on left/right while leaving the top
+            // and bottom curved. Matches the sketch.
+            borderRadius: "50% / 100%",
+          }}
         >
           From Our Kitchen to Your Table
         </h3>

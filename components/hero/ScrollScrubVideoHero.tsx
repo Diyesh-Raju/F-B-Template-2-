@@ -80,7 +80,12 @@ export function ScrollScrubVideoHero({
   // perfect lockstep (no framer-motion/Lenis interop drift).
   const scrollYProgress = useMotionValue(0);
 
+  // Slow-device detection runs once on mount after hydration so the SSR
+  // markup is identical for every viewer. setState-in-effect is deliberate
+  // here — the cascading render is the whole point (we want to re-run the
+  // main effect with the chosen path).
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setStaticFallback(detectSlowDeviceForVideoScrub());
   }, []);
 

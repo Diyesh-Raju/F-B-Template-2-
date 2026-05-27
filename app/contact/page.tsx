@@ -1,20 +1,11 @@
 import { Section } from "@/components/Section";
 import { Reveal } from "@/components/motion/Reveal";
-import { Button } from "@/components/Button";
 
 export const metadata = {
   title: "Contact",
 };
 
 export default function ContactPage() {
-  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "";
-  const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "";
-
-  const whatsappHref = whatsappNumber
-    ? `https://wa.me/${whatsappNumber.replace(/[^\d]/g, "")}`
-    : "";
-  const gmailHref = contactEmail ? `mailto:${contactEmail}` : "";
-
   return (
     <div>
       {/* Full-bleed hero — cliffside dinner photo behind the heading, dark
@@ -24,16 +15,19 @@ export default function ContactPage() {
         className="relative isolate w-full overflow-hidden bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage: "url('/contact/your-table-awaits.png')",
-          minHeight: "clamp(360px, 60vh, 560px)",
+          minHeight: "clamp(260px, 42vh, 400px)",
         }}
       >
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/55 via-black/35 to-black/65"
         />
-        <div className="relative mx-auto flex w-full max-w-6xl flex-col justify-center px-4 py-20 sm:px-6 sm:py-28 md:py-32">
+        <div className="relative mx-auto flex w-full max-w-6xl flex-col justify-center px-4 py-14 sm:px-6 sm:py-20 md:py-24">
           <Reveal preset="fadeUpLg">
-            <h1 className="font-[var(--font-serif)] text-4xl leading-[1.05] tracking-tight text-white drop-shadow-[0_6px_30px_rgba(0,0,0,0.7)] sm:text-5xl md:text-6xl lg:text-7xl">
+            <h1
+              className="text-4xl font-normal leading-[1.05] tracking-tight text-white drop-shadow-[0_6px_30px_rgba(0,0,0,0.7)] sm:text-5xl md:text-6xl lg:text-7xl"
+              style={{ fontFamily: "var(--font-elms-sans)" }}
+            >
               Your Table Awaits
             </h1>
           </Reveal>
@@ -46,53 +40,19 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <Section
-        eyebrow="Find us"
-        title="Hours, address, and a note"
-        description="Replace map and details with real info when you’re ready."
-      >
-        <div className="grid gap-4 lg:grid-cols-12">
-          <Reveal preset="scaleIn" className="lg:col-span-7">
-            <div className="h-72 rounded-2xl border border-white/10 bg-white/5 sm:h-96" />
-          </Reveal>
-          <div className="grid gap-4 lg:col-span-5">
-            <Reveal preset="fadeUp">
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-                <div className="text-sm font-medium text-white">Nocturne</div>
-                <div className="mt-2 text-sm leading-6 text-white/60">
-                  14 Midnight Lane
-                  <br />
-                  Bandra West, Mumbai, Maharashtra
-                </div>
-                <div className="mt-4 text-sm text-white/70">
-                  <div className="flex items-center justify-between gap-4">
-                    <span className="text-white/55">Hours</span>
-                    <span>6:00 pm – 1:00 am</span>
-                  </div>
-                  <div className="mt-2 flex items-center justify-between gap-4">
-                    <span className="text-white/55">Phone</span>
-                    <span>+91 90000 00000</span>
-                  </div>
-                </div>
-              </div>
-            </Reveal>
-            <Reveal preset="fadeUp" transition={{ delay: 0.06 }}>
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-sm text-white/65">
-                <div className="font-medium text-white">Private events</div>
-                <p className="mt-2 leading-6">
-                  For groups, we’ll tailor a menu around your pace and your
-                  palette.
-                </p>
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </Section>
-
       {/* Contact us — live Google Maps embed on the left, three info boxes
           stacked on the right. Each box has an icon on the left and the
           heading + sub on the right. */}
-      <Section title="Contact us">
+      <Section
+        title={
+          <span
+            className="font-normal"
+            style={{ fontFamily: "var(--font-elms-sans)" }}
+          >
+            Contact us
+          </span>
+        }
+      >
         <div className="grid gap-6 lg:grid-cols-12">
           <Reveal preset="scaleIn" className="lg:col-span-8">
             <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-[0_18px_50px_rgba(0,0,0,0.35)]">
@@ -122,20 +82,21 @@ export default function ContactPage() {
                   </>
                 }
                 icon={
+                  /* Google Maps marker — filled red teardrop with white dot,
+                     matches the pins shown inside the embedded map next to it. */
                   <svg
                     viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
                     aria-hidden="true"
-                    className="h-6 w-6"
+                    className="h-7 w-7"
                   >
-                    <path d="M12 22s-7-7.58-7-12a7 7 0 1 1 14 0c0 4.42-7 12-7 12Z" />
-                    <circle cx="12" cy="10" r="2.6" />
+                    <path
+                      fill="#EA4335"
+                      d="M12 22s-7-7.58-7-12a7 7 0 1 1 14 0c0 4.42-7 12-7 12Z"
+                    />
+                    <circle cx="12" cy="10" r="2.6" fill="#ffffff" />
                   </svg>
                 }
+                accentBg={false}
               />
             </Reveal>
             <Reveal preset="fadeUp" transition={{ delay: 0.06 }}>
@@ -188,59 +149,21 @@ export default function ContactPage() {
         </div>
       </Section>
 
-      <Section
-        eyebrow="Connect"
-        title="WhatsApp or Gmail"
-        description="These links will open the respective app or web client. Add the real phone/email later."
-      >
-        <div className="grid gap-4 md:grid-cols-2">
-          <Reveal preset="fadeUp">
-            <a
-              href={whatsappHref || "#"}
-              target={whatsappHref ? "_blank" : undefined}
-              rel={whatsappHref ? "noreferrer" : undefined}
-              aria-disabled={!whatsappHref}
-              className={[
-                "block rounded-2xl border border-white/10 bg-white/5 p-6 transition focus-visible:outline-offset-4",
-                whatsappHref ? "hover:bg-white/10" : "opacity-50 cursor-not-allowed",
-              ].join(" ")}
-            >
-              <div className="text-sm font-medium text-white">WhatsApp</div>
-              <p className="mt-2 text-sm leading-6 text-white/60">
-                Fast replies for reservations and quick questions.
-              </p>
-              <div className="mt-4 text-xs text-white/55">
-                Set <span className="text-white/75">NEXT_PUBLIC_WHATSAPP_NUMBER</span>
-              </div>
-            </a>
-          </Reveal>
-          <Reveal preset="fadeUp" transition={{ delay: 0.06 }}>
-            <a
-              href={gmailHref || "#"}
-              aria-disabled={!gmailHref}
-              className={[
-                "block rounded-2xl border border-white/10 bg-white/5 p-6 transition focus-visible:outline-offset-4",
-                gmailHref ? "hover:bg-white/10" : "opacity-50 cursor-not-allowed",
-              ].join(" ")}
-            >
-              <div className="text-sm font-medium text-white">Gmail / Email</div>
-              <p className="mt-2 text-sm leading-6 text-white/60">
-                For private events, partnerships, and longer notes.
-              </p>
-              <div className="mt-4 text-xs text-white/55">
-                Set <span className="text-white/75">NEXT_PUBLIC_CONTACT_EMAIL</span>
-              </div>
-            </a>
-          </Reveal>
-        </div>
-      </Section>
-
       {/* Reservation platforms — three cards, each a deep-link to the
           restaurant's listing on the external booking partner. The Book CTA
           inside the card is purely visual (a styled span); the entire card is
           the actual anchor, so wrapping a real <button> inside the <a> is
           avoided (invalid nested interactive elements). */}
-      <Section title="Make a Reservation">
+      <Section
+        title={
+          <span
+            className="font-bold"
+            style={{ fontFamily: "var(--font-elms-sans)" }}
+          >
+            Make a Reservation
+          </span>
+        }
+      >
         <p className="mx-auto -mt-2 mb-8 max-w-2xl text-center text-base leading-7 text-white/65 sm:text-lg">
           Book your table in advance to ensure the best experience. For large
           parties or special events, please call us directly.
@@ -251,6 +174,8 @@ export default function ContactPage() {
               title="EazyDiner"
               body="Book online with instant confirmation."
               href="https://www.eazydiner.com/"
+              logoBg="#E84E40"
+              logoText="ED"
             />
           </Reveal>
           <Reveal preset="fadeUp" transition={{ delay: 0.06 }}>
@@ -258,6 +183,9 @@ export default function ContactPage() {
               title="Zomato"
               body="View menu, reviews, and book a table."
               href="https://www.zomato.com/"
+              logoBg="#E23744"
+              logoText="z"
+              logoFontClass="lowercase"
             />
           </Reveal>
           <Reveal preset="fadeUp" transition={{ delay: 0.12 }}>
@@ -265,53 +193,90 @@ export default function ContactPage() {
               title="Swiggy Dineout"
               body="Discounts, deals, and instant bookings."
               href="https://www.swiggy.com/dineout"
+              logoBg="#FC8019"
+              logoText="S"
             />
           </Reveal>
         </div>
       </Section>
 
+      {/* Chat with us — single full-width pill that deep-links to WhatsApp.
+          Layout per the sketch: large WhatsApp logo on the left, label on
+          the right inside a single rounded bar. */}
       <Section
-        eyebrow="Message"
-        title="Send a note"
-        description="A simple form UI with strong focus states for accessibility."
+        title={
+          <span
+            className="text-[#ffffff]"
+            style={{ fontFamily: "var(--font-modak)" }}
+          >
+            Chat with us 💬
+          </span>
+        }
       >
         <Reveal preset="fadeUp">
-          <form className="mx-auto grid max-w-2xl gap-4">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <label className="grid gap-2 text-sm text-white/70">
-                Name
-                <input
-                  className="h-11 rounded-xl border border-white/12 bg-black/20 px-4 text-white placeholder:text-white/35 focus-visible:outline-offset-4"
-                  placeholder="Your name"
-                  autoComplete="name"
-                />
-              </label>
-              <label className="grid gap-2 text-sm text-white/70">
-                Email
-                <input
-                  className="h-11 rounded-xl border border-white/12 bg-black/20 px-4 text-white placeholder:text-white/35 focus-visible:outline-offset-4"
-                  placeholder="you@example.com"
-                  type="email"
-                  autoComplete="email"
-                />
-              </label>
-            </div>
-            <label className="grid gap-2 text-sm text-white/70">
-              Message
-              <textarea
-                className="min-h-[140px] resize-y rounded-xl border border-white/12 bg-black/20 px-4 py-3 text-white placeholder:text-white/35 focus-visible:outline-offset-4"
-                placeholder="Tell us what you’re planning…"
-              />
-            </label>
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <div className="text-xs text-white/50">
-                By sending, you agree we may reply by email.
+          <a
+            href="https://wa.me/919000000000"
+            target="_blank"
+            rel="noreferrer noopener"
+            aria-label="Connect on WhatsApp"
+            className="group mx-auto flex w-full max-w-3xl items-center gap-5 rounded-full border border-white/10 bg-white/5 p-3 pr-8 transition hover:border-white/20 hover:bg-white/10 focus-visible:outline-offset-4 sm:gap-6 sm:p-4 sm:pr-10"
+          >
+            {/* Brand-green badge with the inline WhatsApp glyph. Stays the
+                same WhatsApp green regardless of theme; the glyph is white. */}
+            <span
+              className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full sm:h-24 sm:w-24"
+              style={{ backgroundColor: "#25D366" }}
+              aria-hidden="true"
+            >
+              <svg
+                viewBox="0 0 32 32"
+                className="h-12 w-12 sm:h-14 sm:w-14"
+                fill="#ffffff"
+              >
+                <path d="M16 3C9.373 3 4 8.373 4 15c0 2.346.673 4.535 1.838 6.388L4 29l7.85-1.79A11.93 11.93 0 0 0 16 27c6.627 0 12-5.373 12-12S22.627 3 16 3Zm0 21.7c-1.948 0-3.766-.547-5.32-1.495l-.38-.224-4.66 1.063 1.094-4.534-.245-.39A9.66 9.66 0 0 1 6.3 15c0-5.348 4.352-9.7 9.7-9.7s9.7 4.352 9.7 9.7-4.352 9.7-9.7 9.7Zm5.464-7.235c-.299-.149-1.766-.871-2.04-.971-.274-.1-.473-.149-.672.149-.199.298-.772.971-.946 1.17-.174.199-.348.224-.647.075-.299-.149-1.262-.465-2.404-1.484-.889-.793-1.49-1.772-1.664-2.07-.174-.298-.019-.46.131-.609.134-.133.299-.348.448-.522.149-.174.199-.298.298-.497.099-.199.05-.373-.025-.522-.075-.149-.672-1.622-.921-2.224-.243-.583-.49-.504-.672-.513l-.572-.01a1.1 1.1 0 0 0-.797.373c-.273.298-1.045 1.021-1.045 2.49 0 1.469 1.07 2.888 1.219 3.087.149.199 2.106 3.215 5.103 4.51.713.307 1.27.49 1.703.628.715.227 1.365.195 1.879.118.573-.085 1.766-.722 2.015-1.418.249-.696.249-1.292.174-1.418-.075-.124-.273-.199-.572-.348Z" />
+              </svg>
+            </span>
+            <div className="min-w-0 flex-1">
+              <div className="text-xl font-semibold text-white sm:text-2xl">
+                Connect on WhatsApp
               </div>
-              <Button type="button" variant="primary">
-                Send message
-              </Button>
+              <div className="mt-1 text-sm leading-6 text-white/65 sm:text-base">
+                Fast replies for reservations and quick questions.
+              </div>
             </div>
-          </form>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+              className="hidden h-6 w-6 shrink-0 text-white/55 transition group-hover:text-white sm:block"
+            >
+              <path d="M5 12h14M13 5l7 7-7 7" />
+            </svg>
+          </a>
+        </Reveal>
+
+        {/* Quick-intent buttons — each opens WhatsApp with a topic-specific
+            pre-filled message so the user lands in a conversation already
+            tagged with what they want. */}
+        <Reveal preset="fadeUp" transition={{ delay: 0.06 }}>
+          <div className="mx-auto mt-5 flex w-full max-w-3xl flex-wrap items-center justify-center gap-3 sm:gap-4">
+            <WhatsAppChip
+              label="Event organizing"
+              prefill="Hi, I'd like to enquire about event organizing."
+            />
+            <WhatsAppChip
+              label="Party bookings"
+              prefill="Hi, I'd like to enquire about party bookings."
+            />
+            <WhatsAppChip
+              label="Bulk order"
+              prefill="Hi, I'd like to enquire about placing a bulk order."
+            />
+          </div>
         </Reveal>
       </Section>
 
@@ -319,14 +284,49 @@ export default function ContactPage() {
   );
 }
 
+function WhatsAppChip({
+  label,
+  prefill,
+}: {
+  label: string;
+  prefill: string;
+}) {
+  const href = `https://wa.me/919000000000?text=${encodeURIComponent(prefill)}`;
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer noopener"
+      className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-white/85 transition hover:border-white/30 hover:bg-white/10 hover:text-white focus-visible:outline-offset-4 sm:px-5 sm:py-2.5"
+    >
+      <span
+        className="inline-block h-2 w-2 rounded-full"
+        style={{ backgroundColor: "#25D366" }}
+        aria-hidden="true"
+      />
+      {label}
+    </a>
+  );
+}
+
 function ReservationCard({
   title,
   body,
   href,
+  logoBg,
+  logoText,
+  logoFontClass,
 }: {
   title: string;
   body: string;
   href: string;
+  /** Hex color for the brand monogram badge that sits before the title. */
+  logoBg: string;
+  /** 1–2 character monogram (e.g. "Z", "ED", "S") shown inside the badge. */
+  logoText: string;
+  /** Extra Tailwind classes applied to the monogram text — e.g. "lowercase"
+   *  for Zomato's "z" wordmark feel. */
+  logoFontClass?: string;
 }) {
   return (
     <a
@@ -335,8 +335,17 @@ function ReservationCard({
       rel="noreferrer noopener"
       className="group flex h-full flex-col rounded-2xl border border-white/10 bg-white/5 p-6 transition hover:border-white/20 hover:bg-white/10 focus-visible:outline-offset-4"
     >
-      <div className="font-[var(--font-serif)] text-xl font-bold text-white sm:text-2xl">
-        {title}
+      <div className="flex items-center gap-3">
+        <span
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-base font-bold text-white"
+          style={{ backgroundColor: logoBg }}
+          aria-hidden="true"
+        >
+          <span className={logoFontClass}>{logoText}</span>
+        </span>
+        <div className="font-[var(--font-serif)] text-xl font-bold text-white sm:text-2xl">
+          {title}
+        </div>
       </div>
       <p className="mt-3 mb-6 text-sm leading-6 text-white/65 sm:text-base">
         {body}
@@ -348,7 +357,7 @@ function ReservationCard({
             "linear-gradient(135deg, #C9889A 0%, #B76E79 50%, #9E5B68 100%)",
         }}
       >
-        Book
+        Reserve your table
       </span>
     </a>
   );
@@ -358,18 +367,31 @@ function InfoBox({
   title,
   body,
   icon,
+  accentBg = true,
 }: {
   title: string;
   body: React.ReactNode;
   icon: React.ReactNode;
+  /** Set false when the icon is a multi-color brand-style mark (e.g. the
+   *  red Google Maps pin) and the amber-tinted circle would clash. */
+  accentBg?: boolean;
 }) {
   return (
     <div className="flex items-start gap-4 rounded-2xl border border-white/10 bg-white/5 p-5 text-white/70 sm:p-6">
-      <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--accent)]/15 text-[var(--accent)]">
+      <span
+        className={[
+          "mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full",
+          accentBg
+            ? "bg-[var(--accent)]/15 text-[var(--accent)]"
+            : "text-[var(--accent)]",
+        ].join(" ")}
+      >
         {icon}
       </span>
       <div className="min-w-0">
-        <div className="text-base font-medium text-white">{title}</div>
+        <div className="text-lg font-semibold text-white sm:text-xl">
+          {title}
+        </div>
         <div className="mt-1 text-sm leading-6 text-white/65">{body}</div>
       </div>
     </div>

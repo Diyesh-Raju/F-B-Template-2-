@@ -19,7 +19,7 @@ export default function CafePage() {
 
       <Section
         eyebrow="Bakery"
-        title="Soft + warm"
+        title={<span style={{ color: "#000000" }}>Soft + warm</span>}
         description="A few staples that pair well with espresso. ☕"
       >
         <div className="grid gap-4 md:grid-cols-3">
@@ -33,7 +33,7 @@ export default function CafePage() {
                   src="/cafe/dish-croissant.png"
                   alt=""
                   aria-hidden="true"
-                  className="h-16 w-16 shrink-0 object-contain"
+                  className="h-24 w-24 shrink-0 object-contain"
                  loading="lazy" decoding="async"/>
               }
             />
@@ -48,7 +48,7 @@ export default function CafePage() {
                   src="/cafe/dish-tiramisu.png"
                   alt=""
                   aria-hidden="true"
-                  className="h-16 w-16 shrink-0 object-contain"
+                  className="h-24 w-24 shrink-0 object-contain"
                  loading="lazy" decoding="async"/>
               }
             />
@@ -63,7 +63,7 @@ export default function CafePage() {
                   src="/cafe/dish-dark-choco-waffles.png"
                   alt=""
                   aria-hidden="true"
-                  className="h-16 w-16 shrink-0 object-contain"
+                  className="h-24 w-24 shrink-0 object-contain"
                  loading="lazy" decoding="async"/>
               }
             />

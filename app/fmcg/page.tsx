@@ -114,7 +114,7 @@ export default function FmcgPage() {
                   src="/fmcg/standard-fssai.png"
                   alt=""
                   aria-hidden="true"
-                  className="h-16 w-16 shrink-0 object-contain"
+                  className="h-28 w-28 shrink-0 object-contain sm:h-32 sm:w-32"
                  loading="lazy" decoding="async"/>
               }
             />
@@ -129,7 +129,7 @@ export default function FmcgPage() {
                   src="/fmcg/standard-clean-label.png"
                   alt=""
                   aria-hidden="true"
-                  className="h-16 w-16 shrink-0 object-contain"
+                  className="h-28 w-28 shrink-0 object-contain sm:h-32 sm:w-32"
                  loading="lazy" decoding="async"/>
               }
             />

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Lato, Cormorant_Garamond, Anton, Bodoni_Moda, Archivo_Black, Caveat, Pacifico, Rye, Alex_Brush, Neonderthaw, Fascinate, Cherry_Bomb_One, Rampart_One, Passions_Conflict, Fleur_De_Leah, Syncopate, Italianno, Cause } from "next/font/google";
+import { Lato, Cormorant_Garamond, Anton, Bodoni_Moda, Archivo_Black, Caveat, Pacifico, Rye, Alex_Brush, Neonderthaw, Fascinate, Cherry_Bomb_One, Rampart_One, Passions_Conflict, Fleur_De_Leah, Syncopate, Italianno, Cause, Elms_Sans, Modak } from "next/font/google";
 import "./globals.css";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -178,6 +178,24 @@ const fontCause = Cause({
   display: "swap",
 });
 
+// Elms Sans — a modern geometric sans-serif on Google Fonts. Used for the
+// contact hero heading "Your Table Awaits".
+const fontElmsSans = Elms_Sans({
+  variable: "--font-elms-sans",
+  subsets: ["latin"],
+  weight: ["400"],
+  display: "swap",
+});
+
+// Modak — a chunky bubble display face on Google Fonts. Used for the
+// contact "Chat with us" heading.
+const fontModak = Modak({
+  variable: "--font-modak",
+  subsets: ["latin"],
+  weight: ["400"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: {
     default: "Nocturne — Food & Beverage",
@@ -196,7 +214,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${fontSans.variable} ${fontHeading.variable} ${fontDisplayBold.variable} ${fontBogue.variable} ${fontChunky.variable} ${fontGohan.variable} ${fontLovelyCoffee.variable} ${fontTikiTide.variable} ${fontAlexBrush.variable} ${fontNeonderthaw.variable} ${fontFascinate.variable} ${fontCherryBomb.variable} ${fontRampartOne.variable} ${fontPassionsConflict.variable} ${fontFleurDeLeah.variable} ${fontSyncopate.variable} ${fontItalianno.variable} ${fontCause.variable} dark h-full antialiased`}
+      className={`${fontSans.variable} ${fontHeading.variable} ${fontDisplayBold.variable} ${fontBogue.variable} ${fontChunky.variable} ${fontGohan.variable} ${fontLovelyCoffee.variable} ${fontTikiTide.variable} ${fontAlexBrush.variable} ${fontNeonderthaw.variable} ${fontFascinate.variable} ${fontCherryBomb.variable} ${fontRampartOne.variable} ${fontPassionsConflict.variable} ${fontFleurDeLeah.variable} ${fontSyncopate.variable} ${fontItalianno.variable} ${fontCause.variable} ${fontElmsSans.variable} ${fontModak.variable} dark h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[var(--bg)] text-[var(--fg)]">
         <SmoothScrollProvider>

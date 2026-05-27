@@ -1,5 +1,4 @@
 import { Reveal } from "@/components/motion/Reveal";
-import { ButtonLink } from "@/components/Button";
 import { ScrollLink } from "@/components/ScrollLink";
 import { BreweryHeroScrub } from "@/components/brewery/BreweryHeroScrub";
 import { FeatureStrip } from "@/components/brewery/FeatureStrip";
@@ -48,9 +47,6 @@ export default function BreweryPage() {
             >
               Book Your Scene!
             </ScrollLink>
-            <ButtonLink href="/contact" variant="secondary">
-              Food pairings
-            </ButtonLink>
           </div>
         </Reveal>
       </div>
@@ -63,6 +59,7 @@ export default function BreweryPage() {
         image="/brewery/terrace.png"
         aspectRatio="1536 / 1024"
         alt="Moonlit terrace dining"
+        height="clamp(220px, 38vh, 380px)"
       />
 
       <DayNightShowcase />
@@ -71,6 +68,7 @@ export default function BreweryPage() {
         image="/brewery/terrace.png"
         aspectRatio="1536 / 1024"
         alt="Moonlit terrace dining"
+        height="clamp(220px, 38vh, 380px)"
       />
 
       <section className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 sm:py-24">

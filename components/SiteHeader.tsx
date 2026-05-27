@@ -104,7 +104,11 @@ export function SiteHeader() {
   // Hard guarantee: when the route changes, the menu must close. Otherwise a
   // user who taps a nav link, then taps back-button before the panel finishes
   // closing, can leave `open === true` and the body permanently scroll-locked.
+  // setState-in-effect is intentional here — there is no other place to react
+  // to a pathname change without an effect, and the cascading render is the
+  // whole point (we want a re-render with `open=false`).
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setOpen(false);
   }, [pathname]);
 
