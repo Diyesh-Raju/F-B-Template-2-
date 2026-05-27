@@ -34,7 +34,7 @@ export default function CafePage() {
                   alt=""
                   aria-hidden="true"
                   className="h-16 w-16 shrink-0 object-contain"
-                />
+                 loading="lazy" decoding="async"/>
               }
             />
           </Reveal>
@@ -49,7 +49,7 @@ export default function CafePage() {
                   alt=""
                   aria-hidden="true"
                   className="h-16 w-16 shrink-0 object-contain"
-                />
+                 loading="lazy" decoding="async"/>
               }
             />
           </Reveal>
@@ -64,7 +64,7 @@ export default function CafePage() {
                   alt=""
                   aria-hidden="true"
                   className="h-16 w-16 shrink-0 object-contain"
-                />
+                 loading="lazy" decoding="async"/>
               }
             />
           </Reveal>
@@ -98,7 +98,7 @@ export default function CafePage() {
                 src="/cafe/work-environment.png"
                 alt="A laptop, candle, and coffee mug on a marble table in a softly lit cafe lounge"
                 className="block h-full w-full object-cover"
-              />
+               loading="lazy" decoding="async"/>
             </div>
           </Reveal>
           <div className="grid gap-2 lg:col-span-6 lg:pt-16">

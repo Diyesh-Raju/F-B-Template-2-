@@ -129,7 +129,7 @@ const StickyCard_001 = ({
           src={src}
           alt={title}
           className="h-full w-full object-cover"
-        />
+         loading="lazy" decoding="async"/>
       </motion.div>
     </div>
   );

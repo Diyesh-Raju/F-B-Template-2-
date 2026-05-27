@@ -91,7 +91,7 @@ function BrandSlider() {
             src={current.src}
             alt={current.alt}
             className="max-h-[55%] max-w-[55%] object-contain"
-          />
+           loading="lazy" decoding="async"/>
         </motion.div>
       </AnimatePresence>
     </div>

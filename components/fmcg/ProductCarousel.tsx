@@ -253,7 +253,7 @@ export function ProductCarousel() {
                     objectFit: "contain",
                     objectPosition: item.objectPosition,
                   }}
-                />
+                 loading="lazy" decoding="async"/>
               </div>
             );
           })}

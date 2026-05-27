@@ -39,7 +39,7 @@ export default function FmcgPage() {
                     alt=""
                     aria-hidden="true"
                     className="h-16 w-16 shrink-0 object-contain"
-                  />
+                   loading="lazy" decoding="async"/>
                 }
               />
             </Reveal>
@@ -54,7 +54,7 @@ export default function FmcgPage() {
                     alt=""
                     aria-hidden="true"
                     className="h-16 w-16 shrink-0 object-contain"
-                  />
+                   loading="lazy" decoding="async"/>
                 }
               />
             </Reveal>
@@ -69,7 +69,7 @@ export default function FmcgPage() {
                     alt=""
                     aria-hidden="true"
                     className="h-16 w-16 shrink-0 object-contain"
-                  />
+                   loading="lazy" decoding="async"/>
                 }
               />
             </Reveal>
@@ -84,7 +84,7 @@ export default function FmcgPage() {
                     alt=""
                     aria-hidden="true"
                     className="h-16 w-16 shrink-0 object-contain"
-                  />
+                   loading="lazy" decoding="async"/>
                 }
               />
             </Reveal>
@@ -115,7 +115,7 @@ export default function FmcgPage() {
                   alt=""
                   aria-hidden="true"
                   className="h-16 w-16 shrink-0 object-contain"
-                />
+                 loading="lazy" decoding="async"/>
               }
             />
           </Reveal>
@@ -130,7 +130,7 @@ export default function FmcgPage() {
                   alt=""
                   aria-hidden="true"
                   className="h-16 w-16 shrink-0 object-contain"
-                />
+                 loading="lazy" decoding="async"/>
               }
             />
           </Reveal>

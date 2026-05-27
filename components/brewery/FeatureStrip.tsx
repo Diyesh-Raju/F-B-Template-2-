@@ -57,7 +57,7 @@ export function FeatureStrip() {
           src="/brewery/pot.png?v=4"
           alt=""
           className="h-full w-full object-contain drop-shadow-[0_30px_40px_rgba(0,0,0,0.7)]"
-        />
+         loading="lazy" decoding="async"/>
       </div>
       <div
         aria-hidden="true"
@@ -68,7 +68,7 @@ export function FeatureStrip() {
           src="/brewery/pot.png?v=4"
           alt=""
           className="h-full w-full -scale-x-100 object-contain drop-shadow-[0_30px_40px_rgba(0,0,0,0.7)]"
-        />
+         loading="lazy" decoding="async"/>
       </div>
 
       <div className="relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6">
@@ -86,7 +86,7 @@ export function FeatureStrip() {
                     src={feature.icon}
                     alt={feature.alt}
                     className="max-h-full max-w-full object-contain drop-shadow-[0_10px_22px_rgba(0,0,0,0.55)]"
-                  />
+                   loading="lazy" decoding="async"/>
                 </div>
                 <h3 className="mt-6 flex min-h-[4rem] items-center justify-center font-[var(--font-display)] text-2xl font-black leading-tight tracking-tight text-white sm:text-3xl">
                   {feature.title}

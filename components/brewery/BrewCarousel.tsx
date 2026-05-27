@@ -178,7 +178,7 @@ function BrewPanel({ brew }: { brew: Brew }) {
               filter:
                 "drop-shadow(0 4px 5px rgba(0,0,0,0.55)) drop-shadow(0 18px 22px rgba(0,0,0,0.45)) drop-shadow(0 50px 70px rgba(0,0,0,0.35))",
             }}
-          />
+           loading="lazy" decoding="async"/>
 
           {/* Floor reflection — mirrored, masked so it dissolves into the
               surface. Vanishes on hover when the glass "lifts off". */}
@@ -196,7 +196,7 @@ function BrewPanel({ brew }: { brew: Brew }) {
               WebkitMaskImage:
                 "linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 28%)",
             }}
-          />
+           loading="lazy" decoding="async"/>
 
           {/* Contact shadow — a soft ellipse directly under the base sells
               the cup as sitting on something solid. */}

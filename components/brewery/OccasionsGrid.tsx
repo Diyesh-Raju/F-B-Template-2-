@@ -93,7 +93,7 @@ function OccasionCard({ occasion }: { occasion: Occasion }) {
         src={occasion.image}
         alt={occasion.alt}
         className="absolute inset-0 h-full w-full object-cover"
-      />
+       loading="lazy" decoding="async"/>
       <div className="absolute inset-0 bg-black/45" aria-hidden />
       <div className="relative flex h-full w-full items-center justify-center px-4">
         <h3 className="font-[var(--font-display)] text-2xl font-black leading-tight tracking-tight text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.7)] sm:text-3xl">

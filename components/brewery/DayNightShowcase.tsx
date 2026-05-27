@@ -78,14 +78,14 @@ function Oval({ pair, night }: { pair: Pair; night: boolean }) {
         alt={`${pair.alt} during the day`}
         className="absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-out"
         style={{ opacity: night ? 0 : 1 }}
-      />
+       loading="lazy" decoding="async"/>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={pair.night}
         alt={`${pair.alt} at night`}
         className="absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-out"
         style={{ opacity: night ? 1 : 0 }}
-      />
+       loading="lazy" decoding="async"/>
     </div>
   );
 }

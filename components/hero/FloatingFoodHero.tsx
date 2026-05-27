@@ -105,7 +105,7 @@ export function FloatingFoodHero({
               alt={image.alt}
               className="h-full w-full object-contain"
               style={{ animationDelay: `${index * 300}ms` }}
-            />
+             loading="lazy" decoding="async"/>
           </Reveal>
         ))}
       </div>

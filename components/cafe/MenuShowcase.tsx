@@ -40,7 +40,7 @@ export function MenuShowcase() {
           src="/cafe/menu-board-wide.png"
           alt="Cafe menu board with espresso, cappuccino, latte and other coffee drinks"
           className="block h-full w-full object-contain"
-        />
+         loading="lazy" decoding="async"/>
       </ContainerScroll>
 
       <div className="mx-auto max-w-6xl px-4 pb-20 pt-4 text-center sm:pb-28 md:pb-32">

@@ -54,7 +54,7 @@ export function CafeMachinesShowcase() {
                     src={row.src}
                     alt={row.alt}
                     className="block h-full w-full object-cover"
-                  />
+                   loading="lazy" decoding="async"/>
                 </div>
               </Reveal>
 

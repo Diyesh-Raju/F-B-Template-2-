@@ -56,7 +56,7 @@ function Row({ item }: { item: Item }) {
             src={item.image}
             alt={item.alt}
             className="h-full w-full object-cover"
-          />
+           loading="lazy" decoding="async"/>
         </div>
       </Reveal>
 

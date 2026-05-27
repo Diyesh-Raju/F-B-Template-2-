@@ -100,7 +100,7 @@ function RowSection({ row }: { row: FeatureRow }) {
             src={row.src}
             alt={row.alt}
             className="block h-auto w-full object-cover"
-          />
+           loading="lazy" decoding="async"/>
         </div>
       </Reveal>
 

@@ -1,11 +1,49 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useMotionValue, type MotionValue } from "framer-motion";
 import { useLenisScroll } from "@/components/providers/lenis-scroll-context";
 
 function clamp01(v: number) {
   return v < 0 ? 0 : v > 1 ? 1 : v;
+}
+
+// Decides whether the device can comfortably scroll-scrub a full-screen video.
+// Macs with hardware H.264 decode handle it; many mid/low Windows + Linux
+// laptops do not, and the per-scroll seeks dominate the frame budget. When
+// this returns true we skip seeking entirely and let the video sit at frame
+// 0 — the overlay text fades still work because they're driven by the same
+// scrollYProgress MotionValue, which we keep updating on every scroll tick.
+function detectSlowDeviceForVideoScrub(): boolean {
+  if (typeof window === "undefined") return false;
+  // Respect OS-level preference unconditionally.
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return true;
+  // Mobile: video scrubbing on a touch device is poor UX and very expensive.
+  // Treat any narrow viewport as "static fallback" territory.
+  if (window.matchMedia("(max-width: 768px), (pointer: coarse)").matches) {
+    return true;
+  }
+  // CPU + RAM heuristic. Conservative — only catches genuinely weak hardware
+  // so mid-range laptops still get the scrub on capable browsers.
+  const cores = navigator.hardwareConcurrency ?? 8;
+  const memNav = navigator as Navigator & { deviceMemory?: number };
+  const mem = memNav.deviceMemory ?? 8;
+  if (cores <= 4) return true;
+  if (mem <= 4) return true;
+  // Slow / metered connection. Even on a strong CPU, fetching a multi-MB
+  // video for scrub is wasteful on 2G/slow-3G.
+  const connNav = navigator as Navigator & {
+    connection?: { saveData?: boolean; effectiveType?: string };
+  };
+  const conn = connNav.connection;
+  if (conn?.saveData) return true;
+  if (
+    conn?.effectiveType &&
+    (conn.effectiveType === "2g" || conn.effectiveType === "slow-2g")
+  ) {
+    return true;
+  }
+  return false;
 }
 
 type ScrollScrubVideoHeroProps = {
@@ -31,15 +69,69 @@ export function ScrollScrubVideoHero({
   const sectionRef = useRef<HTMLElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
+  // Static-fallback gate. Computed client-side after hydration so SSR output
+  // is identical for every viewer (no hydration mismatch). When true, we
+  // suppress per-scroll seeks; the video stays at frame 0, but the overlay
+  // text fades still play because we keep publishing scrollYProgress.
+  const [staticFallback, setStaticFallback] = useState(false);
+
   // 0 → 1 across the hero's own scroll runway. Driven from the same flush
   // tick that seeks the video so overlay text and video frame stay in
   // perfect lockstep (no framer-motion/Lenis interop drift).
   const scrollYProgress = useMotionValue(0);
 
   useEffect(() => {
+    setStaticFallback(detectSlowDeviceForVideoScrub());
+  }, []);
+
+  useEffect(() => {
     const section = sectionRef.current;
     const video = videoRef.current;
     if (!section || !video) return;
+
+    // Slow-device path: subscribe to scroll only to update scrollYProgress
+    // for the overlay text fades. Do NOT touch video.currentTime — that's
+    // the expensive part that was making the page lag on non-Mac laptops.
+    if (staticFallback) {
+      let cleanupSF: Array<() => void> = [];
+      let sectionTop = 0;
+      let sectionHeight = 0;
+      let viewportHeight = 0;
+      const measure = () => {
+        const rect = section.getBoundingClientRect();
+        sectionTop = rect.top + window.scrollY;
+        sectionHeight = section.offsetHeight;
+        viewportHeight = window.innerHeight || 1;
+      };
+      measure();
+      const publish = () => {
+        const maxTravel = Math.max(1, sectionHeight - viewportHeight);
+        scrollYProgress.set(
+          clamp01((window.scrollY - sectionTop) / maxTravel)
+        );
+      };
+      publish();
+      window.addEventListener("scroll", publish, { passive: true });
+      cleanupSF.push(() => window.removeEventListener("scroll", publish));
+      const onResize = () => {
+        measure();
+        publish();
+      };
+      window.addEventListener("resize", onResize, { passive: true });
+      cleanupSF.push(() => window.removeEventListener("resize", onResize));
+      if (lenisActive) cleanupSF.push(subscribeScroll(publish));
+      // Pause the video for good measure — even with no seeks the browser
+      // can still spin the decoder for an autoplaying element.
+      try {
+        video.pause();
+      } catch {
+        /* ignore */
+      }
+      return () => {
+        for (const fn of cleanupSF) fn();
+        cleanupSF = [];
+      };
+    }
 
     let mounted = true;
     let isVisible = true;
@@ -431,7 +523,7 @@ export function ScrollScrubVideoHero({
       io.disconnect();
       for (const u of unsubs) u();
     };
-  }, [lenisActive, subscribeScroll]);
+  }, [lenisActive, subscribeScroll, staticFallback, scrollYProgress]);
 
   return (
     <section
@@ -446,7 +538,12 @@ export function ScrollScrubVideoHero({
           src={src}
           muted
           playsInline
-          preload="auto"
+          // `metadata` lets the browser fetch just enough to read duration +
+          // first frame, then stream the rest in the background. Combined
+          // with the `+faststart` flag baked into the encoded MP4s, this
+          // means the page doesn't sit on a 4–10 MB blocking download before
+          // the hero is interactive.
+          preload="metadata"
           disablePictureInPicture
           // GPU layer hint on the video element itself (NOT the sticky
           // container — applying transform to the sticky element can confuse

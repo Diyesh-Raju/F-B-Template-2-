@@ -82,7 +82,7 @@ export default function BreweryPage() {
                 src="/brewery/event-brunch.png"
                 alt="Event of the month — a good brunch"
                 className="h-full w-full object-cover"
-              />
+               loading="lazy" decoding="async"/>
             </div>
           </Reveal>
 

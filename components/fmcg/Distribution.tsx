@@ -104,7 +104,7 @@ export function Distribution() {
                 src="/fmcg/warehouse-real.png"
                 alt="Modern logistics warehouse exterior at dusk"
                 className="mt-6 h-28 w-full rounded-2xl object-cover ring-1 ring-black/10 sm:h-32"
-              />
+               loading="lazy" decoding="async"/>
             </div>
           </Reveal>
         </div>
@@ -146,7 +146,7 @@ export function Distribution() {
 
 /* — Decorative placeholders — drawn in SVG / CSS gradients so the layout
  *   reads at the right density without needing real photography. Swap any
- *   of these out for an <img> when the real assets land.                */
+ *   of these out for an <img loading="lazy" decoding="async"> when the real assets land.                */
 
 function IndiaShape({ className }: { className?: string }) {
   // Real cartographic India map. PNG has a transparent backdrop (the navy
@@ -160,7 +160,7 @@ function IndiaShape({ className }: { className?: string }) {
       aria-hidden="true"
       className={className}
       style={{ objectFit: "contain", objectPosition: "right center" }}
-    />
+     loading="lazy" decoding="async"/>
   );
 }
 
