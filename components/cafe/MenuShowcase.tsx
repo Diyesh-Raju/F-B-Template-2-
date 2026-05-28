@@ -28,7 +28,7 @@ export function MenuShowcase() {
         </p>
       </div>
 
-      <div className="mx-auto mt-10 mb-16 max-w-3xl px-4 text-center sm:mt-14 sm:mb-24 md:mb-32">
+      <div className="mx-auto mt-8 mb-2 max-w-3xl px-4 text-center sm:mt-14 sm:mb-24 md:mb-32">
         <h3
           className="text-5xl font-normal leading-[1.05] tracking-tight text-[var(--fg)] sm:text-6xl md:text-7xl lg:text-8xl"
           style={{ fontFamily: "var(--font-modak)" }}
@@ -46,7 +46,7 @@ export function MenuShowcase() {
          loading="lazy" decoding="async"/>
       </ContainerScroll>
 
-      <div className="mx-auto max-w-6xl px-4 pb-20 pt-4 text-center sm:pb-28 md:pb-32">
+      <div className="mx-auto max-w-6xl px-4 pb-20 pt-0 text-center sm:pb-28 sm:pt-4 md:pb-32">
         <h3
           className="inline-block px-10 py-4 text-4xl font-normal leading-[1.05] tracking-tight text-[#ffffff] shadow-[0_10px_30px_rgba(183,110,121,0.35)] sm:px-14 sm:py-5 sm:text-5xl md:text-6xl"
           style={{
@@ -78,17 +78,20 @@ function ContainerScroll({ children }: { children: React.ReactNode }) {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  const scaleDimensions = (): [number, number] => (isMobile ? [0.7, 0.9] : [1.05, 1]);
-
-  const rotate = useTransform(scrollYProgress, [0, 1], [20, 0]);
-  const scale = useTransform(scrollYProgress, [0, 1], scaleDimensions());
+  // On phones the rotateX/scale scroll animation is dropped entirely (the user
+  // found the zoom distracting on mobile) — the card sits flat and still. The
+  // shorter mobile container height (below) also collapses the dead space that
+  // the tall scroll-runway left around the card.
+  const rotate = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [20, 0]);
+  const scale = useTransform(scrollYProgress, [0, 1], isMobile ? [1, 1] : [1.05, 1]);
 
   return (
-    // Tall container so the user has room to scroll the rotate/scale parallax
-    // through. Bumped up to accommodate the portrait card.
+    // Tall on desktop so the rotate/scale parallax has scroll room; compact on
+    // mobile where there's no animation, so the card sits snug between the
+    // "Our menu" heading and the oval tagline below.
     <div
       ref={containerRef}
-      className="relative flex h-[36rem] items-center justify-center p-2 md:h-[52rem] md:p-10"
+      className="relative flex h-[18rem] items-center justify-center p-2 sm:h-[36rem] md:h-[52rem] md:p-10"
     >
       <div className="relative w-full" style={{ perspective: "1000px" }}>
         <CardFrame rotate={rotate} scale={scale}>

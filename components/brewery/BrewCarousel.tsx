@@ -66,6 +66,19 @@ export function BrewCarousel() {
   const [index, setIndex] = useState(N);
   const [animated, setAnimated] = useState(true);
 
+  // Touch detection (phones). Computed after mount so SSR markup is identical
+  // for everyone and there's no hydration mismatch. On touch we hide the
+  // arrows and switch the tilt/blur effect from hover to tap-to-toggle.
+  const [isTouch, setIsTouch] = useState(false);
+  // Which duplicated-panel index is currently "opened" by a tap (touch only).
+  const [activePanel, setActivePanel] = useState<number | null>(null);
+
+  useEffect(() => {
+    // Detect touch after mount so SSR markup is identical for all viewers.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsTouch(window.matchMedia("(pointer: coarse)").matches);
+  }, []);
+
   const next = () => {
     setAnimated(true);
     setIndex((i) => i + 1);
@@ -75,15 +88,17 @@ export function BrewCarousel() {
     setIndex((i) => i - 1);
   };
 
-  // Autoplay: advance one panel every 2.5s regardless of hover. Manual clicks
-  // restart the 2.5s window because they update `index`.
+  // Autoplay: advance one panel every 2.5s. Paused while a panel is tapped
+  // open on touch so the user can actually look at the tilted glass instead
+  // of it sliding away. Manual interactions restart the window via `index`.
   useEffect(() => {
+    if (activePanel !== null) return;
     const id = setTimeout(() => {
       setAnimated(true);
       setIndex((i) => i + 1);
     }, 2500);
     return () => clearTimeout(id);
-  }, [index]);
+  }, [index, activePanel]);
 
   // After the slide animation completes, if we've drifted out of the middle
   // copy, rebase without animation so the carousel can loop endlessly.
@@ -98,6 +113,12 @@ export function BrewCarousel() {
       setAnimated(false);
       setIndex(index + N);
     }
+  };
+
+  // Tap-to-toggle on touch devices. Tapping the same panel again closes it.
+  const togglePanel = (i: number) => {
+    if (!isTouch) return;
+    setActivePanel((cur) => (cur === i ? null : i));
   };
 
   // Re-enable animation on the frame after a rebase so the next click slides.
@@ -124,24 +145,58 @@ export function BrewCarousel() {
         style={{ transform: `translate3d(-${index * PANEL_VW}vw, 0, 0)` }}
       >
         {panels.map((brew, i) => (
-          <BrewPanel key={i} brew={brew} />
+          <BrewPanel
+            key={i}
+            brew={brew}
+            isTouch={isTouch}
+            active={activePanel === i}
+            onToggle={() => togglePanel(i)}
+          />
         ))}
       </div>
 
-      <ArrowButton side="left" onClick={prev} label="Previous brew" />
-      <ArrowButton side="right" onClick={next} label="Next brew" />
+      {/* Arrows are desktop-only; phones auto-advance and use tap-to-tilt. */}
+      {!isTouch ? (
+        <>
+          <ArrowButton side="left" onClick={prev} label="Previous brew" />
+          <ArrowButton side="right" onClick={next} label="Next brew" />
+        </>
+      ) : null}
     </section>
   );
 }
 
-function BrewPanel({ brew }: { brew: Brew }) {
+function BrewPanel({
+  brew,
+  isTouch,
+  active,
+  onToggle,
+}: {
+  brew: Brew;
+  isTouch: boolean;
+  active: boolean;
+  onToggle: () => void;
+}) {
+  // On touch the tilt/blur is driven by `active` (a tap); on desktop it stays
+  // hover-driven via the `group-hover:` utilities. `forced` adds the same
+  // effect classes unconditionally when a panel is tapped open.
+  const backdropForced = active ? "blur-md" : "";
+  const glassForced = active ? "[transform:rotate(22deg)_scale(0.78)]" : "";
+  const floorForced = active ? "opacity-0" : "";
+  const glowForced = active ? "opacity-80" : "";
+  const shadowForced = active ? "h-[2vh] w-[16vh] opacity-40" : "";
   return (
-    <article className="group relative h-[90vh] min-h-[600px] w-[33.3333vw] shrink-0 overflow-hidden bg-black">
+    <article
+      onClick={isTouch ? onToggle : undefined}
+      className={`group relative h-[90vh] min-h-[600px] w-[33.3333vw] shrink-0 overflow-hidden bg-black ${
+        isTouch ? "cursor-pointer" : ""
+      }`}
+    >
       {/* Backdrop layer — slightly oversized so the blur on hover doesn't
           show a soft fade at the panel edges. */}
       <div
         aria-hidden="true"
-        className="absolute -inset-6 transition-[filter] duration-500 ease-out will-change-[filter] group-hover:blur-md"
+        className={`absolute -inset-6 transition-[filter] duration-500 ease-out will-change-[filter] group-hover:blur-md ${backdropForced}`}
         style={{ background: brew.bg }}
       />
 
@@ -161,7 +216,7 @@ function BrewPanel({ brew }: { brew: Brew }) {
           {/* Ambient bounce light tinted by the drink */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[55vh] w-[55vh] rounded-full opacity-55 blur-3xl transition-opacity duration-500 group-hover:opacity-80"
+            className={`pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[55vh] w-[55vh] rounded-full opacity-55 blur-3xl transition-opacity duration-500 group-hover:opacity-80 ${glowForced}`}
             style={{
               transform: "translate(-50%, -50%)",
               background: `radial-gradient(closest-side, ${brew.glow}, transparent 72%)`,
@@ -173,7 +228,7 @@ function BrewPanel({ brew }: { brew: Brew }) {
           <img
             src={brew.glass}
             alt={brew.name}
-            className="relative block h-[60vh] w-auto object-contain transition-transform duration-500 ease-out will-change-transform group-hover:[transform:rotate(22deg)_scale(0.78)]"
+            className={`relative block h-[60vh] w-auto object-contain transition-transform duration-500 ease-out will-change-transform group-hover:[transform:rotate(22deg)_scale(0.78)] ${glassForced}`}
             style={{
               filter:
                 "drop-shadow(0 4px 5px rgba(0,0,0,0.55)) drop-shadow(0 18px 22px rgba(0,0,0,0.45)) drop-shadow(0 50px 70px rgba(0,0,0,0.35))",
@@ -187,7 +242,7 @@ function BrewPanel({ brew }: { brew: Brew }) {
             aria-hidden="true"
             src={brew.glass}
             alt=""
-            className="pointer-events-none absolute left-1/2 block h-[60vh] w-auto object-contain opacity-25 transition-opacity duration-500 group-hover:opacity-0"
+            className={`pointer-events-none absolute left-1/2 block h-[60vh] w-auto object-contain opacity-25 transition-opacity duration-500 group-hover:opacity-0 ${floorForced}`}
             style={{
               top: "calc(100% - 5vh)",
               transform: "translateX(-50%) scaleY(-1)",
@@ -202,7 +257,7 @@ function BrewPanel({ brew }: { brew: Brew }) {
               the cup as sitting on something solid. */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute left-1/2 h-[3vh] w-[24vh] rounded-[50%] bg-black/75 blur-2xl transition-all duration-500 group-hover:h-[2vh] group-hover:w-[16vh] group-hover:opacity-40"
+            className={`pointer-events-none absolute left-1/2 h-[3vh] w-[24vh] rounded-[50%] bg-black/75 blur-2xl transition-all duration-500 group-hover:h-[2vh] group-hover:w-[16vh] group-hover:opacity-40 ${shadowForced}`}
             style={{
               top: "calc(100% - 5vh)",
               transform: "translate(-50%, -50%)",
@@ -221,6 +276,12 @@ function BrewPanel({ brew }: { brew: Brew }) {
         <p className="mt-3 text-sm font-semibold tracking-[0.18em] text-white/80">
           ABV {brew.abv} | IBU {brew.ibu}
         </p>
+        {/* Tap hint — touch only. Tells the user the card is interactive. */}
+        {isTouch ? (
+          <p className="mt-2 text-xs font-medium uppercase tracking-[0.22em] text-white/60">
+            {active ? "click to close" : "click"}
+          </p>
+        ) : null}
       </div>
     </article>
   );

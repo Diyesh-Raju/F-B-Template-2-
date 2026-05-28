@@ -50,7 +50,7 @@ export function FeatureStrip() {
           while still spanning the icon-top → description-bottom height. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-y-20 left-4 w-40 select-none sm:inset-y-28 sm:left-8 sm:w-44 md:left-10 md:w-48 lg:left-14 lg:w-56"
+        className="pointer-events-none absolute inset-y-20 left-4 hidden w-40 select-none sm:inset-y-28 sm:left-8 sm:block sm:w-44 md:left-10 md:w-48 lg:left-14 lg:w-56"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -61,7 +61,7 @@ export function FeatureStrip() {
       </div>
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-y-20 right-4 w-40 select-none sm:inset-y-28 sm:right-8 sm:w-44 md:right-10 md:w-48 lg:right-14 lg:w-56"
+        className="pointer-events-none absolute inset-y-20 right-4 hidden w-40 select-none sm:inset-y-28 sm:right-8 sm:block sm:w-44 md:right-10 md:w-48 lg:right-14 lg:w-56"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img

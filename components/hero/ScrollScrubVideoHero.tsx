@@ -18,18 +18,18 @@ function detectSlowDeviceForVideoScrub(): boolean {
   if (typeof window === "undefined") return false;
   // Respect OS-level preference unconditionally.
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return true;
-  // Mobile: video scrubbing on a touch device is poor UX and very expensive.
-  // Treat any narrow viewport as "static fallback" territory.
-  if (window.matchMedia("(max-width: 768px), (pointer: coarse)").matches) {
-    return true;
-  }
-  // CPU + RAM heuristic. Conservative — only catches genuinely weak hardware
-  // so mid-range laptops still get the scrub on capable browsers.
+  // NOTE: we intentionally do NOT bail on touch / narrow viewports anymore.
+  // Phones were previously forced into the static path, which on iOS left
+  // the <video> showing nothing (a paused, metadata-only video paints no
+  // frame). Users want the scrub to run on phones too; the hero MP4s are
+  // now small enough (≈0.4–3.5 MB) that mid-range phones handle the scrub.
+  // The genuinely-weak-hardware and metered-connection guards below still
+  // apply on every device, mobile included.
   const cores = navigator.hardwareConcurrency ?? 8;
   const memNav = navigator as Navigator & { deviceMemory?: number };
   const mem = memNav.deviceMemory ?? 8;
-  if (cores <= 4) return true;
-  if (mem <= 4) return true;
+  if (cores <= 2) return true;
+  if (mem <= 2) return true;
   // Slow / metered connection. Even on a strong CPU, fetching a multi-MB
   // video for scrub is wasteful on 2G/slow-3G.
   const connNav = navigator as Navigator & {

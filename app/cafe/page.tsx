@@ -92,7 +92,10 @@ export default function CafePage() {
       >
         <div className="grid gap-4 lg:grid-cols-12">
           <Reveal preset="scaleIn" className="lg:col-span-4">
-            <div className="aspect-[736/1185] w-full max-w-[260px] overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/10 to-white/5">
+            {/* mx-auto centers the box in the viewport on mobile (single
+                column); lg:mx-0 restores the left-aligned-under-heading
+                placement on desktop. */}
+            <div className="mx-auto aspect-[736/1185] w-full max-w-[260px] overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/10 to-white/5 lg:mx-0">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/cafe/work-environment.png"

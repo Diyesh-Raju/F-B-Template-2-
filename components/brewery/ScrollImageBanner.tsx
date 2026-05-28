@@ -74,7 +74,13 @@ export function ScrollImageBanner({
           backgroundImage: `url('${image}')`,
           aspectRatio,
         }}
-        className="absolute inset-x-0 top-0 w-full bg-cover bg-center bg-no-repeat"
+        // On phones the image, scaled to the viewport width, is SHORTER than
+        // the (short) banner section, so layerHeight - sectionHeight <= 0 and
+        // there's nothing to parallax. Rendering it wider on mobile makes it
+        // taller than the section, restoring travel room. We position with
+        // left/width (NOT transform) so we don't clobber framer-motion's `y`
+        // translate. sm+ restores the desktop full-width behavior exactly.
+        className="absolute top-0 left-[-55%] w-[210%] bg-cover bg-center bg-no-repeat sm:left-0 sm:w-full"
       />
     </section>
   );

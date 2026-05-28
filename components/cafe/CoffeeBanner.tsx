@@ -57,13 +57,15 @@ export function CoffeeBanner() {
   return (
     <section
       ref={sectionRef}
-      className="relative isolate w-full overflow-hidden"
-      style={{ height: "clamp(360px, 60vh, 560px)" }}
+      className="relative isolate w-full overflow-hidden h-[clamp(300px,56vh,420px)] sm:h-[clamp(360px,60vh,560px)]"
       aria-label="Crafted with care — view the cafe menu"
     >
-      {/* Parallax image layer — sized to its natural aspect ratio at the bar's
-          full width, so the image is never cropped. Anchored at top-0 and
-          translates upward as the section moves up the viewport. */}
+      {/* Parallax image layer. On phones the wide illustration (1200×675) is
+          far shorter than the banner at viewport width, leaving an empty
+          bottom half — so on mobile we let it fill the whole section with
+          bg-cover (inset-0 + h-full beats the inline aspect-ratio, which only
+          governs height when height is auto). sm+ releases the bottom edge so
+          the desktop aspect-ratio parallax sweep is preserved exactly. */}
       <motion.div
         ref={layerRef}
         aria-hidden="true"
@@ -72,7 +74,7 @@ export function CoffeeBanner() {
           backgroundImage: "url('/cafe/coffee-illustration.png')",
           aspectRatio: "1200 / 675",
         }}
-        className="absolute inset-x-0 top-0 w-full bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0 h-full w-full bg-cover bg-center bg-no-repeat sm:inset-x-0 sm:top-0 sm:bottom-auto sm:h-auto"
       />
 
       {/* Soft dark wash so the white type reads cleanly over the illustration. */}
@@ -81,12 +83,14 @@ export function CoffeeBanner() {
         className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/35 via-black/30 to-black/55"
       />
 
-      {/* Foreground content — three columns on desktop, stacked on small screens. */}
+      {/* Foreground content — three columns on desktop, stacked on small screens.
+          Mobile uses noticeably smaller type + tighter gaps so all three blocks
+          fit inside the (now image-filled) banner. */}
       <div className="relative mx-auto flex h-full max-w-6xl items-center px-4 sm:px-6">
-        <div className="grid w-full items-center gap-6 sm:gap-8 md:grid-cols-[auto_1fr_auto] md:gap-12">
+        <div className="grid w-full items-center gap-3 sm:gap-8 md:grid-cols-[auto_1fr_auto] md:gap-12">
           {/* Left: chunky stacked headline */}
           <div
-            className="text-4xl leading-[1.15] tracking-tight text-[#ffffff] [text-shadow:0_4px_20px_rgba(0,0,0,0.55)] sm:text-5xl md:text-6xl"
+            className="text-2xl leading-[1.15] tracking-tight text-[#ffffff] [text-shadow:0_4px_20px_rgba(0,0,0,0.55)] sm:text-5xl md:text-6xl"
             style={{ fontFamily: "var(--font-cherry-bomb)" }}
           >
             Fuel your day,
@@ -95,14 +99,14 @@ export function CoffeeBanner() {
           </div>
 
           {/* Center: italic tagline stack */}
-          <div className="space-y-3 text-center md:space-y-4 md:text-left lg:text-center">
-            <p className="font-[var(--font-serif)] text-2xl italic tracking-tight text-white sm:text-3xl md:text-[2rem] lg:text-4xl">
+          <div className="space-y-1 text-center sm:space-y-3 md:space-y-4 md:text-left lg:text-center">
+            <p className="font-[var(--font-serif)] text-lg italic tracking-tight text-white sm:text-3xl md:text-[2rem] lg:text-4xl">
               Sourced with Care.
             </p>
-            <p className="font-[var(--font-serif)] text-2xl italic tracking-tight text-white sm:text-3xl md:text-[2rem] lg:text-4xl">
+            <p className="font-[var(--font-serif)] text-lg italic tracking-tight text-white sm:text-3xl md:text-[2rem] lg:text-4xl">
               Roasted by Hand.
             </p>
-            <p className="font-[var(--font-serif)] text-2xl italic tracking-tight text-white sm:text-3xl md:text-[2rem] lg:text-4xl">
+            <p className="font-[var(--font-serif)] text-lg italic tracking-tight text-white sm:text-3xl md:text-[2rem] lg:text-4xl">
               Poured Fresh.
             </p>
           </div>
@@ -111,7 +115,7 @@ export function CoffeeBanner() {
           <div className="flex justify-center md:justify-end">
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center rounded-full bg-[var(--accent)] px-7 py-4 text-sm font-semibold text-black shadow-[0_10px_30px_rgba(255,179,71,0.35)] transition hover:brightness-110 focus-visible:outline-offset-4"
+              className="inline-flex items-center justify-center rounded-full bg-[var(--accent)] px-5 py-2.5 text-xs font-semibold text-black shadow-[0_10px_30px_rgba(255,179,71,0.35)] transition hover:brightness-110 focus-visible:outline-offset-4 sm:px-7 sm:py-4 sm:text-sm"
             >
               Explore the Cafe
             </Link>
