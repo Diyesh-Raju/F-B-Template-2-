@@ -135,12 +135,12 @@ export function ChefPerspectiveBook({
   const coverGradient =
     "linear-gradient(145deg, rgba(12,13,18,1) 0%, rgba(17,19,27,1) 42%, rgba(0,0,0,1) 100%)";
 
-  // The flip pages finish their arc and fade out at roughly
-  //   openDelayMs(i=0) + rotateDurationOpen + fadeDuration
-  //   = (300 + 2*220) + 720 + 240 ≈ 1600ms.
-  // The chef spread underneath stays hidden until then, so the chefs only
-  // appear once every page has finished turning — never mid-flip.
-  const chefRevealDelayMs = 1600;
+  // The last flip page lands and begins dissolving at ~openFadeStart(i=0)
+  //   = openDelayMs(i=0) + rotateDurationOpen - 100 = 740 + 720 - 100 ≈ 1360ms.
+  // We start the chef reveal just before that so the chefs fade up *as* the
+  // final page dissolves — a smooth cross-fade with no dead gap, while still
+  // only appearing once the pages have effectively finished turning.
+  const chefRevealDelayMs = 1280;
 
   if (reduce) {
     return (
@@ -228,12 +228,15 @@ export function ChefPerspectiveBook({
               className="flex"
               style={{
                 width: spreadWidth,
-                // Hidden while closed and during the flip; fades in only after
-                // every page has finished turning. Closing hides it at once.
+                // Hidden while closed and during the flip; gently rises and
+                // fades in as the final page dissolves. Closing hides it fast.
                 opacity: open ? 1 : 0,
+                transform: open
+                  ? "translateY(0) scale(1)"
+                  : "translateY(12px) scale(0.985)",
                 transition: open
-                  ? `opacity 320ms ease ${chefRevealDelayMs}ms`
-                  : "opacity 160ms ease",
+                  ? `opacity 520ms cubic-bezier(0.22,1,0.36,1) ${chefRevealDelayMs}ms, transform 620ms cubic-bezier(0.22,1,0.36,1) ${chefRevealDelayMs}ms`
+                  : "opacity 160ms ease, transform 160ms ease",
               }}
             >
               <ChefPage
@@ -350,7 +353,7 @@ export function ChefPerspectiveBook({
              when closed. */}
           <div
             className={cn(
-              "absolute left-0 top-0 flex flex-col justify-between overflow-hidden rounded-l-xl rounded-r-md border border-white/15 p-[10%] [backface-visibility:hidden] focus-visible:outline-none",
+              "group/book absolute left-0 top-0 flex flex-col justify-between overflow-hidden rounded-l-xl rounded-r-md border border-white/15 p-[10%] [backface-visibility:hidden] focus-visible:outline-none",
               open
                 ? "shadow-[0_24px_60px_rgba(0,0,0,0.55)]"
                 : "shadow-[0_18px_50px_rgba(0,0,0,0.5)]"
@@ -364,7 +367,7 @@ export function ChefPerspectiveBook({
                 : "translateZ(8px) rotateY(0deg)",
               transition:
                 "transform 900ms cubic-bezier(0.55, 0.05, 0.25, 1), box-shadow 900ms ease",
-              backgroundImage: `${coverGradient}, radial-gradient(circle at 18% 12%, rgba(255,179,71,0.22), transparent 42%), radial-gradient(circle at 88% 88%, rgba(197,255,211,0.12), transparent 45%)`,
+              backgroundImage: `radial-gradient(120% 90% at 16% 8%, rgba(255,179,71,0.30), transparent 46%), radial-gradient(120% 95% at 92% 96%, rgba(197,255,211,0.14), transparent 50%), radial-gradient(140% 120% at 50% 50%, transparent 55%, rgba(0,0,0,0.55) 100%), repeating-linear-gradient(118deg, rgba(255,255,255,0.028) 0px, rgba(255,255,255,0.028) 1px, transparent 1px, transparent 6px), ${coverGradient}`,
             }}
             tabIndex={0}
             role="button"
@@ -394,42 +397,120 @@ export function ChefPerspectiveBook({
               }}
               aria-hidden
             />
-            <div className="relative flex h-full flex-col justify-between">
-              <div>
-                <p className="text-[10px] font-medium tracking-[0.28em] text-[var(--accent)]">
+
+            {/* Gold-foil inset frame — a double hairline border that reads as a
+               bound, embossed special edition. */}
+            <div
+              className="pointer-events-none absolute inset-[7%] rounded-[6px] border"
+              style={{ borderColor: "rgba(255,201,128,0.45)" }}
+              aria-hidden
+            />
+            <div
+              className="pointer-events-none absolute inset-[9%] rounded-[3px] border"
+              style={{ borderColor: "rgba(255,201,128,0.18)" }}
+              aria-hidden
+            />
+
+            {/* Moving foil sheen — a diagonal highlight that sweeps across on
+               hover, catching the light like real foil stamping. */}
+            <div
+              className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 group-hover/book:opacity-100"
+              style={{
+                backgroundImage:
+                  "linear-gradient(115deg, transparent 38%, rgba(255,236,200,0.16) 48%, rgba(255,236,200,0.05) 54%, transparent 62%)",
+              }}
+              aria-hidden
+            />
+
+            <div className="relative flex h-full flex-col items-center justify-between text-center">
+              {/* Top eyebrow with flanking rules */}
+              <div className="flex w-full items-center justify-center gap-2">
+                <span className="h-px w-6 bg-gradient-to-r from-transparent to-[rgba(255,201,128,0.6)]" />
+                <p className="text-[9px] font-semibold tracking-[0.34em] text-[rgba(255,201,128,0.9)]">
                   NOCTURNE
                 </p>
-                <p className="mt-3 font-[var(--font-serif)] text-2xl leading-tight text-white sm:text-3xl">
+                <span className="h-px w-6 bg-gradient-to-l from-transparent to-[rgba(255,201,128,0.6)]" />
+              </div>
+
+              {/* Center crest + foil title */}
+              <div className="flex flex-col items-center">
+                {/* Crossed-utensils emblem in a glowing gold ring */}
+                <span
+                  className="mb-4 grid h-12 w-12 place-items-center rounded-full border"
+                  style={{
+                    borderColor: "rgba(255,201,128,0.55)",
+                    boxShadow:
+                      "0 0 18px rgba(255,179,71,0.35), inset 0 0 12px rgba(255,179,71,0.18)",
+                    background:
+                      "radial-gradient(circle at 50% 35%, rgba(255,179,71,0.18), transparent 70%)",
+                  }}
+                  aria-hidden
+                >
+                  <svg
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="rgb(255,209,150)"
+                    strokeWidth="1.6"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M6 3v6a2 2 0 0 0 2 2v10M8 3v5M4 3v5" />
+                    <path d="M18 3c-1.7 0-3 2-3 5s1.3 4 3 4v9" />
+                  </svg>
+                </span>
+
+                <p
+                  className="font-[var(--font-serif)] text-3xl leading-[0.95] sm:text-4xl"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(180deg, #fff7ea 0%, #ffd79a 48%, #c98a3c 100%)",
+                    WebkitBackgroundClip: "text",
+                    backgroundClip: "text",
+                    color: "transparent",
+                    textShadow: "0 1px 0 rgba(0,0,0,0.25)",
+                  }}
+                >
                   House
                   <br />
                   Roster
                 </p>
-                <p className="mt-3 max-w-[95%] text-[11px] leading-relaxed text-white/55">
-                  Two chefs, two pages—lift the cover for the full spread.
+
+                {/* Ornamental divider with a center diamond */}
+                <div className="mt-3 flex items-center gap-2">
+                  <span className="h-px w-8 bg-gradient-to-r from-transparent to-[rgba(255,201,128,0.55)]" />
+                  <span
+                    className="h-1.5 w-1.5 rotate-45 bg-[rgba(255,201,128,0.85)]"
+                    aria-hidden
+                  />
+                  <span className="h-px w-8 bg-gradient-to-l from-transparent to-[rgba(255,201,128,0.55)]" />
+                </div>
+
+                <p className="mt-3 max-w-[88%] text-[10px] leading-relaxed tracking-wide text-white/55">
+                  An intimate spread—two chefs, two pages.
                 </p>
               </div>
-              <div className="flex items-center justify-between border-t border-white/10 pt-3">
-                <span className="text-[10px] tracking-[0.2em] text-white/40">
+
+              {/* Bottom: animated hover prompt */}
+              <div className="flex items-center gap-2 text-[rgba(255,201,128,0.85)]">
+                <span className="text-[9px] font-semibold tracking-[0.3em]">
                   HOVER TO OPEN
                 </span>
-                <span
-                  className="grid h-7 w-7 place-items-center rounded-full border border-white/15 text-[var(--accent-2)]"
+                <svg
+                  className="animate-pulse"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   aria-hidden
                 >
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.75"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M12 7a5 5 0 0 0-5-5H4.5A2.5 2.5 0 0 0 2 4.5v15A2.5 2.5 0 0 0 4.5 22H7a5 5 0 0 0 5-5v-10Z" />
-                    <path d="M12 7a5 5 0 0 1 5-5h2.5A2.5 2.5 0 0 1 22 4.5v15a2.5 2.5 0 0 1-2.5 2.5H17a5 5 0 0 1-5-5v-10Z" />
-                  </svg>
-                </span>
+                  <path d="M9 6l6 6-6 6" />
+                </svg>
               </div>
             </div>
           </div>
