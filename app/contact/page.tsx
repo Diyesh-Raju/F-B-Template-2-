@@ -174,7 +174,7 @@ export default function ContactPage() {
               title="EazyDiner"
               body="Book online with instant confirmation."
               href="https://www.eazydiner.com/"
-              logo="/contact/eazydiner.svg"
+              logo="/contact/eazydiner-icon.png"
             />
           </Reveal>
           <Reveal preset="fadeUp" transition={{ delay: 0.06 }}>
@@ -182,7 +182,7 @@ export default function ContactPage() {
               title="Zomato"
               body="View menu, reviews, and book a table."
               href="https://www.zomato.com/"
-              logo="/contact/zomato.svg"
+              logo="/contact/zomato-icon.svg"
             />
           </Reveal>
           <Reveal preset="fadeUp" transition={{ delay: 0.12 }}>
@@ -190,8 +190,7 @@ export default function ContactPage() {
               title="Swiggy Dineout"
               body="Discounts, deals, and instant bookings."
               href="https://www.swiggy.com/dineout"
-              logo="/contact/swiggy-text.png"
-              caption="Dineout"
+              logo="/contact/swiggy-icon.png"
             />
           </Reveal>
         </div>
@@ -311,17 +310,12 @@ function ReservationCard({
   body,
   href,
   logo,
-  caption,
 }: {
   title: string;
   body: string;
   href: string;
-  /** Path to the brand's real logo (the wordmark sits in a white chip so the
-   *  brand colours read cleanly over the dark card). */
+  /** Path to the brand's small icon mark (square app-icon style). */
   logo: string;
-  /** Optional extra word shown next to the logo when the wordmark alone
-   *  doesn't carry it — e.g. "Dineout" beside the Swiggy logo. */
-  caption?: string;
 }) {
   return (
     <a
@@ -332,23 +326,21 @@ function ReservationCard({
       className="group flex h-full flex-col rounded-2xl border border-white/10 bg-white/5 p-6 transition hover:border-white/20 hover:bg-white/10 focus-visible:outline-offset-4"
     >
       <div className="flex items-center gap-3">
-        <span className="inline-flex h-12 shrink-0 items-center justify-center rounded-xl bg-white px-3.5 shadow-[0_4px_14px_rgba(0,0,0,0.25)] sm:h-14 sm:px-4">
+        <span className="relative h-10 w-10 shrink-0 overflow-hidden rounded-xl shadow-[0_4px_14px_rgba(0,0,0,0.25)] sm:h-11 sm:w-11">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={logo}
             alt={`${title} logo`}
-            className="h-5 w-auto sm:h-6"
+            className="h-full w-full object-cover"
             loading="lazy"
             decoding="async"
           />
         </span>
-        {caption && (
-          <span className="font-[var(--font-serif)] text-xl font-bold text-white sm:text-2xl">
-            {caption}
-          </span>
-        )}
+        <div className="font-[var(--font-serif)] text-xl font-bold text-white sm:text-2xl">
+          {title}
+        </div>
       </div>
-      <p className="mt-4 mb-6 text-sm leading-6 text-white/65 sm:text-base">
+      <p className="mt-3 mb-6 text-sm leading-6 text-white/65 sm:text-base">
         {body}
       </p>
       <span
