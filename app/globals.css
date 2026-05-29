@@ -207,6 +207,12 @@ html:not([data-theme="cream"]):not([data-theme="home"]) .bg-black {
 [data-theme="cream"] .text-white\/80 { color: color-mix(in srgb, var(--fg) 86%, transparent) !important; }
 [data-theme="cream"] .text-white\/90 { color: color-mix(in srgb, var(--fg) 92%, transparent) !important; }
 
+/* The site footer keeps its dark terrace photo on /cafe, so its text must stay
+ * white rather than adopting the cream theme's dark-brown foreground. The extra
+ * `footer` element selector raises specificity above the generic cream rules
+ * above so this wins despite their `!important`. */
+[data-theme="cream"] footer .text-white { color: #ffffff !important; }
+
 [data-theme="cream"] .border-white\/10 { border-color: rgba(43, 29, 18, 0.10) !important; }
 [data-theme="cream"] .border-white\/12 { border-color: rgba(43, 29, 18, 0.13) !important; }
 [data-theme="cream"] .border-white\/15 { border-color: rgba(43, 29, 18, 0.16) !important; }
