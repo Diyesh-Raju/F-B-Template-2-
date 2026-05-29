@@ -190,7 +190,7 @@ export default function ContactPage() {
               title="Swiggy Dineout"
               body="Discounts, deals, and instant bookings."
               href="https://www.swiggy.com/dineout"
-              logo="/contact/swiggy-icon.png"
+              logo="/contact/swiggy-icon.svg"
             />
           </Reveal>
         </div>
@@ -326,12 +326,12 @@ function ReservationCard({
       className="group flex h-full flex-col rounded-2xl border border-white/10 bg-white/5 p-6 transition hover:border-white/20 hover:bg-white/10 focus-visible:outline-offset-4"
     >
       <div className="flex items-center gap-3">
-        <span className="relative h-10 w-10 shrink-0 overflow-hidden rounded-xl shadow-[0_4px_14px_rgba(0,0,0,0.25)] sm:h-11 sm:w-11">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center sm:h-11 sm:w-11">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={logo}
             alt={`${title} logo`}
-            className="h-full w-full object-cover"
+            className="h-full w-full object-contain"
             loading="lazy"
             decoding="async"
           />
