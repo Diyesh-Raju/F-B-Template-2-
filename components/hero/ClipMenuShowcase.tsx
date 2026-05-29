@@ -50,6 +50,7 @@ export const Component = ({
   const masterTl = useRef<gsap.core.Timeline | null>(null);
   const isVisibleRef = useRef(false);
   const itemsRef = useRef(items);
+  const autoCycleRef = useRef<number | null>(null);
 
   useLayoutEffect(() => {
     itemsRef.current = items;
@@ -144,61 +145,49 @@ export const Component = ({
     return () => io.disconnect();
   }, []);
 
+  // Advance to a specific item and (re)start the 2s auto-cycle from there, so
+  // the showcase keeps rotating through all items on its own while a hover
+  // jumps straight to the hovered item without the timer fighting it.
+  const goTo = useCallback(
+    (index: number) => {
+      if (index !== activeIndexRef.current) {
+        activeIndexRef.current = index;
+        setActiveIndex(index);
+        createLoop(index);
+      }
+      if (autoCycleRef.current) window.clearInterval(autoCycleRef.current);
+      autoCycleRef.current = window.setInterval(() => {
+        const next = (activeIndexRef.current + 1) % itemsRef.current.length;
+        activeIndexRef.current = next;
+        setActiveIndex(next);
+        createLoop(next);
+      }, 2000);
+    },
+    [createLoop]
+  );
+
+  // Kick off the auto-cycle on mount; clear it on unmount.
   useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-
-    let rafId = 0;
-    const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
-
-    const update = () => {
-      const rect = el.getBoundingClientRect();
-      const vh = window.innerHeight || 1;
-      const total = Math.max(1, rect.height - vh);
-      const traveled = clamp01(-rect.top / total);
-
-      const nextIndex = Math.min(
-        items.length - 1,
-        Math.floor(traveled * items.length)
-      );
-
-      if (nextIndex !== activeIndexRef.current) {
-        activeIndexRef.current = nextIndex;
-        setActiveIndex(nextIndex);
-        createLoop(nextIndex);
+    goTo(0);
+    return () => {
+      if (autoCycleRef.current) {
+        window.clearInterval(autoCycleRef.current);
+        autoCycleRef.current = null;
       }
     };
-
-    const onScroll = () => {
-      window.cancelAnimationFrame(rafId);
-      rafId = window.requestAnimationFrame(update);
-    };
-
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      window.cancelAnimationFrame(rafId);
-    };
-  }, [createLoop, items.length]);
+  }, [goTo]);
 
   const handleItemHover = (index: number) => {
     if (index === activeIndex) return;
-    activeIndexRef.current = index;
-    setActiveIndex(index);
-    createLoop(index);
+    goTo(index);
   };
 
   return (
     <div
       ref={containerRef}
       className={cn("w-full bg-[color:var(--bg)]", className)}
-      style={{ height: `${items.length * 100}vh` }}
     >
-      <div className="sticky top-0 flex h-[100svh] w-full flex-col items-center justify-between overflow-hidden bg-[color:var(--bg)] p-8 transition-colors duration-500 md:flex-row-reverse md:p-24">
+      <div className="flex h-[100svh] w-full flex-col items-center justify-between overflow-hidden bg-[color:var(--bg)] p-8 transition-colors duration-500 md:flex-row-reverse md:p-24">
         {/* LEFT SIDE: HIGH CONTRAST MENU */}
         <div className="z-20 w-full md:w-1/2 md:pl-40 md:translate-x-10">
           <nav>

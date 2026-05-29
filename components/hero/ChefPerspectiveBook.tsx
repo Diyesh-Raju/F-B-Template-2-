@@ -27,8 +27,7 @@ export const HOUSE_CHEFS_PAIR: readonly [ChefSpotlight, ChefSpotlight] = [
     role: "Pastry Lead",
     description:
       "Dark chocolate, salt, and cold cream—desserts engineered for low light and long conversations.",
-    image:
-      "https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=800&q=80",
+    image: "/hero/chef-flambe.png",
   },
 ];
 

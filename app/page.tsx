@@ -7,48 +7,8 @@ import {
   CircularGallery,
   type GalleryItem,
 } from "@/components/hero/CircularGallery";
-import { FloatingFoodHero } from "@/components/hero/FloatingFoodHero";
 import { HeroSlider } from "@/components/hero/HeroSlider";
 import { CuratingMasterpieces } from "@/components/hero/CuratingMasterpieces";
-
-const floatingFoodImages = [
-  {
-    src: "https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=600&q=80",
-    alt: "Dessert plate",
-    className:
-      "top-[8%] left-[6%] w-28 h-28 sm:w-40 sm:h-40 rounded-full ring-1 ring-white/10 shadow-[0_18px_60px_rgba(0,0,0,0.55)] animate-float",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80",
-    alt: "Layered cocktail",
-    className:
-      "top-[14%] right-[8%] w-24 h-24 sm:w-32 sm:h-32 rounded-full ring-1 ring-white/10 shadow-[0_18px_60px_rgba(0,0,0,0.55)] animate-float",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80",
-    alt: "Charred plate",
-    className:
-      "bottom-[12%] left-[12%] w-32 h-32 sm:w-44 sm:h-44 rounded-full ring-1 ring-white/10 shadow-[0_18px_60px_rgba(0,0,0,0.55)] animate-float",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1562376552-0d160a2f238d?auto=format&fit=crop&w=600&q=80",
-    alt: "Late night sweet",
-    className:
-      "bottom-[16%] right-[14%] w-28 h-28 sm:w-36 sm:h-36 rounded-full ring-1 ring-white/10 shadow-[0_18px_60px_rgba(0,0,0,0.55)] animate-float",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=600&q=80",
-    alt: "Pour close up",
-    className:
-      "top-[42%] right-[3%] w-20 h-20 sm:w-24 sm:h-24 rounded-full ring-1 ring-white/10 shadow-[0_12px_40px_rgba(0,0,0,0.55)] animate-float",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=600&q=80",
-    alt: "Plated bite",
-    className:
-      "top-[48%] left-[3%] w-20 h-20 sm:w-24 sm:h-24 rounded-full ring-1 ring-white/10 shadow-[0_12px_40px_rgba(0,0,0,0.55)] animate-float",
-  },
-];
 
 const occasionGallery: GalleryItem[] = [
   {
@@ -109,12 +69,6 @@ export default function Home() {
       </Section>
 
       <CircularGallery items={occasionGallery} scrollDistanceVh={280} />
-
-      <FloatingFoodHero
-        title="Plated for late hours."
-        description="Smoke, citrus, and cold cream—small plates and slow desserts engineered for low light and long conversations."
-        images={floatingFoodImages}
-      />
 
       <Section
         eyebrow="FAQ"
