@@ -519,6 +519,33 @@ export function ScrollScrubVideoHero({
     unsubs.push(() => window.removeEventListener("pageshow", wake));
     unsubs.push(() => window.removeEventListener("focus", wake));
 
+    // Force the FIRST frame to actually paint on initial load. A paused,
+    // metadata-only <video> renders nothing on iOS/Safari (and sometimes
+    // Chrome): seeking to frame 0 sets currentTime but doesn't guarantee a
+    // decoded frame is composited, so a brand-new visitor who hasn't scrolled
+    // or refocused yet just sees a black hero until they refresh. Doing one
+    // play()→pause() round-trip once the element has data forces that first
+    // frame to decode and paint. Idempotent and one-shot.
+    let firstFramePainted = false;
+    const ensureFirstFrame = () => {
+      if (firstFramePainted || !mounted) return;
+      if (video.readyState < 2 /* HAVE_CURRENT_DATA */) return;
+      firstFramePainted = true;
+      const target = computeTarget();
+      if (target >= 0) {
+        seek(target);
+        lastTarget = target;
+      }
+      wakePlayback();
+    };
+    video.addEventListener("loadeddata", ensureFirstFrame);
+    video.addEventListener("canplay", ensureFirstFrame);
+    unsubs.push(() => video.removeEventListener("loadeddata", ensureFirstFrame));
+    unsubs.push(() => video.removeEventListener("canplay", ensureFirstFrame));
+    // Cover the cached case where the data is already available before our
+    // listeners attached.
+    ensureFirstFrame();
+
     schedule();
 
     return () => {

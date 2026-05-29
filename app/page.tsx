@@ -8,7 +8,8 @@ import {
   type GalleryItem,
 } from "@/components/hero/CircularGallery";
 import { FloatingFoodHero } from "@/components/hero/FloatingFoodHero";
-import { ScrollScrubVideoHero } from "@/components/hero/ScrollScrubVideoHero";
+import { HeroSlider } from "@/components/hero/HeroSlider";
+import { CuratingMasterpieces } from "@/components/hero/CuratingMasterpieces";
 
 const floatingFoodImages = [
   {
@@ -53,26 +54,22 @@ const occasionGallery: GalleryItem[] = [
   {
     title: "Friend's Nightout",
     subtitle: "Round one is on the bar",
-    image:
-      "https://images.unsplash.com/photo-1543007630-9710e4a00a20?auto=format&fit=crop&w=1100&q=80",
+    image: "/gallery/friends-nightout.png",
   },
   {
     title: "Family Dinner",
     subtitle: "Long table, slow plates",
-    image:
-      "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1100&q=80",
+    image: "/gallery/family-dinner.png",
   },
   {
     title: "Birthday Party",
     subtitle: "Candles and a deep red",
-    image:
-      "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=1100&q=80",
+    image: "/gallery/birthday-party.png",
   },
   {
     title: "Couple's Date",
     subtitle: "A booth tucked in the back",
-    image:
-      "https://images.unsplash.com/photo-1529417305485-480f579e7578?auto=format&fit=crop&w=1100&q=80",
+    image: "/gallery/couple-date.png",
   },
   {
     title: "Brunch Plans",
@@ -83,19 +80,18 @@ const occasionGallery: GalleryItem[] = [
   {
     title: "Team Bonding",
     subtitle: "Off-site, late shift, loud",
-    image:
-      "https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=1100&q=80",
+    image: "/gallery/team-bonding.png",
   },
 ];
 
 export default function Home() {
   return (
     <div>
-      <ScrollScrubVideoHero
-        src="/hero/home-scroll-hero.mp4"
-        scrollDistanceVh={300}
-        overlayClassName="bg-[color:var(--bg)] opacity-0"
-      />
+      {/* Auto-sliding hero — Brewery / Café / FMCG, slides left every 2s. */}
+      <HeroSlider />
+
+      {/* Intro band — vertical matcha video on the left, heading + copy right. */}
+      <CuratingMasterpieces />
 
       {/* Sticky sections must not live under transformed parents (breaks position: sticky). */}
       <Reveal preset="fadeIn">
@@ -121,113 +117,6 @@ export default function Home() {
       />
 
       <Section
-        eyebrow="Signature"
-        title="Highlights that set the tone"
-        description="Stagger-friendly cards for categories, features, or signature items. Motion is wired so it’s easy to add more later."
-      >
-        <div className="grid gap-4 md:grid-cols-3">
-          <Reveal preset="fadeUp">
-            <Card
-              title="Charred Citrus Spritz"
-              description="Bright, bitter, and smoky—built on a house citrus cordial."
-              meta="₹480"
-            />
-          </Reveal>
-          <Reveal preset="fadeUp" transition={{ delay: 0.06 }}>
-            <Card
-              title="Miso Butter Mushrooms"
-              description="Umami-forward with a crisp edge and herb oil finish."
-              meta="₹420"
-            />
-          </Reveal>
-          <Reveal preset="fadeUp" transition={{ delay: 0.12 }}>
-            <Card
-              title="Midnight Chocolate Tart"
-              description="Dark cocoa, sea salt, and a mint-cold cream."
-              meta="₹360"
-            />
-          </Reveal>
-        </div>
-      </Section>
-
-      <Section
-        eyebrow="How it works"
-        title="A simple rhythm for your night"
-        description="Extra content blocks so the homepage feels complete."
-      >
-        <div className="grid gap-4 md:grid-cols-3">
-          <Reveal preset="fadeUp">
-            <Card
-              title="Start light"
-              description="A crisp spritz, a bright bite, and a quick reset from the day."
-            />
-          </Reveal>
-          <Reveal preset="fadeUp" transition={{ delay: 0.06 }}>
-            <Card
-              title="Go deep"
-              description="Umami plates and darker pours—built for slow conversation."
-            />
-          </Reveal>
-          <Reveal preset="fadeUp" transition={{ delay: 0.12 }}>
-            <Card
-              title="Finish clean"
-              description="Dessert with edge: salt, smoke, citrus, and a cold finish."
-            />
-          </Reveal>
-        </div>
-      </Section>
-
-      <Section
-        eyebrow="Atmosphere"
-        title="Designed for glow, depth, and motion"
-        description="Parallax-ready blocks and section reveals. Swap these placeholders for real photography when ready."
-      >
-        <div className="grid gap-4 lg:grid-cols-12">
-          <Reveal preset="scaleIn" className="lg:col-span-7">
-            <div className="h-64 rounded-2xl border border-white/10 bg-gradient-to-br from-white/10 to-white/5 shadow-[var(--shadow-glow)] sm:h-80" />
-          </Reveal>
-          <div className="grid gap-4 lg:col-span-5">
-            <Reveal preset="fadeIn">
-              <div className="h-32 rounded-2xl border border-white/10 bg-white/5 sm:h-36" />
-            </Reveal>
-            <Reveal preset="fadeIn" transition={{ delay: 0.06 }}>
-              <div className="h-32 rounded-2xl border border-white/10 bg-white/5 sm:h-36" />
-            </Reveal>
-            <Reveal preset="fadeIn" transition={{ delay: 0.12 }}>
-              <div className="h-32 rounded-2xl border border-white/10 bg-white/5 sm:h-36" />
-            </Reveal>
-          </div>
-        </div>
-      </Section>
-
-      <Section
-        eyebrow="Words"
-        title="A few notes from regulars"
-        description="Placeholder testimonials with stagger-ready cards."
-      >
-        <div className="grid gap-4 md:grid-cols-3">
-          <Reveal preset="fadeUp">
-            <Card
-              title="“The lighting feels like a soundtrack.”"
-              description="Every detail is considered. Drinks are balanced, food is bold."
-            />
-          </Reveal>
-          <Reveal preset="fadeUp" transition={{ delay: 0.06 }}>
-            <Card
-              title="“Quiet luxury, zero pretension.”"
-              description="Perfect pacing, friendly service, and a menu that surprises."
-            />
-          </Reveal>
-          <Reveal preset="fadeUp" transition={{ delay: 0.12 }}>
-            <Card
-              title="“A new favorite for late dinners.”"
-              description="The tart is unreal. The spritz is mandatory."
-            />
-          </Reveal>
-        </div>
-      </Section>
-
-      <Section
         eyebrow="FAQ"
         title="Quick answers"
         description="Small details help the page feel finished."
@@ -246,84 +135,6 @@ export default function Home() {
             />
           </Reveal>
         </div>
-      </Section>
-
-      <Section
-        eyebrow="Gallery"
-        title="A few frames"
-        description="Placeholders for photography—swap for real images anytime."
-      >
-        <div className="grid gap-4 md:grid-cols-12">
-          <Reveal preset="scaleIn" className="md:col-span-7">
-            <div className="h-72 rounded-2xl border border-white/10 bg-gradient-to-br from-white/10 to-white/5 sm:h-96" />
-          </Reveal>
-          <div className="grid gap-4 md:col-span-5">
-            <Reveal preset="fadeIn">
-              <div className="h-36 rounded-2xl border border-white/10 bg-white/5" />
-            </Reveal>
-            <Reveal preset="fadeIn" transition={{ delay: 0.06 }}>
-              <div className="h-36 rounded-2xl border border-white/10 bg-white/5" />
-            </Reveal>
-          </div>
-        </div>
-      </Section>
-
-      <Section
-        eyebrow="Neighborhood"
-        title="Made for late hours"
-        description="A little story helps the homepage feel less short."
-      >
-        <div className="grid gap-4 md:grid-cols-3">
-          <Reveal preset="fadeUp">
-            <Card
-              title="Walk in"
-              description="Slip in for one drink, or settle in for the full arc."
-            />
-          </Reveal>
-          <Reveal preset="fadeUp" transition={{ delay: 0.06 }}>
-            <Card
-              title="Stay awhile"
-              description="Small plates built to share—easy pacing, no rush."
-            />
-          </Reveal>
-          <Reveal preset="fadeUp" transition={{ delay: 0.12 }}>
-            <Card
-              title="Leave lighter"
-              description="Clean finishes, balanced sweetness, and a calm last note."
-            />
-          </Reveal>
-        </div>
-      </Section>
-
-      <Section
-        eyebrow="Updates"
-        title="Get the seasonal drop"
-        description="A simple newsletter UI (placeholder)."
-      >
-        <Reveal preset="fadeUp">
-          <div className="mx-auto max-w-2xl rounded-2xl border border-white/10 bg-white/5 p-6">
-            <div className="text-sm font-medium text-white">
-              Monthly menu notes
-            </div>
-            <p className="mt-2 text-sm leading-6 text-white/60">
-              One email a month—new specials, collabs, and late-night events.
-            </p>
-            <div className="mt-4 flex flex-col gap-3 sm:flex-row">
-              <input
-                className="h-11 flex-1 rounded-xl border border-white/12 bg-black/20 px-4 text-white placeholder:text-white/35 focus-visible:outline-offset-4"
-                placeholder="you@example.com"
-                type="email"
-                autoComplete="email"
-              />
-              <button
-                type="button"
-                className="h-11 rounded-xl bg-white px-5 text-sm font-medium text-black transition hover:bg-white/90 focus-visible:outline-offset-4"
-              >
-                Subscribe
-              </button>
-            </div>
-          </div>
-        </Reveal>
       </Section>
     </div>
   );

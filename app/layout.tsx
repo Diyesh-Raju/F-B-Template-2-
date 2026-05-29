@@ -179,11 +179,12 @@ const fontCause = Cause({
 });
 
 // Elms Sans — a modern geometric sans-serif on Google Fonts. Used for the
-// contact hero heading "Your Table Awaits".
+// contact hero heading "Your Table Awaits" and the homepage hero slider
+// headings (400 for captions, 700 for the bold center words).
 const fontElmsSans = Elms_Sans({
   variable: "--font-elms-sans",
   subsets: ["latin"],
-  weight: ["400"],
+  weight: ["400", "700"],
   display: "swap",
 });
 

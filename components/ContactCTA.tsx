@@ -1,13 +1,22 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Reveal } from "@/components/motion/Reveal";
 
 /**
- * Site-wide contact call-to-action that sits above the global footer on every
- * page. Heading + a single rose-gold button that routes to /contact. Rose gold
- * is applied via inline style/arbitrary classes so the cream theme's
- * `text-white → brown` and `bg-white → fg` overrides don't repaint it.
+ * Site-wide contact call-to-action that sits above the global footer. Heading
+ * + a single rose-gold button that routes to /contact. Rose gold is applied
+ * via inline style/arbitrary classes so the cream theme's `text-white → brown`
+ * and `bg-white → fg` overrides don't repaint it.
+ *
+ * Suppressed on the FMCG route only — that page has its own contact path and
+ * the CTA was unwanted there. Every other page still gets it.
  */
 export function ContactCTA() {
+  const pathname = usePathname();
+  if (pathname === "/fmcg" || pathname.startsWith("/fmcg/")) return null;
+
   return (
     <section className="w-full border-t border-white/10 bg-[color:var(--bg)]">
       <div className="mx-auto flex w-full max-w-6xl flex-col items-center gap-6 px-4 py-20 text-center sm:px-6 sm:py-24">
