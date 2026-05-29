@@ -131,8 +131,16 @@ export function ChefPerspectiveBook({
   // Generous vertical room so the cover's UP arc isn't clipped.
   const stageHeight = pageHeight + Math.round(pageWidth * 0.65);
 
+  // Fully opaque so a closed book never lets the chef spread show through.
   const coverGradient =
-    "linear-gradient(145deg, rgba(12,13,18,0.98) 0%, rgba(17,19,27,0.98) 42%, rgba(0,0,0,0.92) 100%)";
+    "linear-gradient(145deg, rgba(12,13,18,1) 0%, rgba(17,19,27,1) 42%, rgba(0,0,0,1) 100%)";
+
+  // The flip pages finish their arc and fade out at roughly
+  //   openDelayMs(i=0) + rotateDurationOpen + fadeDuration
+  //   = (300 + 2*220) + 720 + 240 ≈ 1600ms.
+  // The chef spread underneath stays hidden until then, so the chefs only
+  // appear once every page has finished turning — never mid-flip.
+  const chefRevealDelayMs = 1600;
 
   if (reduce) {
     return (
@@ -216,7 +224,18 @@ export function ChefPerspectiveBook({
             }}
             aria-hidden={!open}
           >
-            <div className="flex" style={{ width: spreadWidth }}>
+            <div
+              className="flex"
+              style={{
+                width: spreadWidth,
+                // Hidden while closed and during the flip; fades in only after
+                // every page has finished turning. Closing hides it at once.
+                opacity: open ? 1 : 0,
+                transition: open
+                  ? `opacity 320ms ease ${chefRevealDelayMs}ms`
+                  : "opacity 160ms ease",
+              }}
+            >
               <ChefPage
                 chef={chefLeft}
                 side="left"
