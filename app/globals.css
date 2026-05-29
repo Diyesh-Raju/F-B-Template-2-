@@ -242,3 +242,19 @@ html:not([data-theme="cream"]):not([data-theme="home"]) .bg-black {
 
 /* The matcha/coffee scroll-scrub video sits over a `bg-[color:var(--bg)]`
  * surface; with cream that surface is already correct. Nothing else to do. */
+
+/* ------------------------------------------------------------------ */
+/* PHONE-ONLY (≤767px) adjustments. None of these rules apply at the   */
+/* md breakpoint or above, so the desktop/laptop layout is untouched.  */
+/* ------------------------------------------------------------------ */
+@media (max-width: 767px) {
+  /* Lock the page horizontally so a phone can't pan/rubber-band left or
+   * right. `overflow-x: clip` (not hidden) does NOT create a scroll
+   * container, so the site's position:sticky scroll-scrub heroes and the
+   * Lenis smooth scroll keep working exactly as before. */
+  html,
+  body {
+    overflow-x: clip;
+    max-width: 100%;
+  }
+}

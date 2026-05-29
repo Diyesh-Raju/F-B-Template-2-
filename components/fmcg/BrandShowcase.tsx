@@ -21,7 +21,7 @@ export function BrandShowcase() {
   return (
     <div
       ref={sectionRef}
-      className="relative flex h-[46rem] items-center justify-center p-2 md:h-[62rem] md:p-8"
+      className="relative flex h-[46rem] items-center justify-center p-2 max-md:mt-10 md:h-[62rem] md:p-8"
     >
       <div
         className="relative w-full py-4 md:py-10"

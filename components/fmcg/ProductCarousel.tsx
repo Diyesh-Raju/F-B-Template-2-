@@ -170,7 +170,9 @@ export function ProductCarousel() {
           style={{
             zIndex: 2,
             top: "14%",
-            fontSize: "clamp(36px, 8vw, 120px)",
+            // Smaller on phones so it stops spilling off to the sides; the
+            // desktop clamp is untouched.
+            fontSize: isMobile ? "clamp(22px, 8vw, 40px)" : "clamp(36px, 8vw, 120px)",
             fontWeight: 900,
             color: "white",
             opacity: 1,

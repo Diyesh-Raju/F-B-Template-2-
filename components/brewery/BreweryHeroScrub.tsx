@@ -19,6 +19,7 @@ export function BreweryHeroScrub() {
         src="/brewery/brewery-hero.mp4"
         scrollDistanceVh={360}
         overlayClassName="bg-[color:var(--bg)] opacity-0"
+        scrollHint
       >
         {(progress) => <BreweryHeroOverlay progress={progress} />}
       </ScrollScrubVideoHero>

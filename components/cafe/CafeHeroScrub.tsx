@@ -16,6 +16,7 @@ export function CafeHeroScrub() {
       src="/hero/cafe-scroll-hero.mp4"
       scrollDistanceVh={300}
       overlayClassName="bg-transparent opacity-0"
+      scrollHint
     >
       {(progress) => <CafeHeroOverlay progress={progress} />}
     </ScrollScrubVideoHero>

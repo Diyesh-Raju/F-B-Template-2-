@@ -9,7 +9,7 @@ type USP = {
   icon: ReactNode;
 };
 
-const ICON = "h-12 w-12 sm:h-14 sm:w-14";
+const ICON = "h-10 w-10 sm:h-14 sm:w-14";
 
 const USPS: USP[] = [
   {
@@ -140,13 +140,13 @@ export function USPs() {
 function USPCard({ usp }: { usp: USP }) {
   return (
     <article
-      className="flex h-[340px] w-[320px] shrink-0 flex-col rounded-2xl bg-[#fdf6e3] p-6 text-[#001636] shadow-[0_22px_60px_rgba(0,0,0,0.35)] sm:h-[360px] sm:w-[380px] sm:p-7"
+      className="flex h-[280px] w-[244px] shrink-0 flex-col rounded-2xl bg-[#fdf6e3] p-5 text-[#001636] shadow-[0_22px_60px_rgba(0,0,0,0.35)] sm:h-[360px] sm:w-[380px] sm:p-7"
     >
       <div>{usp.icon}</div>
-      <h3 className="mt-6 font-[var(--font-serif)] text-2xl font-bold leading-tight sm:text-3xl">
+      <h3 className="mt-4 font-[var(--font-serif)] text-xl font-bold leading-tight sm:mt-6 sm:text-3xl">
         {usp.title}
       </h3>
-      <p className="mt-3 font-[var(--font-sans)] text-base leading-7 sm:mt-4 sm:text-lg">
+      <p className="mt-2 font-[var(--font-sans)] text-sm leading-6 sm:mt-4 sm:text-lg sm:leading-7">
         {usp.description}
       </p>
     </article>
