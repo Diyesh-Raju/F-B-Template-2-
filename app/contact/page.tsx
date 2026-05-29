@@ -174,8 +174,7 @@ export default function ContactPage() {
               title="EazyDiner"
               body="Book online with instant confirmation."
               href="https://www.eazydiner.com/"
-              logoBg="#E84E40"
-              logoText="ED"
+              logo="/contact/eazydiner.svg"
             />
           </Reveal>
           <Reveal preset="fadeUp" transition={{ delay: 0.06 }}>
@@ -183,9 +182,7 @@ export default function ContactPage() {
               title="Zomato"
               body="View menu, reviews, and book a table."
               href="https://www.zomato.com/"
-              logoBg="#E23744"
-              logoText="z"
-              logoFontClass="lowercase"
+              logo="/contact/zomato.svg"
             />
           </Reveal>
           <Reveal preset="fadeUp" transition={{ delay: 0.12 }}>
@@ -193,8 +190,8 @@ export default function ContactPage() {
               title="Swiggy Dineout"
               body="Discounts, deals, and instant bookings."
               href="https://www.swiggy.com/dineout"
-              logoBg="#FC8019"
-              logoText="S"
+              logo="/contact/swiggy-text.png"
+              caption="Dineout"
             />
           </Reveal>
         </div>
@@ -313,41 +310,45 @@ function ReservationCard({
   title,
   body,
   href,
-  logoBg,
-  logoText,
-  logoFontClass,
+  logo,
+  caption,
 }: {
   title: string;
   body: string;
   href: string;
-  /** Hex color for the brand monogram badge that sits before the title. */
-  logoBg: string;
-  /** 1–2 character monogram (e.g. "Z", "ED", "S") shown inside the badge. */
-  logoText: string;
-  /** Extra Tailwind classes applied to the monogram text — e.g. "lowercase"
-   *  for Zomato's "z" wordmark feel. */
-  logoFontClass?: string;
+  /** Path to the brand's real logo (the wordmark sits in a white chip so the
+   *  brand colours read cleanly over the dark card). */
+  logo: string;
+  /** Optional extra word shown next to the logo when the wordmark alone
+   *  doesn't carry it — e.g. "Dineout" beside the Swiggy logo. */
+  caption?: string;
 }) {
   return (
     <a
       href={href}
       target="_blank"
       rel="noreferrer noopener"
+      aria-label={`Reserve a table on ${title}`}
       className="group flex h-full flex-col rounded-2xl border border-white/10 bg-white/5 p-6 transition hover:border-white/20 hover:bg-white/10 focus-visible:outline-offset-4"
     >
       <div className="flex items-center gap-3">
-        <span
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-base font-bold text-white"
-          style={{ backgroundColor: logoBg }}
-          aria-hidden="true"
-        >
-          <span className={logoFontClass}>{logoText}</span>
+        <span className="inline-flex h-12 shrink-0 items-center justify-center rounded-xl bg-white px-3.5 shadow-[0_4px_14px_rgba(0,0,0,0.25)] sm:h-14 sm:px-4">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={logo}
+            alt={`${title} logo`}
+            className="h-5 w-auto sm:h-6"
+            loading="lazy"
+            decoding="async"
+          />
         </span>
-        <div className="font-[var(--font-serif)] text-xl font-bold text-white sm:text-2xl">
-          {title}
-        </div>
+        {caption && (
+          <span className="font-[var(--font-serif)] text-xl font-bold text-white sm:text-2xl">
+            {caption}
+          </span>
+        )}
       </div>
-      <p className="mt-3 mb-6 text-sm leading-6 text-white/65 sm:text-base">
+      <p className="mt-4 mb-6 text-sm leading-6 text-white/65 sm:text-base">
         {body}
       </p>
       <span
