@@ -596,7 +596,14 @@ export function ScrollScrubVideoHero({
         <div className={`pointer-events-none absolute inset-0 ${overlayClassName}`} />
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 opacity-[0.14] mix-blend-overlay"
+          // NOTE: deliberately NOT using mix-blend-mode here. A blended layer
+          // spanning the hero forces the browser to re-composite the entire
+          // hero against the video on every scrub frame — a documented cause
+          // of scroll-sequence stalls/hangs on Safari, Firefox and integrated
+          // GPUs (the "works on some machines, freezes on others" symptom). A
+          // plain low-opacity tint renders the same vignette with zero
+          // per-frame blend cost.
+          className="pointer-events-none absolute inset-0 opacity-[0.18]"
           style={{
             backgroundImage:
               "radial-gradient(circle at 30% 20%, rgba(255,179,71,0.55), transparent 55%), radial-gradient(circle at 70% 30%, rgba(197,255,211,0.30), transparent 60%)",

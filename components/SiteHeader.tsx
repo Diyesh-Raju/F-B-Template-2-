@@ -54,6 +54,7 @@ export function SiteHeader() {
   // actual hero rect for subsequent navigations and scrolls.
   const [blended, setBlended] = useState(() => isBlendedRoute(pathname));
   const titleId = useId();
+  const headerRef = useRef<HTMLElement | null>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const panelRef = useRef<HTMLDivElement | null>(null);
 
@@ -64,16 +65,19 @@ export function SiteHeader() {
       return;
     }
 
-    // Scroll-position based — no DOM query required, so there's no race with
-    // the hero mounting. Each blended hero sits at the very top of the page,
-    // so "still over the hero" simply means scrollY hasn't crossed
+    // Scroll-position based — no DOM query required for the hero, so there's no
+    // race with the hero mounting. Each blended hero sits at the very top of
+    // the page, so "still over the hero" simply means scrollY hasn't crossed
     // (heroHeight - navHeight). heroVh comes from the per-route map above and
     // must match the hero's own scrollDistanceVh.
-    const NAV_HEIGHT = 68;
-
+    //
+    // The nav height is MEASURED at runtime (not a hardcoded 68px): browser
+    // zoom, OS font scaling, and late font swaps all change the rendered
+    // header height, and a stale constant would flip the navbar at a slightly
+    // wrong scroll point on those machines.
     const update = () => {
-      const heroEndPx =
-        (window.innerHeight * heroVh) / 100 - NAV_HEIGHT;
+      const navHeight = headerRef.current?.offsetHeight ?? 68;
+      const heroEndPx = (window.innerHeight * heroVh) / 100 - navHeight;
       setBlended(window.scrollY < heroEndPx);
     };
 
@@ -164,6 +168,7 @@ export function SiteHeader() {
 
   return (
     <header
+      ref={headerRef}
       className={[
         "sticky top-0 z-50 transition-colors duration-300",
         blended
