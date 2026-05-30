@@ -33,6 +33,7 @@ const fontHeading = Cormorant_Garamond({
 // and is designed to read as a heavy display face at that weight.
 const fontDisplayBold = Anton({
   variable: "--font-anton",
+  preload: false,
   subsets: ["latin"],
   weight: ["400"],
   display: "swap",
@@ -43,6 +44,7 @@ const fontDisplayBold = Anton({
 // serif. Swap the import for next/font/local once the real Bogue files land.
 const fontBogue = Bodoni_Moda({
   variable: "--font-bogue",
+  preload: false,
   subsets: ["latin"],
   weight: ["400", "700"],
   display: "swap",
@@ -53,6 +55,7 @@ const fontBogue = Bodoni_Moda({
 // over busy backgrounds.
 const fontChunky = Archivo_Black({
   variable: "--font-chunky",
+  preload: false,
   subsets: ["latin"],
   weight: ["400"],
   display: "swap",
@@ -63,6 +66,7 @@ const fontChunky = Archivo_Black({
 // menu-card feel without needing a licensed file.
 const fontGohan = Caveat({
   variable: "--font-gohan",
+  preload: false,
   subsets: ["latin"],
   weight: ["400", "700"],
   display: "swap",
@@ -73,6 +77,7 @@ const fontGohan = Caveat({
 // coffee-shop sign vibe.
 const fontLovelyCoffee = Pacifico({
   variable: "--font-lovely-coffee",
+  preload: false,
   subsets: ["latin"],
   weight: ["400"],
   display: "swap",
@@ -83,6 +88,7 @@ const fontLovelyCoffee = Pacifico({
 // reads like a saloon / brewery signage.
 const fontTikiTide = Rye({
   variable: "--font-tiki-tide",
+  preload: false,
   subsets: ["latin"],
   weight: ["400"],
   display: "swap",
@@ -92,6 +98,7 @@ const fontTikiTide = Rye({
 // the brewery "Signature Creations" heading.
 const fontAlexBrush = Alex_Brush({
   variable: "--font-alex-brush",
+  preload: false,
   subsets: ["latin"],
   weight: ["400"],
   display: "swap",
@@ -101,6 +108,7 @@ const fontAlexBrush = Alex_Brush({
 // "Perfect for Every Occasion" brewery heading.
 const fontNeonderthaw = Neonderthaw({
   variable: "--font-neonderthaw",
+  preload: false,
   subsets: ["latin"],
   weight: ["400"],
   display: "swap",
@@ -110,6 +118,7 @@ const fontNeonderthaw = Neonderthaw({
 // "From Our Kitchen to Your Table" line.
 const fontFascinate = Fascinate({
   variable: "--font-fascinate",
+  preload: false,
   subsets: ["latin"],
   weight: ["400"],
   display: "swap",
@@ -119,6 +128,7 @@ const fontFascinate = Fascinate({
 // for the cafe coffee banner "Fuel your day, / Nourish your Soul" headline.
 const fontCherryBomb = Cherry_Bomb_One({
   variable: "--font-cherry-bomb",
+  preload: false,
   subsets: ["latin"],
   weight: ["400"],
   display: "swap",
@@ -128,6 +138,7 @@ const fontCherryBomb = Cherry_Bomb_One({
 // the brewery hero outro "Good friends, / Good beer, / Great times!" line.
 const fontRampartOne = Rampart_One({
   variable: "--font-rampart-one",
+  preload: false,
   subsets: ["latin"],
   weight: ["400"],
   display: "swap",
@@ -137,6 +148,7 @@ const fontRampartOne = Rampart_One({
 // the "Signature" word in the brewery "Signature Creations" heading.
 const fontPassionsConflict = Passions_Conflict({
   variable: "--font-passions-conflict",
+  preload: false,
   subsets: ["latin"],
   weight: ["400"],
   display: "swap",
@@ -146,6 +158,7 @@ const fontPassionsConflict = Passions_Conflict({
 // "Perspective" heading above the oval day-night gallery.
 const fontFleurDeLeah = Fleur_De_Leah({
   variable: "--font-fleur-de-leah",
+  preload: false,
   subsets: ["latin"],
   weight: ["400"],
   display: "swap",
@@ -155,6 +168,7 @@ const fontFleurDeLeah = Fleur_De_Leah({
 // boat-banner tagline "The Art of Logistics — Delivered with Precision".
 const fontSyncopate = Syncopate({
   variable: "--font-syncopate",
+  preload: false,
   subsets: ["latin"],
   weight: ["400", "700"],
   display: "swap",
@@ -164,6 +178,7 @@ const fontSyncopate = Syncopate({
 // hero intro line "Your Daily Escape Starts Here".
 const fontItalianno = Italianno({
   variable: "--font-italianno",
+  preload: false,
   subsets: ["latin"],
   weight: ["400"],
   display: "swap",
@@ -173,6 +188,7 @@ const fontItalianno = Italianno({
 // hero intro line as a more architectural replacement for Italianno.
 const fontCause = Cause({
   variable: "--font-cause",
+  preload: false,
   subsets: ["latin"],
   weight: ["400", "700"],
   display: "swap",
@@ -190,6 +206,7 @@ const fontCause = Cause({
 // headings (400 for captions, 700 for the bold center words).
 const fontElmsSans = Elms_Sans({
   variable: "--font-elms-sans",
+  preload: false,
   subsets: ["latin"],
   weight: ["400", "700"],
   display: "swap",
@@ -206,6 +223,7 @@ const fontElmsSans = Elms_Sans({
 // contact "Chat with us" heading.
 const fontModak = Modak({
   variable: "--font-modak",
+  preload: false,
   subsets: ["latin"],
   weight: ["400"],
   display: "swap",
