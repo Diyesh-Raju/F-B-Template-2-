@@ -33,12 +33,6 @@ export function FmcgHeroOverlay({ progress }: Props) {
   const outroScale = useTransform(progress, [0.82, 0.94], [0.94, 1]);
   const outroRotateX = useTransform(progress, [0.82, 0.94], [14, 0]);
 
-  // Phone-only "scroll" prompt. Starts just under the hero text, then glides
-  // down to the bottom of the screen as the hero scrubs — staying visible the
-  // whole time so it always reads as a scroll cue.
-  const scrollHintTop = useTransform(progress, [0, 0.5], ["60%", "88%"]);
-  const scrollHintOpacity = useTransform(progress, [0, 0.06], [0, 1]);
-
   return (
     <>
       {/* Cinematic vignette — depth + focus to the centre. */}
@@ -94,30 +88,6 @@ export function FmcgHeroOverlay({ progress }: Props) {
           Nocturne Logistics
         </motion.h2>
       </div>
-
-      {/* Phone-only scroll cue — under the text, then drops to the bottom. */}
-      <motion.div
-        style={{ top: scrollHintTop, opacity: scrollHintOpacity }}
-        className="pointer-events-none absolute left-1/2 z-10 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center text-white md:hidden"
-      >
-        <span className="text-sm font-semibold uppercase tracking-[0.32em] [text-shadow:0_2px_12px_rgba(0,0,0,0.85)]">
-          Scroll
-        </span>
-        <svg
-          className="mt-1 animate-bounce"
-          width="18"
-          height="18"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.25"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden
-        >
-          <path d="M6 9l6 6 6-6" />
-        </svg>
-      </motion.div>
     </>
   );
 }

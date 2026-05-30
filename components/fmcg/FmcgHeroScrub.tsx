@@ -22,6 +22,7 @@ export function FmcgHeroScrub() {
         src="/fmcg/logistics-hero.mp4"
         scrollDistanceVh={800}
         overlayClassName="bg-black opacity-0"
+        scrollHint
       >
         {(progress) => <FmcgHeroOverlay progress={progress} />}
       </ScrollScrubVideoHero>

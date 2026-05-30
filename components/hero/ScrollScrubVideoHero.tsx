@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useMotionValue, useTransform, type MotionValue } from "framer-motion";
+import { useMotionValue, type MotionValue } from "framer-motion";
 import { useLenisScroll } from "@/components/providers/lenis-scroll-context";
+import { ScrollToExplore } from "@/components/hero/ScrollToExplore";
 
 function clamp01(v: number) {
   return v < 0 ? 0 : v > 1 ? 1 : v;
@@ -52,8 +53,8 @@ type ScrollScrubVideoHeroProps = {
   scrollDistanceVh?: number;
   /** Extra poster-like overlay tint to keep text readable. */
   overlayClassName?: string;
-  /** When true, shows a phone-only "Scroll" cue at the bottom of the hero
-   *  that fades out as the scrub progresses. Desktop never sees it. */
+  /** When true, shows a "Scroll to explore" cue at the bottom of the hero
+   *  (all viewports) that fades out as the scrub progresses. */
   scrollHint?: boolean;
   /** Either static node(s), or a render-prop that receives a 0→1 scroll
    *  progress MotionValue tied to the hero's own scroll runway. */
@@ -610,40 +611,8 @@ export function ScrollScrubVideoHero({
           {typeof children === "function" ? children(scrollYProgress) : children}
         </div>
 
-        {scrollHint && <MobileScrollCue progress={scrollYProgress} />}
+        {scrollHint && <ScrollToExplore progress={scrollYProgress} />}
       </div>
     </section>
-  );
-}
-
-/**
- * Phone-only scroll cue pinned to the bottom of the hero. Fades out over the
- * first part of the scrub so it never collides with an outro name plate.
- */
-function MobileScrollCue({ progress }: { progress: MotionValue<number> }) {
-  const opacity = useTransform(progress, [0, 0.05, 0.35, 0.5], [0, 1, 1, 0]);
-  return (
-    <motion.div
-      style={{ opacity }}
-      className="pointer-events-none absolute inset-x-0 bottom-7 z-10 flex flex-col items-center text-white md:hidden"
-    >
-      <span className="text-sm font-semibold uppercase tracking-[0.32em] [text-shadow:0_2px_12px_rgba(0,0,0,0.85)]">
-        Scroll
-      </span>
-      <svg
-        className="mt-1 animate-bounce"
-        width="18"
-        height="18"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2.25"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        aria-hidden
-      >
-        <path d="M6 9l6 6 6-6" />
-      </svg>
-    </motion.div>
   );
 }

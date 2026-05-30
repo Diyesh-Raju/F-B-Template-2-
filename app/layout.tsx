@@ -176,6 +176,13 @@ const fontCause = Cause({
   subsets: ["latin"],
   weight: ["400", "700"],
   display: "swap",
+  // Next.js has no precalculated metrics for this newer Google Font, so it
+  // can't auto-generate a CLS fallback. `false` is the documented way to opt
+  // out. NOTE: Turbopack still prints a harmless "Failed to find font override
+  // values" warning for it at dev/build time regardless — cosmetic only; the
+  // build succeeds and the font renders. Self-hosting via next/font/local is
+  // the only way to remove the warning entirely.
+  adjustFontFallback: false,
 });
 
 // Elms Sans — a modern geometric sans-serif on Google Fonts. Used for the
@@ -186,6 +193,13 @@ const fontElmsSans = Elms_Sans({
   subsets: ["latin"],
   weight: ["400", "700"],
   display: "swap",
+  // Next.js has no precalculated metrics for this newer Google Font, so it
+  // can't auto-generate a CLS fallback. `false` is the documented way to opt
+  // out. NOTE: Turbopack still prints a harmless "Failed to find font override
+  // values" warning for it at dev/build time regardless — cosmetic only; the
+  // build succeeds and the font renders. Self-hosting via next/font/local is
+  // the only way to remove the warning entirely.
+  adjustFontFallback: false,
 });
 
 // Modak — a chunky bubble display face on Google Fonts. Used for the
