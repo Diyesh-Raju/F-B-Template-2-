@@ -14,6 +14,7 @@ export function CafeHeroScrub() {
   return (
     <ScrollScrubVideoHero
       src="/hero/cafe-scroll-hero.mp4"
+      poster="/hero/cafe-scroll-hero-poster.jpg"
       scrollDistanceVh={300}
       overlayClassName="bg-transparent opacity-0"
       scrollHint

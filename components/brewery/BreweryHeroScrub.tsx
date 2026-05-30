@@ -17,6 +17,7 @@ export function BreweryHeroScrub() {
     <div data-brewery-hero>
       <ScrollScrubVideoHero
         src="/brewery/brewery-hero.mp4"
+        poster="/brewery/brewery-hero-poster.jpg"
         scrollDistanceVh={360}
         overlayClassName="bg-[color:var(--bg)] opacity-0"
         scrollHint

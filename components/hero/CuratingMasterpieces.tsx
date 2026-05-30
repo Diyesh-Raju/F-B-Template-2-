@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { Reveal } from "@/components/motion/Reveal";
 import { cn } from "@/lib/utils";
+import { dlog } from "@/lib/debug";
 
 /**
  * Intro band that sits directly below the homepage hero slider: a small
@@ -22,7 +23,17 @@ export function CuratingMasterpieces({ className }: { className?: string }) {
       const v = videoRef.current;
       if (!v || document.hidden) return;
       const p = v.play();
-      if (p && typeof p.catch === "function") p.catch(() => {});
+      if (p && typeof p.then === "function") {
+        p.then(() => dlog("matcha", "autoplay/resume ok")).catch((err: unknown) =>
+          // iOS Low Power Mode blocks even muted autoplay — caught so it's
+          // silent for users, but the poster keeps the box from going black.
+          dlog(
+            "matcha",
+            "play() rejected — autoplay blocked (low-power?); poster stays up",
+            (err as { name?: string })?.name ?? err
+          )
+        );
+      }
     };
     document.addEventListener("visibilitychange", resume);
     window.addEventListener("pageshow", resume);
@@ -45,6 +56,7 @@ export function CuratingMasterpieces({ className }: { className?: string }) {
                 ref={videoRef}
                 className="h-full w-full object-cover"
                 src="/hero/matcha.mp4"
+                poster="/hero/matcha-poster.jpg"
                 autoPlay
                 loop
                 muted

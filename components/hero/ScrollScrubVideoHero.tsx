@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useMotionValue, type MotionValue } from "framer-motion";
 import { useLenisScroll } from "@/components/providers/lenis-scroll-context";
 import { ScrollToExplore } from "@/components/hero/ScrollToExplore";
+import { dlog } from "@/lib/debug";
 
 function clamp01(v: number) {
   return v < 0 ? 0 : v > 1 ? 1 : v;
@@ -49,6 +50,14 @@ function detectSlowDeviceForVideoScrub(): boolean {
 
 type ScrollScrubVideoHeroProps = {
   src: string;
+  /**
+   * Poster image shown until the video can paint a frame. Critical for public
+   * users: when autoplay/decoding is blocked (iOS Low Power Mode, autoplay
+   * policy) or the clip hasn't buffered on a cold first visit, the <video>
+   * would otherwise render BLACK. The poster guarantees a real image is always
+   * visible. Should match frame 0 (where the scrub sits at scroll-top).
+   */
+  poster?: string;
   /** How much scroll space to allocate for the scrub (in vh). */
   scrollDistanceVh?: number;
   /** Extra poster-like overlay tint to keep text readable. */
@@ -65,6 +74,7 @@ type ScrollScrubVideoHeroProps = {
 
 export function ScrollScrubVideoHero({
   src,
+  poster,
   scrollDistanceVh = 240,
   overlayClassName = "bg-[color:var(--bg)] opacity-45",
   scrollHint = false,
@@ -103,6 +113,7 @@ export function ScrollScrubVideoHero({
     // for the overlay text fades. Do NOT touch video.currentTime — that's
     // the expensive part that was making the page lag on non-Mac laptops.
     if (staticFallback) {
+      dlog("scrub", src, "init (STATIC fallback — slow device / reduced motion)");
       let cleanupSF: Array<() => void> = [];
       let sectionTop = 0;
       let sectionHeight = 0;
@@ -177,6 +188,10 @@ export function ScrollScrubVideoHero({
     // video seek, so even if the decoder stalls the text animation never
     // freezes. The decoder paint-nudge (play→pause) is fire-and-forget and can
     // never block the loop.
+    dlog("scrub", src, "init (scrub path)", {
+      scrollDistanceVh,
+      readyState: video.readyState,
+    });
     let mounted = true;
     let inView = false;
     let docVisible =
@@ -326,17 +341,28 @@ export function ScrollScrubVideoHero({
       let p: Promise<void> | undefined;
       try {
         p = video.play() as Promise<void> | undefined;
-      } catch {
+      } catch (err) {
+        dlog("scrub", src, "play() threw — autoplay blocked; poster stays up", err);
         return;
       }
       if (p && typeof p.then === "function") {
         p.then(() => {
+          dlog("scrub", src, "play() ok — decoder awake");
           try {
             video.pause();
           } catch {
             /* ignore */
           }
-        }).catch(() => {
+        }).catch((err: unknown) => {
+          // The single most common public-vs-dev difference: iOS Low Power
+          // Mode and autoplay policy reject this. Caught here so it never
+          // blocks scrubbing; the poster guarantees the hero isn't blank.
+          dlog(
+            "scrub",
+            src,
+            "play() rejected — autoplay blocked (low-power?); poster stays up",
+            (err as { name?: string })?.name ?? err
+          );
           try {
             video.pause();
           } catch {
@@ -357,6 +383,7 @@ export function ScrollScrubVideoHero({
         const entry = entries[0];
         if (!entry) return;
         inView = entry.isIntersecting;
+        dlog("scrub", src, "IntersectionObserver inView:", inView);
         if (inView) {
           measure();
           appliedTarget = -1;
@@ -381,6 +408,7 @@ export function ScrollScrubVideoHero({
       if (Number.isFinite(d) && d > 0 && d !== duration) {
         duration = d;
         appliedTarget = -1; // force a fresh write next frame
+        dlog("scrub", src, "duration adopted", d.toFixed(2) + "s");
         start();
       }
     };
@@ -424,6 +452,7 @@ export function ScrollScrubVideoHero({
       docVisible =
         typeof document === "undefined" ||
         document.visibilityState !== "hidden";
+      dlog("scrub", src, "wake (visibility/focus/pageshow)", { docVisible });
       if (!docVisible) {
         stop();
         return;
@@ -464,6 +493,7 @@ export function ScrollScrubVideoHero({
       if (firstFramePainted || !mounted) return;
       if (video.readyState < 2 /* HAVE_CURRENT_DATA */) return;
       firstFramePainted = true;
+      dlog("scrub", src, "first frame ready (readyState", video.readyState + ")");
       const target = computeTarget();
       if (target >= 0) {
         desiredTarget = target;
@@ -499,7 +529,7 @@ export function ScrollScrubVideoHero({
       window.removeEventListener("pageshow", wake);
       window.removeEventListener("focus", wake);
     };
-  }, [lenisActive, subscribeScroll, staticFallback, scrollYProgress]);
+  }, [src, scrollDistanceVh, lenisActive, subscribeScroll, staticFallback, scrollYProgress]);
 
   return (
     <section
@@ -512,6 +542,7 @@ export function ScrollScrubVideoHero({
           ref={videoRef}
           className="h-full w-full object-cover"
           src={src}
+          poster={poster}
           muted
           playsInline
           // `auto` asks the browser to buffer the whole clip. This is the

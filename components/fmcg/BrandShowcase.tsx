@@ -18,6 +18,29 @@ export function BrandShowcase() {
   // smoothly tweens open (rotateX 45 → 0, scale 0.86 → 1, opacity 0 → 1).
   const inView = useInView(sectionRef, { once: true, amount: 0.3 });
 
+  // Safety net (matches Reveal): on some devices the IntersectionObserver
+  // callback for an amount-based trigger never lands — the section would then
+  // stay stuck at opacity:0 / rotateX:45 forever (the "animation never
+  // triggers" symptom). If we're genuinely on screen a beat after load, force
+  // it open so the iPad is never stranded invisible for a public visitor.
+  const [forced, setForced] = useState(false);
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const check = () => {
+      const r = el.getBoundingClientRect();
+      const vh = window.innerHeight || 0;
+      if (r.top < vh && r.bottom > 0) setForced(true);
+    };
+    const t = window.setTimeout(check, 1400);
+    window.addEventListener("load", check, { once: true });
+    return () => {
+      window.clearTimeout(t);
+      window.removeEventListener("load", check);
+    };
+  }, []);
+  const show = inView || forced;
+
   return (
     <div
       ref={sectionRef}
@@ -40,7 +63,7 @@ export function BrandShowcase() {
         <motion.div
           initial={{ rotateX: 45, scale: 0.86, opacity: 0 }}
           animate={
-            inView
+            show
               ? { rotateX: 0, scale: 1, opacity: 1 }
               : { rotateX: 45, scale: 0.86, opacity: 0 }
           }

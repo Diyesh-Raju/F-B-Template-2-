@@ -4,6 +4,7 @@ import Lenis from "lenis";
 import { useReducedMotion } from "framer-motion";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { LenisScrollContext } from "@/components/providers/lenis-scroll-context";
+import { dlog } from "@/lib/debug";
 
 export function SmoothScrollProvider({
   children,
@@ -39,10 +40,15 @@ export function SmoothScrollProvider({
 
   useEffect(() => {
     if (reduce) {
+      // prefers-reduced-motion (incl. many phones in battery saver): Lenis is
+      // intentionally NOT started, so scrub components fall back to native
+      // scroll. A frequent dev-vs-public difference — devs rarely have it on.
+      dlog("lenis", "reduced-motion ON — Lenis disabled, native scroll only");
       lenisRef.current = null;
       return;
     }
 
+    dlog("lenis", "init — smooth scroll active");
     const lenis = new Lenis({
       lerp: 0.085,
       smoothWheel: true,
@@ -140,7 +146,10 @@ export function SmoothScrollProvider({
     if (document.body) ro.observe(document.body);
 
     // Catch images / late assets that finish loading after first paint.
-    const onLoad = () => safeResize();
+    const onLoad = () => {
+      dlog("lenis", "window load — resize() to pick up final layout height");
+      safeResize();
+    };
     window.addEventListener("load", onLoad);
 
     // Font swap is one of the most common late layout shifts on this site

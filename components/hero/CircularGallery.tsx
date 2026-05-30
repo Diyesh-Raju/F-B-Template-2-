@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { Reveal } from "@/components/motion/Reveal";
 import { useLenisScroll } from "@/components/providers/lenis-scroll-context";
 import { cn } from "@/lib/utils";
+import { dlog } from "@/lib/debug";
 
 export type GalleryItem = {
   title: string;
@@ -134,6 +135,7 @@ export function CircularGallery({
         const entry = entries[0];
         if (!entry) return;
         isVisible = entry.isIntersecting;
+        dlog("gallery", "IntersectionObserver isVisible:", isVisible);
         if (isVisible) {
           updateProgress();
           schedule();

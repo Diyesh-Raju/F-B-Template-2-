@@ -20,6 +20,7 @@ export function FmcgHeroScrub() {
     <div data-fmcg-hero>
       <ScrollScrubVideoHero
         src="/fmcg/logistics-hero.mp4"
+        poster="/fmcg/logistics-hero-poster.jpg"
         scrollDistanceVh={800}
         overlayClassName="bg-black opacity-0"
         scrollHint
