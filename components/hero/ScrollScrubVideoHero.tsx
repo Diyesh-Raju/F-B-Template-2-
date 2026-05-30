@@ -13,13 +13,23 @@ function clamp01(v: number) {
 // Decides whether the device can comfortably scroll-scrub a full-screen video.
 // Macs with hardware H.264 decode handle it; many mid/low Windows + Linux
 // laptops do not, and the per-scroll seeks dominate the frame budget. When
-// this returns true we skip seeking entirely and let the video sit at frame
-// 0 — the overlay text fades still work because they're driven by the same
-// scrollYProgress MotionValue, which we keep updating on every scroll tick.
-function detectSlowDeviceForVideoScrub(): boolean {
-  if (typeof window === "undefined") return false;
-  // Respect OS-level preference unconditionally.
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return true;
+// this returns a non-null reason we skip seeking entirely and let the video
+// sit at frame 0 — the overlay text fades still work because they're driven
+// by the same scrollYProgress MotionValue, which we keep updating on every
+// scroll tick.
+//
+// Returns the DECIDING REASON (or null for "run the live scrub"). The reason
+// is logged so the live `?debug=1` console shows exactly which signal sent a
+// given visitor down the static path — the #1 dev-vs-public divergence (devs
+// rarely have reduced-motion on, a weak device, or a metered connection).
+function detectStaticFallbackReason(): string | null {
+  if (typeof window === "undefined") return null;
+  // Respect OS-level preference unconditionally. Note: phone "battery saver" /
+  // Low Power Mode frequently turns this on for the public, almost never for
+  // a developer testing on a plugged-in machine.
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    return "prefers-reduced-motion";
+  }
   // NOTE: we intentionally do NOT bail on touch / narrow viewports anymore.
   // Phones were previously forced into the static path, which on iOS left
   // the <video> showing nothing (a paused, metadata-only video paints no
@@ -30,22 +40,22 @@ function detectSlowDeviceForVideoScrub(): boolean {
   const cores = navigator.hardwareConcurrency ?? 8;
   const memNav = navigator as Navigator & { deviceMemory?: number };
   const mem = memNav.deviceMemory ?? 8;
-  if (cores <= 2) return true;
-  if (mem <= 2) return true;
+  if (cores <= 2) return `hardwareConcurrency=${cores} (<=2)`;
+  if (mem <= 2) return `deviceMemory=${mem} (<=2)`;
   // Slow / metered connection. Even on a strong CPU, fetching a multi-MB
   // video for scrub is wasteful on 2G/slow-3G.
   const connNav = navigator as Navigator & {
     connection?: { saveData?: boolean; effectiveType?: string };
   };
   const conn = connNav.connection;
-  if (conn?.saveData) return true;
+  if (conn?.saveData) return "connection.saveData";
   if (
     conn?.effectiveType &&
     (conn.effectiveType === "2g" || conn.effectiveType === "slow-2g")
   ) {
-    return true;
+    return `connection.effectiveType=${conn.effectiveType}`;
   }
-  return false;
+  return null;
 }
 
 type ScrollScrubVideoHeroProps = {
@@ -100,9 +110,21 @@ export function ScrollScrubVideoHero({
   // here — the cascading render is the whole point (we want to re-run the
   // main effect with the chosen path).
   useEffect(() => {
+    const reason = detectStaticFallbackReason();
+    const navWithExtras = navigator as Navigator & {
+      deviceMemory?: number;
+      connection?: { saveData?: boolean; effectiveType?: string };
+    };
+    dlog("scrub", src, "device gate →", reason ? `STATIC (${reason})` : "LIVE scrub", {
+      cores: navigator.hardwareConcurrency,
+      deviceMemory: navWithExtras.deviceMemory,
+      effectiveType: navWithExtras.connection?.effectiveType,
+      saveData: navWithExtras.connection?.saveData,
+      reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+    });
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setStaticFallback(detectSlowDeviceForVideoScrub());
-  }, []);
+    setStaticFallback(reason !== null);
+  }, [src]);
 
   useEffect(() => {
     const section = sectionRef.current;
