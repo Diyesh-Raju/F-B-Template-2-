@@ -1,0 +1,31 @@
+{
+  // Explicit Cloudflare Worker configuration for the @opennextjs/cloudflare
+  // build/deploy. Without this file OpenNext auto-generates one and defaults
+  // the worker name + the WORKER_SELF_REFERENCE binding to the package.json
+  // name ("fnb-websites"). The Worker actually deployed on this account is
+  // named "nocturnefoodbeverage", so that default self-reference pointed at a
+  // Worker that does not exist and the deploy failed with:
+  //   Service binding 'WORKER_SELF_REFERENCE' references Worker 'fnb-websites'
+  //   which was not found. [code: 10143]
+  // Pinning the name AND the self-reference service to the real Worker name
+  // keeps them consistent so the deploy succeeds.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "main": ".open-next/worker.js",
+  "name": "nocturnefoodbeverage",
+  "compatibility_date": "2025-03-25",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      // MUST match "name" above — this is the binding that was failing.
+      "service": "nocturnefoodbeverage"
+    }
+  ],
+  "images": {
+    "binding": "IMAGES"
+  }
+}
