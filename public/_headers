@@ -1,0 +1,15 @@
+# Cloudflare static-asset caching (OpenNext serves /public via the ASSETS
+# binding, which honors this file — next.config headers() does NOT apply to
+# these static files on Cloudflare). See:
+# https://opennext.js.org/cloudflare/get-started
+
+# Immutable, content-hashed Next.js build assets.
+/_next/static/*
+  Cache-Control: public,max-age=31536000,immutable
+
+# Scroll-scrub hero videos. Long cache so repeat visits / client-side
+# navigations have the whole clip ready and the scrub is smooth from the
+# first scroll instead of racing the download. If a hero video is ever
+# re-encoded, rename the file to bust this cache.
+/*.mp4
+  Cache-Control: public,max-age=31536000,immutable
