@@ -287,11 +287,42 @@ export function ScrollScrubVideoHero({
       }
     };
 
-    // Issue at most one seek at a time; always coalesce to the newest target.
+    // How far into the clip we can SAFELY seek right now. Seeking past the
+    // downloaded byte range paints nothing in Chrome — the video appears
+    // frozen on frame 0 even though currentTime is advancing. This is the #1
+    // production-vs-localhost divergence: on localhost the whole clip buffers
+    // instantly so every seek lands in real data; over a real network the
+    // bytes for later timestamps simply aren't here yet when the visitor
+    // starts scrolling. We clamp the seek to the contiguous buffered range
+    // that starts at 0, so the scrub follows the download and visibly catches
+    // up to the scroll position as more of the clip arrives — instead of
+    // locking on the first frame until the entire file is cached.
+    const bufferedCeiling = () => {
+      const b = video.buffered;
+      if (!b || b.length === 0) {
+        // No range info yet: only frame 0 is safe until we have data.
+        return video.readyState >= 2 /* HAVE_CURRENT_DATA */ ? 0 : 0;
+      }
+      for (let i = 0; i < b.length; i++) {
+        // The range that starts at (or essentially at) the beginning is the
+        // one a from-scratch download fills first.
+        if (b.start(i) <= 0.05) return b.end(i);
+      }
+      // Fallback: the furthest buffered point we know about.
+      return b.end(b.length - 1);
+    };
+
+    // Issue at most one seek at a time; always coalesce to the newest target,
+    // but never beyond what's downloaded.
     const pumpSeek = () => {
-      if (seeking || desiredTarget < 0) return;
-      if (Math.abs(desiredTarget - appliedTarget) < SEEK_EPSILON) return;
-      appliedTarget = desiredTarget;
+      if (seeking || desiredTarget < 0 || duration <= 0) return;
+      // Clamp the request to the buffered ceiling. If the whole clip is
+      // buffered (the steady state once `preload="auto"` finishes), the
+      // ceiling is `duration` and this is a no-op — identical to before.
+      const ceiling = Math.max(0, bufferedCeiling() - SEEK_EPSILON);
+      const target = desiredTarget > ceiling ? ceiling : desiredTarget;
+      if (Math.abs(target - appliedTarget) < SEEK_EPSILON) return;
+      appliedTarget = target;
       seeking = true;
       seek(appliedTarget);
       // Chrome doesn't always emit `seeked` (target rounds to the current
@@ -315,6 +346,21 @@ export function ScrollScrubVideoHero({
       pumpSeek();
     };
     video.addEventListener("seeked", onSeeked);
+
+    // As more of the clip downloads, the buffered ceiling rises. Re-pump so
+    // the frame advances toward wherever the user has already scrolled,
+    // instead of waiting for the next scroll tick to nudge it. `progress`
+    // fires repeatedly while bytes stream in; `canplaythrough` fires once the
+    // browser believes the whole clip can play without stalling. Both are
+    // cheap and idempotent (pumpSeek dedupes), and they're what turns "frozen
+    // on frame 0 until fully cached" into "smoothly fills in as it loads".
+    const onBufferProgress = () => {
+      // Keep the decoder awake while we catch up, then pump toward target.
+      if (inView && docVisible) start();
+      pumpSeek();
+    };
+    video.addEventListener("progress", onBufferProgress);
+    video.addEventListener("canplaythrough", onBufferProgress);
 
     const tick = () => {
       if (!mounted || !inView || !docVisible) {
@@ -440,6 +486,27 @@ export function ScrollScrubVideoHero({
     video.addEventListener("durationchange", onMeta);
     video.addEventListener("loadeddata", onMeta);
 
+    // Insurance: if every metadata event is somehow missed (cached responses
+    // can deliver data before listeners attach), poll briefly until duration
+    // lands so the scrub can never be permanently stuck with duration=0.
+    let durationPoll = 0;
+    if (!(Number.isFinite(duration) && duration > 0)) {
+      durationPoll = window.setInterval(() => {
+        adoptDuration();
+        if (Number.isFinite(duration) && duration > 0) {
+          window.clearInterval(durationPoll);
+          durationPoll = 0;
+        }
+      }, 120);
+      // Stop polling after a few seconds regardless.
+      window.setTimeout(() => {
+        if (durationPoll) {
+          window.clearInterval(durationPoll);
+          durationPoll = 0;
+        }
+      }, 6000);
+    }
+
     const onResize = () => {
       measure();
       appliedTarget = -1; // viewport changed, frame mapping may have moved
@@ -538,9 +605,12 @@ export function ScrollScrubVideoHero({
       mounted = false;
       stop();
       if (seekWatchdog) window.clearTimeout(seekWatchdog);
+      if (durationPoll) window.clearInterval(durationPoll);
       io.disconnect();
       window.removeEventListener("load", onLoad);
       video.removeEventListener("seeked", onSeeked);
+      video.removeEventListener("progress", onBufferProgress);
+      video.removeEventListener("canplaythrough", onBufferProgress);
       video.removeEventListener("loadedmetadata", onMeta);
       video.removeEventListener("durationchange", onMeta);
       video.removeEventListener("loadeddata", onMeta);
