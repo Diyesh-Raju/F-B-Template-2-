@@ -24,13 +24,25 @@ function clamp01(v: number) {
 // rarely have reduced-motion on, a weak device, or a metered connection).
 function detectStaticFallbackReason(): string | null {
   if (typeof window === "undefined") return null;
-  // Respect OS-level preference unconditionally. Note: phone "battery saver" /
-  // Low Power Mode frequently turns this on for the public, almost never for
-  // a developer testing on a plugged-in machine.
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    return "prefers-reduced-motion";
-  }
-  // NOTE: we intentionally do NOT bail on touch / narrow viewports anymore.
+  // NOTE: prefers-reduced-motion does NOT send us down the static path.
+  //
+  // This was the #1 production-only "hero frozen on frame 0" cause: iOS Low
+  // Power Mode and Android battery saver silently turn prefers-reduced-motion
+  // ON for a large share of real visitors, while a developer on a plugged-in
+  // Mac almost never has it on — so the scrub looked perfect on localhost and
+  // was frozen for the public. Every previous fix targeted the *scrub* path,
+  // but reduced-motion visitors never reached it: they took the static branch
+  // below, which deliberately never seeks the video.
+  //
+  // A scroll-scrub is *user-driven* motion — the frame only changes in direct
+  // 1:1 response to the user's own scroll, with no autoplay, looping, or
+  // parallax drift — so it does not trigger the vestibular concerns that
+  // prefers-reduced-motion guards against. Letting it scrub is both the
+  // expected experience and strictly better than a frozen (often black) frame.
+  // The genuinely-weak-hardware and metered-connection guards below still apply
+  // to every device, so low-end phones are still protected from per-frame seeks.
+  //
+  // NOTE: we also intentionally do NOT bail on touch / narrow viewports.
   // Phones were previously forced into the static path, which on iOS left
   // the <video> showing nothing (a paused, metadata-only video paints no
   // frame). Users want the scrub to run on phones too; the hero MP4s are
